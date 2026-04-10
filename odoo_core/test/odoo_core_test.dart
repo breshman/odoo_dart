@@ -1,8 +1,15 @@
 import 'package:test/test.dart';
 import 'package:odoo_core/odoo_core.dart';
 
+import '../example/runbot_models.dart';
+
 // 1. Mock the client for testing to respect clean architecture
 class MockOdooClient implements OdooClient {
+  final dynamic mockResponse;
+  final Exception? throwException;
+
+  MockOdooClient({this.mockResponse, this.throwException});
+
   @override
   Future<dynamic> callKwRaw({
     required String model,
@@ -10,57 +17,55 @@ class MockOdooClient implements OdooClient {
     List args = const [],
     Map<String, dynamic> kwargs = const {},
   }) async {
-    if (method == 'web_search_read') {
-      return {
+    if (throwException != null) throw throwException!;
+    return mockResponse;
+  }
+}
+
+void main() {
+  group('1. OdooException Parsing', () {
+    test('Parse intelligently from deep data.message', () {
+      final json = {
+        'code': 100,
+        'message': 'Odoo Server Error',
+        'data': {
+          'message': 'Validation details: name can not be empty',
+          'type': 'server_exception'
+        }
+      };
+      final ex = OdooException.fromJson(json);
+      expect(ex.code, 100);
+      expect(ex.message, 'Validation details: name can not be empty');
+      expect(ex.data?['type'], 'server_exception');
+    });
+
+    test('Parse from root message fallback', () {
+      final json = {
+        'code': 300,
+        'message': 'Session expired'
+      };
+      final ex = OdooException.fromJson(json);
+      expect(ex.message, 'Session expired');
+    });
+
+    test('Parse with no data handles defaults', () {
+      final json = <String, dynamic>{};
+      final ex = OdooException.fromJson(json);
+      expect(ex.message, 'Unknown Odoo error');
+      expect(ex.code, 0);
+    });
+  });
+
+  group('2. OdooRepository CRUD Tests', () {
+    test('searchFetch decodes correctly into models', () async {
+      final client = MockOdooClient(mockResponse: {
         'records': [
           {'id': 1, 'name': 'John Doe', 'active': true, 'create_uid': [2, 'Admin']},
         ],
         'length': 1,
-      };
-    } else if (method == 'create') {
-      return 99; // Mock new ID
-    }
-    return {};
-  }
-}
+      });
+      final repo = EmployeeRepository(client: client);
 
-// 2. Dummy Model to test the repository parsing
-class DummyEmployee extends OdooBaseModel {
-  DummyEmployee({
-    required super.id,
-    required super.name,
-    required super.active,
-    super.createUid,
-  });
-
-  static DummyEmployee fromJson(Map<String, dynamic> json) {
-    final base = OdooBaseModel.baseFromJson(json);
-    return DummyEmployee(
-      id: base.id,
-      name: base.name,
-      active: base.active,
-      createUid: base.createUid,
-    );
-  }
-}
-
-// 3. Dummy Repository simulating a generated class
-class DummyEmployeeRepository extends OdooRepository<DummyEmployee> {
-  DummyEmployeeRepository(OdooClient client)
-      : super(
-          client: client,
-          modelName: 'hr.employee',
-          specification: {'id': {}, 'name': {}},
-          fromJson: DummyEmployee.fromJson,
-        );
-}
-
-void main() {
-  group('A group of Repository tests', () {
-    final client = MockOdooClient();
-    final repo = DummyEmployeeRepository(client);
-
-    test('searchFetch decodes properly using MockOdooClient', () async {
       final res = await repo.searchFetch();
       expect(res.records, isNotEmpty);
       expect(res.length, equals(1));
@@ -70,9 +75,102 @@ void main() {
       expect(emp.createUid, equals(2)); // Verifying the parsed many2one ID
     });
 
-    test('create returns correct integer from Mock', () async {
-      final newId = await repo.create({'name': 'John Doe'});
+    test('searchFetch handles empty lists', () async {
+      final client = MockOdooClient(mockResponse: {'records': [], 'length': 0});
+      final repo = EmployeeRepository(client: client);
+      final res = await repo.searchFetch();
+      expect(res.records, isEmpty);
+      expect(res.length, equals(0));
+    });
+
+    test('searchIds returns list of integers', () async {
+      final client = MockOdooClient(mockResponse: [1, 2, 3]);
+      final repo = EmployeeRepository(client: client);
+      final ids = await repo.searchIds();
+      expect(ids.length, 3);
+      expect(ids[1], 2);
+    });
+
+    test('read correctly maps to objects', () async {
+      final client = MockOdooClient(mockResponse: [
+        {'id': 1, 'name': 'Emp 1'},
+        {'id': 2, 'name': 'Emp 2'}
+      ]);
+      final repo = EmployeeRepository(client: client);
+      
+      final records = await repo.read([1, 2]);
+      expect(records, hasLength(2));
+      expect(records.last.name, 'Emp 2');
+    });
+
+    test('read with empty ids returns immediately', () async {
+      final repo = EmployeeRepository(client: MockOdooClient());
+      final records = await repo.read([]);
+      expect(records, isEmpty);
+    });
+
+    test('create returns new database ID', () async {
+      final client = MockOdooClient(mockResponse: 99);
+      final repo = EmployeeRepository(client: client);
+      final newId = await repo.create({'name': 'Jane Doe'});
       expect(newId, equals(99));
+    });
+
+    test('write returns boolean success flag', () async {
+      final client = MockOdooClient(mockResponse: true);
+      final repo = EmployeeRepository(client: client);
+      final success = await repo.write([99], {'name': 'Updated'});
+      expect(success, isTrue);
+    });
+
+    test('write with empty ids returns true instantly', () async {
+      final repo = EmployeeRepository(client: MockOdooClient());
+      final success = await repo.write([], {'name': 'Updated'});
+      expect(success, isTrue);
+    });
+
+    test('unlink returns boolean success flag', () async {
+      final client = MockOdooClient(mockResponse: true);
+      final repo = EmployeeRepository(client: client);
+      final success = await repo.unlink([99]);
+      expect(success, isTrue);
+    });
+
+    test('unlink with empty ids returns true instantly', () async {
+      final repo = EmployeeRepository(client: MockOdooClient());
+      final success = await repo.unlink([]);
+      expect(success, isTrue);
+    });
+
+    test('webSave correctly maps response to typed objects', () async {
+      final client = MockOdooClient(mockResponse: [
+        {'id': 99, 'name': 'Jane Doe Modified'}
+      ]);
+      final repo = EmployeeRepository(client: client);
+      
+      final params = OdooWriteParams<Employee, Map<String, dynamic>>(
+        model: 'hr.employee',
+        ids: [99],
+        values: {'name': 'Jane Doe Modified'},
+        fromJsonT: (json) => Employee.fromJson(json as Map<String, dynamic>),
+        toJson: (v) => v,
+      );
+
+      final returnedObjects = await repo.webSave(params);
+      expect(returnedObjects.length, 1);
+      expect(returnedObjects.first.name, 'Jane Doe Modified');
+    });
+
+    test('Repository propagates exceptions', () async {
+      final client = MockOdooClient(
+        throwException: OdooException(code: 500, message: 'Server Failed')
+      );
+      final repo = EmployeeRepository(client: client);
+      
+      expect(
+        () async => await repo.searchFetch(),
+        throwsA(isA<OdooException>().having((e) => e.message, 'message', 'Server Failed'))
+      );
     });
   });
 }

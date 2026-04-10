@@ -1,0 +1,292 @@
+// dart format width=80
+// GENERATED CODE - DO NOT MODIFY BY HAND
+
+part of 'runbot_models.dart';
+
+// **************************************************************************
+// OdooModelGenerator
+// **************************************************************************
+
+// GENERATED CODE - DO NOT MODIFY BY HAND
+
+// ignore_for_file: type=lint
+
+Partner _$PartnerFromJson(Map<String, dynamic> json) {
+  final base = OdooBaseModel.baseFromJson(json);
+  return Partner(
+    id: base.id,
+    name: base.name,
+    displayName: base.displayName,
+    active: base.active,
+    createDate: base.createDate,
+    writeDate: base.writeDate,
+    createUid: base.createUid,
+    writeUid: base.writeUid,
+    email: json['email'] == false || json['email'] == null
+        ? null
+        : (json['email'] as String),
+    phone: json['phone'] == false || json['phone'] == null
+        ? null
+        : (json['phone'] as String),
+  );
+}
+
+Map<String, dynamic> _$PartnerToJson(Partner instance, {bool toOdoo = false}) {
+  return {
+    ...instance.baseToJson(toOdoo: toOdoo),
+    if (instance.email != null) 'email': instance.email!,
+    if (instance.phone != null) 'phone': instance.phone!,
+  };
+}
+
+extension $PartnerExtension on Partner {
+  Map<String, dynamic> toJson() => _$PartnerToJson(this);
+  Map<String, dynamic> toOdoo() => _$PartnerToJson(this, toOdoo: true);
+
+  Partner copyWith({
+    int? id,
+    String? name,
+    String? displayName,
+    bool? active,
+    DateTime? createDate,
+    DateTime? writeDate,
+    int? createUid,
+    int? writeUid,
+    String? email,
+    String? phone,
+  }) {
+    return Partner(
+      id: id ?? this.id,
+      name: name ?? this.name,
+      displayName: displayName ?? this.displayName,
+      active: active ?? this.active,
+      createDate: createDate ?? this.createDate,
+      writeDate: writeDate ?? this.writeDate,
+      createUid: createUid ?? this.createUid,
+      writeUid: writeUid ?? this.writeUid,
+      email: email ?? this.email,
+      phone: phone ?? this.phone,
+    );
+  }
+}
+
+mixin _$Partner {
+  Map<String, dynamic> toJson() => _$PartnerToJson(this as Partner);
+  Map<String, dynamic> toOdoo() =>
+      _$PartnerToJson(this as Partner, toOdoo: true);
+
+  @override
+  String toString() {
+    final instance = this as Partner;
+    return 'Partner('
+        'id: ${instance.id}, '
+        'name: ${instance.name}, '
+        'active: ${instance.active}, '
+        'email: ${instance.email}, '
+        'phone: ${instance.phone}'
+        ')';
+  }
+}
+
+mixin _$PartnerMeta {
+  static const String modelName = 'res.partner';
+
+  static const Map<String, dynamic> specification = {
+    ...OdooBaseModel.baseSpecification,
+    'email': {},
+    'phone': {},
+  };
+}
+
+class PartnerRepository extends OdooRepository<Partner> {
+  PartnerRepository({required super.client})
+      : super(
+          modelName: _$PartnerMeta.modelName,
+          specification: _$PartnerMeta.specification,
+          fromJson: _$PartnerFromJson,
+        );
+}
+
+// GENERATED CODE - DO NOT MODIFY BY HAND
+
+// ignore_for_file: type=lint
+
+User _$UserFromJson(Map<String, dynamic> json) {
+  final base = OdooBaseModel.baseFromJson(json);
+  return User(
+    id: base.id,
+    name: base.name,
+    displayName: base.displayName,
+    active: base.active,
+    createDate: base.createDate,
+    writeDate: base.writeDate,
+    createUid: base.createUid,
+    writeUid: base.writeUid,
+    login: json['login'] == false || json['login'] == null
+        ? null
+        : (json['login'] as String),
+  );
+}
+
+Map<String, dynamic> _$UserToJson(User instance, {bool toOdoo = false}) {
+  return {
+    ...instance.baseToJson(toOdoo: toOdoo),
+    if (instance.login != null) 'login': instance.login!,
+  };
+}
+
+extension $UserExtension on User {
+  Map<String, dynamic> toJson() => _$UserToJson(this);
+  Map<String, dynamic> toOdoo() => _$UserToJson(this, toOdoo: true);
+
+  User copyWith({
+    int? id,
+    String? name,
+    String? displayName,
+    bool? active,
+    DateTime? createDate,
+    DateTime? writeDate,
+    int? createUid,
+    int? writeUid,
+    String? login,
+  }) {
+    return User(
+      id: id ?? this.id,
+      name: name ?? this.name,
+      displayName: displayName ?? this.displayName,
+      active: active ?? this.active,
+      createDate: createDate ?? this.createDate,
+      writeDate: writeDate ?? this.writeDate,
+      createUid: createUid ?? this.createUid,
+      writeUid: writeUid ?? this.writeUid,
+      login: login ?? this.login,
+    );
+  }
+}
+
+mixin _$User {
+  Map<String, dynamic> toJson() => _$UserToJson(this as User);
+  Map<String, dynamic> toOdoo() => _$UserToJson(this as User, toOdoo: true);
+
+  @override
+  String toString() {
+    final instance = this as User;
+    return 'User('
+        'id: ${instance.id}, '
+        'name: ${instance.name}, '
+        'active: ${instance.active}, '
+        'login: ${instance.login}'
+        ')';
+  }
+}
+
+mixin _$UserMeta {
+  static const String modelName = 'res.users';
+
+  static const Map<String, dynamic> specification = {
+    ...OdooBaseModel.baseSpecification,
+    'login': {},
+  };
+}
+
+class UserRepository extends OdooRepository<User> {
+  UserRepository({required super.client})
+      : super(
+          modelName: _$UserMeta.modelName,
+          specification: _$UserMeta.specification,
+          fromJson: _$UserFromJson,
+        );
+}
+
+// GENERATED CODE - DO NOT MODIFY BY HAND
+
+// ignore_for_file: type=lint
+
+Employee _$EmployeeFromJson(Map<String, dynamic> json) {
+  final base = OdooBaseModel.baseFromJson(json);
+  return Employee(
+    id: base.id,
+    name: base.name,
+    displayName: base.displayName,
+    active: base.active,
+    createDate: base.createDate,
+    writeDate: base.writeDate,
+    createUid: base.createUid,
+    writeUid: base.writeUid,
+    jobTitle: json['job_title'] == false || json['job_title'] == null
+        ? null
+        : (json['job_title'] as String),
+  );
+}
+
+Map<String, dynamic> _$EmployeeToJson(Employee instance,
+    {bool toOdoo = false}) {
+  return {
+    ...instance.baseToJson(toOdoo: toOdoo),
+    if (instance.jobTitle != null) 'job_title': instance.jobTitle!,
+  };
+}
+
+extension $EmployeeExtension on Employee {
+  Map<String, dynamic> toJson() => _$EmployeeToJson(this);
+  Map<String, dynamic> toOdoo() => _$EmployeeToJson(this, toOdoo: true);
+
+  Employee copyWith({
+    int? id,
+    String? name,
+    String? displayName,
+    bool? active,
+    DateTime? createDate,
+    DateTime? writeDate,
+    int? createUid,
+    int? writeUid,
+    String? jobTitle,
+  }) {
+    return Employee(
+      id: id ?? this.id,
+      name: name ?? this.name,
+      displayName: displayName ?? this.displayName,
+      active: active ?? this.active,
+      createDate: createDate ?? this.createDate,
+      writeDate: writeDate ?? this.writeDate,
+      createUid: createUid ?? this.createUid,
+      writeUid: writeUid ?? this.writeUid,
+      jobTitle: jobTitle ?? this.jobTitle,
+    );
+  }
+}
+
+mixin _$Employee {
+  Map<String, dynamic> toJson() => _$EmployeeToJson(this as Employee);
+  Map<String, dynamic> toOdoo() =>
+      _$EmployeeToJson(this as Employee, toOdoo: true);
+
+  @override
+  String toString() {
+    final instance = this as Employee;
+    return 'Employee('
+        'id: ${instance.id}, '
+        'name: ${instance.name}, '
+        'active: ${instance.active}, '
+        'jobTitle: ${instance.jobTitle}'
+        ')';
+  }
+}
+
+mixin _$EmployeeMeta {
+  static const String modelName = 'hr.employee';
+
+  static const Map<String, dynamic> specification = {
+    ...OdooBaseModel.baseSpecification,
+    'job_title': {},
+  };
+}
+
+class EmployeeRepository extends OdooRepository<Employee> {
+  EmployeeRepository({required super.client})
+      : super(
+          modelName: _$EmployeeMeta.modelName,
+          specification: _$EmployeeMeta.specification,
+          fromJson: _$EmployeeFromJson,
+        );
+}

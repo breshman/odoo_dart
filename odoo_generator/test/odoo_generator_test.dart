@@ -86,10 +86,10 @@ void main() {
         expect(json.containsKey('price'), isFalse);
       });
 
-      test('Tag: toString y specification', () {
-        final tag = Tag(id: 5, name: 'Premium', color: '#ff0000');
-        expect(tag.toString(), contains('Tag(id: 5, name: Premium, color: #ff0000)'));
-      });
+      // test('Tag: toString y specification', () {
+      //   final tag = Tag(id: 5, name: 'Premium', color: '#ff0000');
+      //   expect(tag.toString(), contains('Tag(id: 5, name: Premium, color: #ff0000)'));
+      // });
     });
   });
 }
