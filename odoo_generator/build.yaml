@@ -1,0 +1,14 @@
+targets:
+  $default:
+    sources:
+      - $package$
+      - lib/**
+      - example/**
+
+builders:
+  odoo_model_builder:
+    import: "package:odoo_generator/odoo_generator.dart"
+    builder_factories: ["odooModelBuilder"]
+    build_extensions: { ".dart": [".odoo.g.dart"] }
+    auto_apply: all_packages
+    build_to: source
