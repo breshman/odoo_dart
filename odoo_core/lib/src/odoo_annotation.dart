@@ -77,5 +77,3 @@ class OdooField {
 
   final List<String> specFields;
 }
-
-// const odooModel = OdooModel();

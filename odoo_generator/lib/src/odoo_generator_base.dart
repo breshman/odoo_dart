@@ -2,7 +2,7 @@ import 'package:analyzer/dart/element/element2.dart';
 import 'package:analyzer/dart/element/nullability_suffix.dart';
 import 'package:analyzer/dart/element/type.dart';
 import 'package:build/build.dart';
-import 'package:odoo_annotation/odoo_annotation.dart';
+import 'package:odoo_core/odoo_core.dart';
 
 import 'package:source_gen/source_gen.dart';
 
@@ -36,10 +36,25 @@ class OdooModelGenerator extends GeneratorForAnnotation<OdooModel> {
       );
     }
 
-    // En Element2 los campos están en element.fields2
-    final fields = element.fields2.where((f) => !f.isStatic).toList();
+    final extendsBase = _extendsOdooBaseModel(element);
+    const baseFieldNames = {
+      'id',
+      'name',
+      'displayName',
+      'active',
+      'createDate',
+      'writeDate',
+      'createUid',
+      'writeUid'
+    };
 
-    if (fields.isEmpty) {
+    var fields = element.fields2.where((f) => !f.isStatic).toList();
+
+    if (extendsBase) {
+      fields = fields.where((f) => !baseFieldNames.contains(f.displayName)).toList();
+    }
+
+    if (fields.isEmpty && !extendsBase) {
       throw InvalidGenerationSourceError(
         '$className no tiene campos con @OdooField.',
         element: element,
@@ -50,22 +65,51 @@ class OdooModelGenerator extends GeneratorForAnnotation<OdooModel> {
       ..writeln('// GENERATED CODE - DO NOT MODIFY BY HAND\n')
       ..writeln('// ignore_for_file: type=lint\n');
 
-    _generateFromJson(buffer, className, fields);
-    _generateToJson(buffer, className, fields);
-    _generateCopyWith(buffer, className, fields);
-    _generateToString(buffer, className, fields);
-    _generateMeta(buffer, className, modelName, fields);
+    _generateFromJson(buffer, className, fields, extendsBase);
+    _generateToJson(buffer, className, fields, extendsBase);
+    _generateCopyWith(buffer, className, fields, extendsBase);
+    _generateToString(buffer, className, fields, extendsBase);
+    _generateMeta(buffer, className, modelName, fields, extendsBase);
+    _generateRepository(buffer, className);
 
     return buffer.toString();
+  }
+
+  void _generateRepository(StringBuffer buf, String className) {
+    buf.writeln('class ${className}Repository extends OdooRepository<$className> {');
+    buf.writeln('  ${className}Repository({required super.client})');
+    buf.writeln('      : super(');
+    buf.writeln('          modelName: _\$${className}Meta.modelName,');
+    buf.writeln('          specification: _\$${className}Meta.specification,');
+    buf.writeln('          fromJson: _\$${className}FromJson,');
+    buf.writeln('        );');
+    buf.writeln('}\n');
   }
 
   void _generateFromJson(
     StringBuffer buf,
     String className,
-    List<FieldElement2> fields, // <-- FieldElement
+    List<FieldElement2> fields,
+    bool extendsBase,
   ) {
     buf.writeln('$className _\$${className}FromJson(Map<String, dynamic> json) {');
+
+    if (extendsBase) {
+      buf.writeln('  final base = OdooBaseModel.baseFromJson(json);');
+    }
+
     buf.writeln('  return $className(');
+
+    if (extendsBase) {
+      buf.writeln('    id: base.id,');
+      buf.writeln('    name: base.name,');
+      buf.writeln('    displayName: base.displayName,');
+      buf.writeln('    active: base.active,');
+      buf.writeln('    createDate: base.createDate,');
+      buf.writeln('    writeDate: base.writeDate,');
+      buf.writeln('    createUid: base.createUid,');
+      buf.writeln('    writeUid: base.writeUid,');
+    }
 
     for (final field in fields) {
       final annotation = _readOdooField(field);
@@ -90,11 +134,16 @@ class OdooModelGenerator extends GeneratorForAnnotation<OdooModel> {
     StringBuffer buf,
     String className,
     List<FieldElement2> fields,
+    bool extendsBase,
   ) {
     buf.writeln(
       'Map<String, dynamic> _\$${className}ToJson($className instance, {bool toOdoo = false}) {',
     );
     buf.writeln('  return {');
+
+    if (extendsBase) {
+      buf.writeln('    ...instance.baseToJson(toOdoo: toOdoo),');
+    }
 
     for (final field in fields) {
       final annotation = _readOdooField(field);
@@ -130,12 +179,24 @@ class OdooModelGenerator extends GeneratorForAnnotation<OdooModel> {
     StringBuffer buf,
     String className,
     List<FieldElement2> fields,
+    bool extendsBase,
   ) {
     buf.writeln('extension \$${className}Extension on $className {');
     buf.writeln('  Map<String, dynamic> toJson() => _\$${className}ToJson(this);');
     buf.writeln('  Map<String, dynamic> toOdoo() => _\$${className}ToJson(this, toOdoo: true);');
     buf.writeln();
     buf.writeln('  $className copyWith({');
+
+    if (extendsBase) {
+      buf.writeln('    int? id,');
+      buf.writeln('    String? name,');
+      buf.writeln('    String? displayName,');
+      buf.writeln('    bool? active,');
+      buf.writeln('    DateTime? createDate,');
+      buf.writeln('    DateTime? writeDate,');
+      buf.writeln('    int? createUid,');
+      buf.writeln('    int? writeUid,');
+    }
 
     for (final field in fields) {
       final type = field.type.getDisplayString();
@@ -146,6 +207,17 @@ class OdooModelGenerator extends GeneratorForAnnotation<OdooModel> {
 
     buf.writeln('  }) {');
     buf.writeln('    return $className(');
+
+    if (extendsBase) {
+      buf.writeln('      id: id ?? this.id,');
+      buf.writeln('      name: name ?? this.name,');
+      buf.writeln('      displayName: displayName ?? this.displayName,');
+      buf.writeln('      active: active ?? this.active,');
+      buf.writeln('      createDate: createDate ?? this.createDate,');
+      buf.writeln('      writeDate: writeDate ?? this.writeDate,');
+      buf.writeln('      createUid: createUid ?? this.createUid,');
+      buf.writeln('      writeUid: writeUid ?? this.writeUid,');
+    }
 
     for (final field in fields) {
       final name = field.displayName;
@@ -162,15 +234,23 @@ class OdooModelGenerator extends GeneratorForAnnotation<OdooModel> {
     StringBuffer buf,
     String className,
     List<FieldElement2> fields,
+    bool extendsBase,
   ) {
     buf.writeln('mixin _\$$className {');
     buf.writeln('  Map<String, dynamic> toJson() => _\$${className}ToJson(this as $className);');
-    buf.writeln('  Map<String, dynamic> toOdoo() => _\$${className}ToJson(this as $className, toOdoo: true);');
+    buf.writeln(
+        '  Map<String, dynamic> toOdoo() => _\$${className}ToJson(this as $className, toOdoo: true);');
     buf.writeln();
     buf.writeln('  @override');
     buf.writeln('  String toString() {');
     buf.writeln("    final instance = this as $className;");
     buf.writeln("    return '$className('");
+
+    if (extendsBase) {
+      buf.writeln("        'id: \${instance.id}, '");
+      buf.writeln("        'name: \${instance.name}, '");
+      buf.writeln("        'active: \${instance.active}${fields.isEmpty ? "" : ", "}'");
+    }
 
     for (int i = 0; i < fields.length; i++) {
       final field = fields[i];
@@ -186,6 +266,15 @@ class OdooModelGenerator extends GeneratorForAnnotation<OdooModel> {
   }
 
   // ── Helpers ────────────────────────────────────────────────────────────────
+
+  bool _extendsOdooBaseModel(ClassElement2 element) {
+    InterfaceType? supertype = element.supertype;
+    while (supertype != null) {
+      if (supertype.element3.displayName == 'OdooBaseModel') return true;
+      supertype = supertype.element3.supertype;
+    }
+    return false;
+  }
 
   ConstantReader? _readOdooField(FieldElement2 field) {
     // Se accede via el getter correcto de Element2
@@ -382,11 +471,16 @@ class OdooModelGenerator extends GeneratorForAnnotation<OdooModel> {
     String className,
     String modelName,
     List<FieldElement2> fields,
+    bool extendsBase,
   ) {
     buf.writeln('mixin _\$${className}Meta {');
     buf.writeln("  static const String modelName = '$modelName';");
     buf.writeln();
     buf.writeln('  static const Map<String, dynamic> specification = {');
+
+    if (extendsBase) {
+      buf.writeln('    ...OdooBaseModel.baseSpecification,');
+    }
 
     for (final field in fields) {
       final annotation = _readOdooField(field);

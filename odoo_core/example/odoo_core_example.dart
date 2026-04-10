@@ -1,4 +1,4 @@
-import 'package:odoo_annotation/odoo_annotation.dart';
+import 'package:odoo_core/odoo_core.dart';
 
 void main() {
   // var awesome = Awesome();

@@ -4,18 +4,20 @@
 			"path": "."
 		},
 		{
-			"name": "odoo_annotation",
-			"path": "./odoo_annotation"
+			"name": "odoo_core",
+			"path": "./odoo_core"
 		},
 		{
 			"name": "odoo_generator",
 			"path": "./odoo_generator"
 		}
 	],
-	  "settings": {
+	"settings": {
 		"dart.lineLength": 100,
 		"editor.formatOnSave": true,
-		"editor.rulers": [100],
+		"editor.rulers": [
+			100
+		],
 		"[dart]": {
 			"editor.defaultFormatter": "Dart-Code.dart-code",
 			"editor.formatOnSave": true
@@ -23,8 +25,8 @@
 	},
 	"extensions": {
 		"recommendations": [
-		"Dart-Code.dart-code",
-		"Dart-Code.flutter"
+			"Dart-Code.dart-code",
+			"Dart-Code.flutter"
 		]
 	}
 }

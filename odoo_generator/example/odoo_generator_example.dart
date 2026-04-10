@@ -1,4 +1,4 @@
-import 'package:odoo_annotation/odoo_annotation.dart';
+import 'package:odoo_core/odoo_core.dart';
 import 'dart:convert';
 import 'dart:io';
 
@@ -6,17 +6,21 @@ part 'odoo_generator_example.odoo.g.dart';
 
 /// Modelo: Category (Categoría de productos)
 @OdooModel(modelName: 'product.category')
-class Category with _$Category {
-  @OdooField(type: OdooFieldType.integer, name: 'id')
-  final int? id;
-
-  @OdooField(type: OdooFieldType.string, name: 'name')
-  final String? name;
-
+class Category extends OdooBaseModel with _$Category {
   @OdooField(type: OdooFieldType.string, name: 'description')
   final String? description;
 
-  Category({this.id, this.name, this.description});
+  Category({
+    required super.id,
+    required super.name,
+    super.displayName,
+    super.active = true,
+    super.createDate,
+    super.writeDate,
+    super.createUid,
+    super.writeUid,
+    this.description,
+  });
 
   factory Category.fromJson(Map<String, dynamic> json) => _$CategoryFromJson(json);
   Map<String, dynamic> toJson() => _$CategoryToJson(this);
@@ -24,17 +28,21 @@ class Category with _$Category {
 
 /// Modelo: Tag (Etiqueta para productos)
 @OdooModel(modelName: 'product.tag')
-class Tag with _$Tag {
-  @OdooField(type: OdooFieldType.integer, name: 'id')
-  final int? id;
-
-  @OdooField(type: OdooFieldType.string, name: 'name')
-  final String? name;
-
+class Tag extends OdooBaseModel with _$Tag {
   @OdooField(type: OdooFieldType.string, name: 'color')
   final String? color;
 
-  Tag({this.id, this.name, this.color});
+  Tag({
+    required super.id,
+    required super.name,
+    super.displayName,
+    super.active = true,
+    super.createDate,
+    super.writeDate,
+    super.createUid,
+    super.writeUid,
+    this.color,
+  });
 
   factory Tag.fromJson(Map<String, dynamic> json) => _$TagFromJson(json);
   Map<String, dynamic> toJson() => _$TagToJson(this);
@@ -42,13 +50,7 @@ class Tag with _$Tag {
 
 /// Modelo: Product (Producto con relaciones)
 @OdooModel(modelName: 'product.product')
-class Product with _$Product {
-  @OdooField(type: OdooFieldType.integer)
-  final int? id;
-
-  @OdooField(type: OdooFieldType.string)
-  final String? name;
-
+class Product extends OdooBaseModel with _$Product {
   @OdooField(type: OdooFieldType.string)
   final String? sku;
 
@@ -65,9 +67,6 @@ class Product with _$Product {
   @OdooField(type: OdooFieldType.many2one, name: 'category_id')
   final List<dynamic>? categoryId;
 
-  @OdooField(type: OdooFieldType.many2one, name: 'category_id')
-  final List<Category>? category;
-
   // many2many: Lista de IDs de Tags
   @OdooField(type: OdooFieldType.many2many, name: 'tag_ids')
   final List<int>? tagIds;
@@ -79,14 +78,19 @@ class Product with _$Product {
   final DateTime? updatedAt;
 
   Product({
-    this.id,
-    this.name,
+    required super.id,
+    required super.name,
+    super.displayName,
+    super.active = true,
+    super.createDate,
+    super.writeDate,
+    super.createUid,
+    super.writeUid,
     this.sku,
     this.price,
     this.quantity,
     this.isActive,
     this.categoryId,
-    this.category,
     this.tagIds,
     this.createdAt,
     this.updatedAt,
@@ -98,10 +102,7 @@ class Product with _$Product {
 
 /// Modelo: ProductLine (Línea de producto - simula detalle de pedido)
 @OdooModel(modelName: 'product.line')
-class ProductLine with _$ProductLine {
-  @OdooField(type: OdooFieldType.integer, name: 'id')
-  final int? id;
-
+class ProductLine extends OdooBaseModel with _$ProductLine {
   // many2one: Relación con Product
   @OdooField(type: OdooFieldType.many2one, name: 'product_id')
   final int? productId;
@@ -119,7 +120,14 @@ class ProductLine with _$ProductLine {
   final String? notes;
 
   ProductLine({
-    this.id,
+    required super.id,
+    required super.name,
+    super.displayName,
+    super.active = true,
+    super.createDate,
+    super.writeDate,
+    super.createUid,
+    super.writeUid,
     this.productId,
     this.quantity,
     this.unitPrice,
@@ -133,13 +141,7 @@ class ProductLine with _$ProductLine {
 
 /// Modelo: Order (Pedido con relaciones many2many y one2many)
 @OdooModel(modelName: 'sale.order')
-class Order with _$Order {
-  @OdooField(type: OdooFieldType.integer, name: 'id')
-  final int? id;
-
-  @OdooField(type: OdooFieldType.string, name: 'name')
-  final String? name;
-
+class Order extends OdooBaseModel with _$Order {
   @OdooField(type: OdooFieldType.date, name: 'order_date')
   final DateTime? orderDate;
 
@@ -154,8 +156,14 @@ class Order with _$Order {
   final List<int>? lineIds;
 
   Order({
-    this.id,
-    this.name,
+    required super.id,
+    required super.name,
+    super.displayName,
+    super.active = true,
+    super.createDate,
+    super.writeDate,
+    super.createUid,
+    super.writeUid,
     this.orderDate,
     this.total,
     this.status,

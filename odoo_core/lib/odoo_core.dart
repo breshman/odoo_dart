@@ -1,0 +1,8 @@
+library odoo_core;
+
+export 'src/odoo_base.dart';
+export 'src/network/client/odoo_rpc_service.dart';
+export 'src/network/params/odoo_rpc_params.dart';
+export 'src/network/responses/rpc_response.dart';
+export 'src/odoo_annotation.dart';
+export 'src/network/exceptions/odoo_exception.dart';

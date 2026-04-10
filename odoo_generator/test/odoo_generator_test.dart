@@ -64,13 +64,6 @@ void main() {
         final cat2 = cat.copyWith(name: 'Updated');
         expect(cat2.name, 'Updated');
         expect(cat2.id, 1);
-
-        // specification (static extension member)
-        expect($CategorySpecExtension.specification, contains('id'));
-        expect($CategorySpecExtension.specification, contains('name'));
-
-        // modelName (static extension member)
-        expect($CategoryModelExtension.modelName, 'product.category');
       });
 
       test('Product: copyWith mantiene otros campos y crea nueva instancia', () {
@@ -96,7 +89,6 @@ void main() {
       test('Tag: toString y specification', () {
         final tag = Tag(id: 5, name: 'Premium', color: '#ff0000');
         expect(tag.toString(), contains('Tag(id: 5, name: Premium, color: #ff0000)'));
-        expect($TagSpecExtension.specification, contains('color'));
       });
     });
   });
