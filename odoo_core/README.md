@@ -77,6 +77,7 @@ class Order extends OdooBaseModel {
   // Map<String, dynamic> toJson() => _$OrderToJson(this);
 }
 ```
+dart run build_runner build --delete-conflicting-outputs
 
 ---
 

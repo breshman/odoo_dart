@@ -1,3 +1,8 @@
+## 2.0.1
+
+- Fix: Prevented code generation for getters, setters, and unannotated properties to avoid "named parameter isn't defined" compiling errors.
+- Fix: Eliminated analyzer subtype inheritance bugs triggered by `orElse` when verifying optional fields on class constructors.
+
 ## 2.0.0
 
 - Refactor: Migrate from `odoo_annotation` to `odoo_core`.

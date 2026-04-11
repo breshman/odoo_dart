@@ -48,7 +48,7 @@ class OdooModelGenerator extends GeneratorForAnnotation<OdooModel> {
       'writeUid'
     };
 
-    var fields = element.fields2.where((f) => !f.isStatic).toList();
+    var fields = element.fields2.where((f) => !f.isStatic && _readOdooField(f) != null).toList();
 
     if (extendsBase) {
       fields = fields.where((f) => !baseFieldNames.contains(f.displayName)).toList();
@@ -65,9 +65,9 @@ class OdooModelGenerator extends GeneratorForAnnotation<OdooModel> {
       ..writeln('// GENERATED CODE - DO NOT MODIFY BY HAND\n')
       ..writeln('// ignore_for_file: type=lint\n');
 
-    _generateFromJson(buffer, className, fields, extendsBase);
+    _generateFromJson(buffer, element, fields, extendsBase);
     _generateToJson(buffer, className, fields, extendsBase);
-    _generateCopyWith(buffer, className, fields, extendsBase);
+    _generateCopyWith(buffer, element, fields, extendsBase);
     _generateToString(buffer, className, fields, extendsBase);
     _generateMeta(buffer, className, modelName, fields, extendsBase);
     _generateRepository(buffer, className);
@@ -88,10 +88,11 @@ class OdooModelGenerator extends GeneratorForAnnotation<OdooModel> {
 
   void _generateFromJson(
     StringBuffer buf,
-    String className,
+    ClassElement2 element,
     List<FieldElement2> fields,
     bool extendsBase,
   ) {
+    final className = element.displayName;
     buf.writeln('$className _\$${className}FromJson(Map<String, dynamic> json) {');
 
     if (extendsBase) {
@@ -101,14 +102,19 @@ class OdooModelGenerator extends GeneratorForAnnotation<OdooModel> {
     buf.writeln('  return $className(');
 
     if (extendsBase) {
-      buf.writeln('    id: base.id,');
-      buf.writeln('    name: base.name,');
-      buf.writeln('    displayName: base.displayName,');
-      buf.writeln('    active: base.active,');
-      buf.writeln('    createDate: base.createDate,');
-      buf.writeln('    writeDate: base.writeDate,');
-      buf.writeln('    createUid: base.createUid,');
-      buf.writeln('    writeUid: base.writeUid,');
+      final constructors = element.constructors2.where((c) => c.name3 == null || c.name3 == '');
+      final constructor =
+          constructors.isNotEmpty ? constructors.first : element.constructors2.first;
+      final paramNames = constructor.formalParameters.map((p) => p.name3).toSet();
+
+      if (paramNames.contains('id')) buf.writeln('    id: base.id,');
+      if (paramNames.contains('name')) buf.writeln('    name: base.name,');
+      if (paramNames.contains('displayName')) buf.writeln('    displayName: base.displayName,');
+      if (paramNames.contains('active')) buf.writeln('    active: base.active,');
+      if (paramNames.contains('createDate')) buf.writeln('    createDate: base.createDate,');
+      if (paramNames.contains('writeDate')) buf.writeln('    writeDate: base.writeDate,');
+      if (paramNames.contains('createUid')) buf.writeln('    createUid: base.createUid,');
+      if (paramNames.contains('writeUid')) buf.writeln('    writeUid: base.writeUid,');
     }
 
     for (final field in fields) {
@@ -177,25 +183,32 @@ class OdooModelGenerator extends GeneratorForAnnotation<OdooModel> {
 
   void _generateCopyWith(
     StringBuffer buf,
-    String className,
+    ClassElement2 element,
     List<FieldElement2> fields,
     bool extendsBase,
   ) {
+    final className = element.displayName;
     buf.writeln('extension \$${className}Extension on $className {');
     buf.writeln('  Map<String, dynamic> toJson() => _\$${className}ToJson(this);');
     buf.writeln('  Map<String, dynamic> toOdoo() => _\$${className}ToJson(this, toOdoo: true);');
     buf.writeln();
     buf.writeln('  $className copyWith({');
 
+    Set<String?> paramNames = {};
     if (extendsBase) {
-      buf.writeln('    int? id,');
-      buf.writeln('    String? name,');
-      buf.writeln('    String? displayName,');
-      buf.writeln('    bool? active,');
-      buf.writeln('    DateTime? createDate,');
-      buf.writeln('    DateTime? writeDate,');
-      buf.writeln('    int? createUid,');
-      buf.writeln('    int? writeUid,');
+      final constructors = element.constructors2.where((c) => c.name3 == null || c.name3 == '');
+      final constructor =
+          constructors.isNotEmpty ? constructors.first : element.constructors2.first;
+      paramNames = constructor.formalParameters.map((p) => p.name3).toSet();
+
+      if (paramNames.contains('id')) buf.writeln('    int? id,');
+      if (paramNames.contains('name')) buf.writeln('    String? name,');
+      if (paramNames.contains('displayName')) buf.writeln('    String? displayName,');
+      if (paramNames.contains('active')) buf.writeln('    bool? active,');
+      if (paramNames.contains('createDate')) buf.writeln('    DateTime? createDate,');
+      if (paramNames.contains('writeDate')) buf.writeln('    DateTime? writeDate,');
+      if (paramNames.contains('createUid')) buf.writeln('    int? createUid,');
+      if (paramNames.contains('writeUid')) buf.writeln('    int? writeUid,');
     }
 
     for (final field in fields) {
@@ -209,14 +222,24 @@ class OdooModelGenerator extends GeneratorForAnnotation<OdooModel> {
     buf.writeln('    return $className(');
 
     if (extendsBase) {
-      buf.writeln('      id: id ?? this.id,');
-      buf.writeln('      name: name ?? this.name,');
-      buf.writeln('      displayName: displayName ?? this.displayName,');
-      buf.writeln('      active: active ?? this.active,');
-      buf.writeln('      createDate: createDate ?? this.createDate,');
-      buf.writeln('      writeDate: writeDate ?? this.writeDate,');
-      buf.writeln('      createUid: createUid ?? this.createUid,');
-      buf.writeln('      writeUid: writeUid ?? this.writeUid,');
+      if (paramNames.contains('id')) buf.writeln('      id: id ?? this.id,');
+      if (paramNames.contains('name')) buf.writeln('      name: name ?? this.name,');
+      if (paramNames.contains('displayName')) {
+        buf.writeln('      displayName: displayName ?? this.displayName,');
+      }
+      if (paramNames.contains('active')) buf.writeln('      active: active ?? this.active,');
+      if (paramNames.contains('createDate')) {
+        buf.writeln('      createDate: createDate ?? this.createDate,');
+      }
+      if (paramNames.contains('writeDate')) {
+        buf.writeln('      writeDate: writeDate ?? this.writeDate,');
+      }
+      if (paramNames.contains('createUid')) {
+        buf.writeln('      createUid: createUid ?? this.createUid,');
+      }
+      if (paramNames.contains('writeUid')) {
+        buf.writeln('      writeUid: writeUid ?? this.writeUid,');
+      }
     }
 
     for (final field in fields) {

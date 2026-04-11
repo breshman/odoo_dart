@@ -20,8 +20,6 @@ Partner _$PartnerFromJson(Map<String, dynamic> json) {
     active: base.active,
     createDate: base.createDate,
     writeDate: base.writeDate,
-    createUid: base.createUid,
-    writeUid: base.writeUid,
     email: json['email'] == false || json['email'] == null
         ? null
         : (json['email'] as String),
@@ -50,8 +48,6 @@ extension $PartnerExtension on Partner {
     bool? active,
     DateTime? createDate,
     DateTime? writeDate,
-    int? createUid,
-    int? writeUid,
     String? email,
     String? phone,
   }) {
@@ -62,8 +58,6 @@ extension $PartnerExtension on Partner {
       active: active ?? this.active,
       createDate: createDate ?? this.createDate,
       writeDate: writeDate ?? this.writeDate,
-      createUid: createUid ?? this.createUid,
-      writeUid: writeUid ?? this.writeUid,
       email: email ?? this.email,
       phone: phone ?? this.phone,
     );

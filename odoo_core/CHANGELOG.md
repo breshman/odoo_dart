@@ -2,6 +2,10 @@
 
 All notable changes to the `odoo_core` project will be documented in this file.
 
+## [2.0.1] - 2026-04-11
+### Changed
+* **Dependencies:** Bumped `odoo_generator` requirement to `2.0.1` because of hotfixes related to Dart analyzer subtypes and unexpected generation of getters/setters/transient properties.
+
 ## [2.0.0] - 2026-04-10
 ### Added
 * **SOLID Architecture:** Complete rewrite separating logical layers, utilizing Clean Architecture principles.

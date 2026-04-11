@@ -17,16 +17,22 @@ class Partner extends OdooBaseModel with _$Partner {
     super.active = true,
     super.createDate,
     super.writeDate,
-    super.createUid,
-    super.writeUid,
+    // super.createUid,
+    // super.writeUid,
     this.email,
     this.phone,
   });
 
+  bool get isCustomer => true;
+
+  bool get isVendor => true;
+
+  set isCustomer(bool value) {
+    isCustomer = value;
+  }
+
   factory Partner.fromJson(Map<String, dynamic> json) => _$PartnerFromJson(json);
 }
-
-
 
 @OdooModel(modelName: 'res.users')
 class User extends OdooBaseModel with _$User {
@@ -48,8 +54,6 @@ class User extends OdooBaseModel with _$User {
   factory User.fromJson(Map<String, dynamic> json) => _$UserFromJson(json);
 }
 
-
-
 @OdooModel(modelName: 'hr.employee')
 class Employee extends OdooBaseModel with _$Employee {
   @OdooField(type: OdooFieldType.string, name: 'job_title')
@@ -69,5 +73,3 @@ class Employee extends OdooBaseModel with _$Employee {
 
   factory Employee.fromJson(Map<String, dynamic> json) => _$EmployeeFromJson(json);
 }
-
-
