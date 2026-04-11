@@ -1,3 +1,4 @@
+import 'package:dio/dio.dart';
 import 'package:test/test.dart';
 import 'package:odoo_core/odoo_core.dart';
 
@@ -172,5 +173,85 @@ void main() {
         throwsA(isA<OdooException>().having((e) => e.message, 'message', 'Server Failed'))
       );
     });
+  });
+
+  group('3. Integration Tests (RunBot API)', () {
+    test('Authenticate and perform full CRUD on res.partner', () async {
+      // Setup Dio with interceptors like in example
+      const baseUrl = 'https://106987691-18-0-all.runbot303.odoo.com';
+      final dio = Dio(BaseOptions(baseUrl: baseUrl));
+      
+      String? sessionId;
+      dio.interceptors.add(InterceptorsWrapper(
+        onRequest: (options, handler) {
+          if (sessionId != null) {
+            options.headers['Cookie'] = sessionId;
+          }
+          return handler.next(options);
+        },
+        onResponse: (response, handler) {
+          final cookies = response.headers['set-cookie'];
+          if (cookies != null) {
+            for (var cookie in cookies) {
+              if (cookie.contains('session_id')) {
+                sessionId = cookie.split(';').first;
+              }
+            }
+          }
+          return handler.next(response);
+        },
+      ));
+
+      final odooClient = OdooRpcService(dio: dio);
+
+      // 1. Authenticate
+      final authResponse = await odooClient.callRpc<Map<String, dynamic>>(
+        path: '/web/session/authenticate',
+        params: {
+          'db': '106987691-18-0-all',
+          'login': 'admin',
+          'password': 'admin'
+        },
+        fromJsonT: (json) => json as Map<String, dynamic>,
+      );
+
+      expect(authResponse.error, isNull);
+      expect(authResponse.result?['uid'], isNotNull);
+
+      final partnerRepo = PartnerRepository(client: odooClient);
+
+      // 2. CREATE
+      final newPartnerId = await partnerRepo.create({
+        'name': 'Dart Integration Test',
+        'email': 'test@dart-odoo.dev',
+        'phone': '555-1234'
+      });
+      expect(newPartnerId, isA<int>());
+
+      // 3. READ
+      final readRecords = await partnerRepo.read([newPartnerId]);
+      expect(readRecords, isNotEmpty);
+      expect(readRecords.first.name, 'Dart Integration Test');
+
+      // 4. WRITE
+      final writeSuccess = await partnerRepo.write([newPartnerId], {'phone': '555-9876'});
+      expect(writeSuccess, isTrue);
+
+      // 5. WEBSAVE
+      final webSaveParams = OdooWriteParams<Partner, Map<String, dynamic>>(
+        model: 'res.partner',
+        ids: [newPartnerId],
+        values: {'name': 'Dart Integration Test V2'},
+        fromJsonT: (json) => Partner.fromJson(json as Map<String, dynamic>),
+        toJson: (v) => v,
+      );
+      final webSavedRecords = await partnerRepo.webSave(webSaveParams);
+      expect(webSavedRecords.first.name, 'Dart Integration Test V2');
+      expect(webSavedRecords.first.phone, '555-9876');
+
+      // 6. UNLINK
+      final unlinkSuccess = await partnerRepo.unlink([newPartnerId]);
+      expect(unlinkSuccess, isTrue);
+    }, skip: 'Real API test depends on ephemeral runbot URL. Actualízala para ejecutar.');
   });
 }
