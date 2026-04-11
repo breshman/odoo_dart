@@ -157,17 +157,64 @@ final isDeleted = await orderRepo.unlink([newOrderId]);
 
 ## 📡 5. Caso de Uso: Conexión Realtime (Sockets)
 
-Al estar en un ecosistema que usa el nuevo módulo realtime, `odoo_core` te exporta una utilidad directa (`OdooRealtimeClient`) para escuchar canales de Odoo sin dependencias extrañas:
+Al estar en un ecosistema que usa el nuevo módulo realtime, `odoo_core` te exporta una utilidad directa (`OdooRealtimeClient`) para escuchar canales de Odoo sin dependencias extrañas y transmitir los eventos a tu UI limpiamente mediante un **Stream** de Dart:
+
+### Ejemplo Básico: Autenticación y Conexión
+Debes inicializar el socket extrayendo primero la versión estricta del Worker que solicita Odoo en la respuesta de Login (`websocket_worker_version`) y tu cookie de sesión.
 
 ```dart
-final realtimeClient = OdooRealtimeClient(
+import 'package:odoo_core/odoo_core.dart';
+import 'package:odoo_core/src/network/client/odoo_realtime_client.dart';
+
+// Supongamos que acabas de invocar el Auth de Odoo
+final workerVersion = authResponse['websocket_worker_version']?.toString() ?? '18.0-7';
+final sessionCookie = 'session_id=123f...'; // Recogida del interceptor de Headers
+
+final wsClient = OdooRealtimeClient(
   baseUrl: 'https://mi-odoo-produccion.com',
-  sessionId: 'session_id=123f...',
+  sessionId: sessionCookie,
+  websocketWorkerVersion: workerVersion // Fundamental para pasar el Handshake HTTP 400
 );
 
-realtimeClient.connect(); 
-// Se conecta usando WebSockets a Odoo 18, setea las cookies,
-// e intercepta el _bus_send automáticamente.
+// Nos conectamos y le instruimos a Odoo a qué canales nos queremos suscribir al instante.
+// Ej. El canal 1 suele referirse al canal "General" del módulo de Chat. 
+wsClient.connect(channels: ['discuss.channel_1']);
+```
+
+### Ejemplo Avanzado: Escuchar el Stream en vivo (Bloc, Provider, UI)
+Debido a que `OdooRealtimeClient` exporta internamente su receptor como un `Stream.broadcast()` en la variable `.messages`, múltiples bloques de tu app pueden "oír" los milisegundos cuando llega algo.
+
+```dart
+// Abres un vigilante continuo
+wsClient.messages.listen((event) {
+  final message = event['message'];
+  if (message == null) return;
+
+  // Odoo arroja muchos eventos (type). Filtraremos si alguien envió un nuevo Mensaje.
+  if (message['type'] == 'mail.message/new') {
+     final payload = message['payload'];
+     final nameAuthor = payload['author_id']?[1] ?? 'Desconocido';
+     final htmlBody = payload['body'] ?? '';
+     
+     print('🔥 ¡Nuevo Chat Entrante! $nameAuthor acaba de escribir un mensaje.');
+     
+     // Aquí inyectarías a tu gestor favorito tu nuevo Widget o Estado.
+     // Ejemplo:
+     // ref.read(chatProvider.notifier).addNewBubble(htmlBody); 
+  } 
+  // O captura otros eventos custom...
+  else if (message['type'] == 'website.visitor/new') {
+     print('🔔 Alguien entró a tu página web.');
+  } else {
+     print('ℹ️ Evento desconocido del bus Odoo: ${message['type']}');
+  }
+});
+```
+
+### Tips de Uso
+Si el usuario de tu app se desloguea, siempre asegúrate de apagar el canal en memoria:
+```dart
+wsClient.disconnect();
 ```
 
 ---

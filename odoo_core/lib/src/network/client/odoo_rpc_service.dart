@@ -14,11 +14,11 @@ class OdooRpcService implements OdooClient {
   final Dio _dio;
 
   /// Contexto dinámico para las llamadas RPC (idioma, zona horaria, etc).
-  UserContext context = const UserContext(lang: 'es_PE', tz: 'America/Lima', uid: 0);
+  UserContext odooContext = const UserContext(lang: 'en_US', tz: 'America/Mexico_City', uid: 0);
 
-  /// Permite actualizar el contexto dinámicamente.
-  void setContext(UserContext? newContext) {
-    context = newContext ?? context;
+  /// Permite actualizar el contexto dinámicamente sin chocar con BuildContext.
+  void updateOdooContext(UserContext? newContext) {
+    odooContext = newContext ?? odooContext;
   }
 
   /// Llama a cualquier método de modelo Odoo vía RPC.
@@ -41,10 +41,15 @@ class OdooRpcService implements OdooClient {
     Map<String, dynamic>? kwargs,
     required T Function(Object? json) fromJsonT,
   }) async {
+    // Inyectar el odooContext automáticamente al igual que callKwRaw
+    final finalKwargs = Map<String, dynamic>.from(kwargs ?? {});
+    final contextMap = (finalKwargs['context'] as Map<String, dynamic>?) ?? {};
+    finalKwargs['context'] = <String, dynamic>{...odooContext.toJson(), ...contextMap};
+
     final payload = {
       'jsonrpc': '2.0',
       'method': 'call',
-      'params': {'model': model, 'method': method, 'args': args ?? [], 'kwargs': kwargs ?? {}},
+      'params': {'model': model, 'method': method, 'args': args ?? [], 'kwargs': finalKwargs},
     };
     final response = await _dio.post<Map<String, dynamic>>(
       '/web/dataset/call_kw/$model/$method',
@@ -53,7 +58,6 @@ class OdooRpcService implements OdooClient {
     return RpcResponse<T>.fromJson(response.data as Map<String, dynamic>, fromJsonT);
   }
 
-  /// Cumple con la interfaz de [OdooClient] del repositorio base, omitiendo RpcResponse
   @override
   Future<dynamic> callKwRaw({
     required String model,
@@ -61,10 +65,15 @@ class OdooRpcService implements OdooClient {
     List args = const [],
     Map<String, dynamic> kwargs = const {},
   }) async {
+    // Inyectar el odooContext automáticamente preservando contextos superpuestos
+    final finalKwargs = Map<String, dynamic>.from(kwargs);
+    final contextMap = (finalKwargs['context'] as Map<String, dynamic>?) ?? {};
+    finalKwargs['context'] = <String, dynamic>{...odooContext.toJson(), ...contextMap};
+
     final payload = {
       'jsonrpc': '2.0',
       'method': 'call',
-      'params': {'model': model, 'method': method, 'args': args, 'kwargs': kwargs},
+      'params': {'model': model, 'method': method, 'args': args, 'kwargs': finalKwargs},
     };
     final response = await _dio.post<Map<String, dynamic>>(
       '/web/dataset/call_kw/$model/$method',
@@ -137,54 +146,4 @@ class OdooRpcService implements OdooClient {
     }
   }
 
-  /// Helper para search_read
-  Future<RpcResponse<T>> searchRead<T>(OdooSearchParams<T> params) {
-    return callKw<T>(
-      model: params.model,
-      method: 'web_search_read',
-      args: [],
-      kwargs: params.toKwargs(context),
-      fromJsonT: params.fromJsonT,
-    );
-  }
-
-  Future<RpcResponse<T>> create<T>(OdooCreateParams<T> params) {
-    return callKw<T>(
-      model: params.model,
-      method: 'create',
-      args: [params.values],
-      fromJsonT: params.fromJsonT,
-    );
-  }
-
-  Future<RpcResponse<R>> write<R, V>(OdooWriteParams<R, V> params) {
-    return callKw<R>(
-      model: params.model,
-      method: 'write',
-      args: [params.ids, params.toJson(params.values)],
-      fromJsonT: params.fromJsonT,
-    );
-  }
-
-  Future<RpcResponse<T>> unlink<T>(OdooUnlinkParams<T> params) {
-    return callKw<T>(
-      model: params.model,
-      method: 'unlink',
-      args: [params.ids],
-      fromJsonT: params.fromJsonT,
-    );
-  }
-
-  Future<RpcResponse<R>> webSave<R, V>(
-    OdooWriteParams<R, V> params,
-    Map<String, dynamic> specification,
-  ) {
-    return callKw<R>(
-      model: params.model,
-      method: 'web_save',
-      args: [params.ids, params.toJson(params.values)],
-      kwargs: {'specification': specification},
-      fromJsonT: params.fromJsonT,
-    );
-  }
 }

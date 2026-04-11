@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:convert';
 import 'package:web_socket_channel/io.dart';
 import 'package:web_socket_channel/web_socket_channel.dart';
@@ -5,37 +6,39 @@ import 'package:web_socket_channel/web_socket_channel.dart';
 class OdooRealtimeClient {
   final String baseUrl;
   final String sessionId;
+  final String websocketWorkerVersion;
+
   WebSocketChannel? _channel;
 
-  // Odoo 18.0 suele usar esta versión, pero puede cambiar.
-  // Es más seguro hacerse pasar por un cliente sin User-Agent (ver abajo).
-  final String odooVersion = "18.0-3";
+  // StreamController para exponer los eventos decodificados al resto de la App
+  final _messageController = StreamController<Map<String, dynamic>>.broadcast();
+  Stream<Map<String, dynamic>> get messages => _messageController.stream;
 
-  OdooRealtimeClient({required this.baseUrl, required this.sessionId});
+  OdooRealtimeClient({
+    required this.baseUrl,
+    required this.sessionId,
+    required this.websocketWorkerVersion,
+  });
 
-  void connect() {
+  void connect({List<String> channels = const []}) {
     // 1. Construir la URL
-    // Nota: Odoo espera el parámetro 'version' si detecta un User-Agent de navegador.
-    final uri = Uri.parse('$baseUrl/websocket?version=$odooVersion');
-    final wsUrl = uri.replace(scheme: uri.scheme == 'https' ? 'wss' : 'ws');
+    // Construimos como String puro y anexando la versión exacta del Worker WebSocket exigida por Odoo.
+    final wsUrlString =
+        '${baseUrl.replaceFirst('https://', 'wss://').replaceFirst('http://', 'ws://')}/websocket?version=$websocketWorkerVersion';
 
     // 2. Configurar Headers Críticos
     // El header 'Cookie' es OBLIGATORIO para que Odoo sepa quién eres.
-    // Omitir 'User-Agent' o usar uno personalizado ayuda a evitar,
-    // que Odoo te desconecte por 'Version Outdated'.
     final headers = {
       'Cookie': sessionId,
-      // 'User-Agent': '' // A veces necesario vaciarlo para evitar chequeos de versión de Odoo
+      'Origin': baseUrl, // Muchas veces Odoo bloquea la solicitud HTTP 400 si falta el Origin
     };
 
     try {
       _channel = IOWebSocketChannel.connect(
-        wsUrl,
+        Uri.parse(wsUrlString),
         headers: headers,
-        pingInterval: Duration(seconds: 15), // Mantener conexión viva
+        pingInterval: const Duration(seconds: 15), // Mantener conexión viva
       );
-
-      print("Conectando al socket...");
 
       // 3. Escuchar mensajes
       _channel!.stream.listen(
@@ -47,8 +50,10 @@ class OdooRealtimeClient {
       );
 
       // 4. Suscribirse a canales inmediatamente después de conectar
-      // Los canales suelen ser strings como 'mail.channel_1', 'res.partner_14', etc.
-      _subscribeToChannels(['discuss.channel_1', 'discuss.channel_10']);
+      // Los canales suelen ser strings como 'discuss.channel_1', 'res.partner_14', etc.
+      if (channels.isNotEmpty) {
+        _subscribeToChannels(channels);
+      }
     } catch (e) {
       print("Excepción conectando: $e");
     }
@@ -71,17 +76,15 @@ class OdooRealtimeClient {
   }
 
   void _handleIncomingMessage(String jsonString) {
-    // Odoo envía un array de notificaciones
     try {
-      // final List<dynamic> notifications = jsonDecode(jsonString);
+      // Odoo envía un array de notificaciones
+      final List<dynamic> notifications = jsonDecode(jsonString);
 
-      // for (var notification in notifications) {
-      // Estructura típica: {"id": 123, "message": {"type": "...", "payload": ...}}
-      // O a veces directamente el payload.
-      print("Nueva notificación: $jsonString");
-
-      // Aquí procesas el chat, p.ej. si el tipo es 'mail.message/new'
-      // }
+      for (var notification in notifications) {
+        if (notification is Map<String, dynamic>) {
+          _messageController.add(notification);
+        }
+      }
     } catch (e) {
       print("No se pudo decodificar mensaje: $jsonString");
     }
@@ -89,5 +92,6 @@ class OdooRealtimeClient {
 
   void disconnect() {
     _channel?.sink.close();
+    _messageController.close();
   }
 }

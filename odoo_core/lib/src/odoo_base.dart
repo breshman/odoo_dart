@@ -45,12 +45,13 @@ abstract class OdooRepository<T extends OdooBaseModel> {
     int limit = 80,
     int offset = 0,
     String? order,
+    Map<String, dynamic>? context,
   }) async {
     final result = await client.callKwRaw(
       model: modelName,
       method: 'search',
       args: [domain],
-      kwargs: {'limit': limit, 'offset': offset, if (order != null) 'order': order, 'context': {}},
+      kwargs: {'limit': limit, 'offset': offset, if (order != null) 'order': order, 'context': context ?? {}},
     );
     return List<int>.from(result as List);
   }
@@ -62,6 +63,7 @@ abstract class OdooRepository<T extends OdooBaseModel> {
     int offset = 0,
     String? order,
     String? countLimit,
+    Map<String, dynamic>? context,
   }) async {
     final result = await client.callKwRaw(
       model: modelName,
@@ -74,7 +76,7 @@ abstract class OdooRepository<T extends OdooBaseModel> {
         'offset': offset,
         if (order != null) 'order': order,
         'count_limit': countLimit ?? (limit + offset + 1),
-        'context': {},
+        'context': context ?? {},
       },
     ) as Map<String, dynamic>;
 
@@ -86,59 +88,59 @@ abstract class OdooRepository<T extends OdooBaseModel> {
   }
 
   /// Lee un conjunto de IDs y retorna los registros completos.
-  Future<List<T>> read(List<int> ids) async {
+  Future<List<T>> read(List<int> ids, {Map<String, dynamic>? context}) async {
     if (ids.isEmpty) return [];
     final result = await client.callKwRaw(
       model: modelName,
       method: 'web_read',
       args: [ids],
-      kwargs: {'specification': specification, 'context': {}},
+      kwargs: {'specification': specification, 'context': context ?? {}},
     );
     return List<Map<String, dynamic>>.from(result as List).map(fromJson).toList();
   }
 
   /// Crea un nuevo registro en Odoo a partir de valores puritos JSON o `toOdoo().
-  Future<int> create(Map<String, dynamic> values) async {
+  Future<int> create(Map<String, dynamic> values, {Map<String, dynamic>? context}) async {
     final result = await client.callKwRaw(
       model: modelName,
       method: 'create',
       args: [values],
-      kwargs: {'context': {}},
+      kwargs: {'context': context ?? {}},
     );
     return (result as num).toInt();
   }
 
   /// Actualiza los registros especificados en `ids` pasándoles los nuevos campos `values`.
-  Future<bool> write(List<int> ids, Map<String, dynamic> values) async {
+  Future<bool> write(List<int> ids, Map<String, dynamic> values, {Map<String, dynamic>? context}) async {
     if (ids.isEmpty) return true;
     final result = await client.callKwRaw(
       model: modelName,
       method: 'write',
       args: [ids, values],
-      kwargs: {'context': {}},
+      kwargs: {'context': context ?? {}},
     );
     return result as bool;
   }
 
   /// Borra un número de registros.
-  Future<bool> unlink(List<int> ids) async {
+  Future<bool> unlink(List<int> ids, {Map<String, dynamic>? context}) async {
     if (ids.isEmpty) return true;
     final result = await client.callKwRaw(
       model: modelName,
       method: 'unlink',
       args: [ids],
-      kwargs: {'context': {}},
+      kwargs: {'context': context ?? {}},
     );
     return result as bool;
   }
 
   /// Guarda registros usando web_save asegurando tipado mediante OdooWriteParams
-  Future<List<T>> webSave<V>(OdooWriteParams<T, V> params) async {
+  Future<List<T>> webSave<V>(OdooWriteParams<T, V> params, {Map<String, dynamic>? context}) async {
     final result = await client.callKwRaw(
       model: modelName,
       method: 'web_save',
       args: [params.ids, params.toJson(params.values)],
-      kwargs: {'specification': specification, 'context': {}},
+      kwargs: {'specification': specification, 'context': context ?? {}},
     );
     return List<Map<String, dynamic>>.from(result as List).map<T>(params.fromJsonT).toList();
   }
