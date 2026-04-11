@@ -26,6 +26,8 @@ Partner _$PartnerFromJson(Map<String, dynamic> json) {
     phone: json['phone'] == false || json['phone'] == null
         ? null
         : (json['phone'] as String),
+    isOptimized:
+        json['is_customer'] is bool ? json['is_customer'] as bool : null,
   );
 }
 
@@ -34,6 +36,7 @@ Map<String, dynamic> _$PartnerToJson(Partner instance, {bool toOdoo = false}) {
     ...instance.baseToJson(toOdoo: toOdoo),
     if (instance.email != null) 'email': instance.email!,
     if (instance.phone != null) 'phone': instance.phone!,
+    if (instance.isOptimized != null) 'is_customer': instance.isOptimized!,
   };
 }
 
@@ -50,6 +53,7 @@ extension $PartnerExtension on Partner {
     DateTime? writeDate,
     String? email,
     String? phone,
+    bool? isOptimized,
   }) {
     return Partner(
       id: id ?? this.id,
@@ -60,6 +64,7 @@ extension $PartnerExtension on Partner {
       writeDate: writeDate ?? this.writeDate,
       email: email ?? this.email,
       phone: phone ?? this.phone,
+      isOptimized: isOptimized ?? this.isOptimized,
     );
   }
 }
@@ -77,7 +82,8 @@ mixin _$Partner {
         'name: ${instance.name}, '
         'active: ${instance.active}, '
         'email: ${instance.email}, '
-        'phone: ${instance.phone}'
+        'phone: ${instance.phone}, '
+        'isOptimized: ${instance.isOptimized}'
         ')';
   }
 }
@@ -89,6 +95,7 @@ mixin _$PartnerMeta {
     ...OdooBaseModel.baseSpecification,
     'email': {},
     'phone': {},
+    'is_customer': {},
   };
 }
 

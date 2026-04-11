@@ -10,6 +10,9 @@ class Partner extends OdooBaseModel with _$Partner {
   @OdooField(type: OdooFieldType.string, name: 'phone')
   final String? phone;
 
+  @OdooField(type: OdooFieldType.boolean, name: 'is_customer')
+  final bool? isOptimized;
+
   Partner({
     required super.id,
     required super.name,
@@ -21,6 +24,7 @@ class Partner extends OdooBaseModel with _$Partner {
     // super.writeUid,
     this.email,
     this.phone,
+    this.isOptimized,
   });
 
   bool get isCustomer => true;

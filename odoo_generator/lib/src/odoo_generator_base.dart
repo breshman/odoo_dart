@@ -361,7 +361,7 @@ class OdooModelGenerator extends GeneratorForAnnotation<OdooModel> {
           ? "$raw == false || $raw == null ? null : ($raw as num).toDouble()"
           : "$raw == false || $raw == null ? 0.0 : ($raw as num).toDouble()",
       OdooFieldType.boolean =>
-        isNullable ? "$raw is bool ? $raw : null" : "$raw is bool ? $raw : false",
+        isNullable ? "$raw is bool ? $raw as bool : null" : "$raw is bool ? $raw as bool : false",
       OdooFieldType.datetime => isNullable
           ? "$raw == false || $raw == null ? null : DateTime.parse(($raw as String).replaceFirst(' ', 'T') + 'Z').toLocal()"
           : "DateTime.parse(($raw as String).replaceFirst(' ', 'T') + 'Z').toLocal()",

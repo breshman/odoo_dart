@@ -2,6 +2,10 @@
 
 All notable changes to the `odoo_core` project will be documented in this file.
 
+## [2.0.2] - 2026-04-11
+### Changed
+* **Dependencies:** Bumped `odoo_generator` requirement to `2.0.2` due to fixes for explicit boolean casting (`as bool`) in `fromJson` logic.
+
 ## [2.0.1] - 2026-04-11
 ### Changed
 * **Dependencies:** Bumped `odoo_generator` requirement to `2.0.1` because of hotfixes related to Dart analyzer subtypes and unexpected generation of getters/setters/transient properties.

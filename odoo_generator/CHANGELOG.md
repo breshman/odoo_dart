@@ -1,3 +1,7 @@
+## 2.0.2
+
+- Fix: Enforced explicit `as bool` typecasting for boolean fields in `fromJson` generation to avoid "type 'dynamic' can't be assigned to the parameter type 'bool?'" compile errors.
+
 ## 2.0.1
 
 - Fix: Prevented code generation for getters, setters, and unannotated properties to avoid "named parameter isn't defined" compiling errors.
