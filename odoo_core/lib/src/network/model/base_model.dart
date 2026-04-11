@@ -98,5 +98,5 @@ abstract class OdooBaseModel {
   };
 
   @override
-  String toString() => '${runtimeType}(id: $id, name: $name, active: $active)';
+  String toString() => '$runtimeType(id: $id, name: $name, active: $active)';
 }
