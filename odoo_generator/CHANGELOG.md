@@ -1,3 +1,7 @@
+## 2.0.3
+
+- Chore: Version bump to maintain parity with `odoo_core` after strict `very_good_analysis` linter patches.
+
 ## 2.0.2
 
 - Fix: Enforced explicit `as bool` typecasting for boolean fields in `fromJson` generation to avoid "type 'dynamic' can't be assigned to the parameter type 'bool?'" compile errors.

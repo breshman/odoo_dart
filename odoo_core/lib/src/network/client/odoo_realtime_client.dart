@@ -78,11 +78,13 @@ class OdooRealtimeClient {
   void _handleIncomingMessage(String jsonString) {
     try {
       // Odoo envía un array de notificaciones
-      final List<dynamic> notifications = jsonDecode(jsonString);
+      final notifications = jsonDecode(jsonString) as List<dynamic>;
 
-      for (var notification in notifications) {
+      for (final notification in notifications) {
         if (notification is Map<String, dynamic>) {
           _messageController.add(notification);
+        } else {
+          print("No se pudo decodificar mensaje: $notification");
         }
       }
     } catch (e) {

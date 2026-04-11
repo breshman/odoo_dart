@@ -2,6 +2,13 @@
 
 All notable changes to the `odoo_core` project will be documented in this file.
 
+## [2.0.3] - 2026-04-11
+### Added
+* **Linter:** Implemented strict code rules utilizing `very_good_analysis` to ensure higher type safety across the repository.
+### Fixed
+* **odoo_realtime_client:** Eliminated `type 'dynamic' can't be assigned to 'List<dynamic>'` exceptions by providing explicit JSON decodings.
+* **odoo_realtime_client:** Handled unparsed socket payload logging (`else` block) and resolved mutability lints (`prefer_final_in_for_each`).
+
 ## [2.0.2] - 2026-04-11
 ### Changed
 * **Dependencies:** Bumped `odoo_generator` requirement to `2.0.2` due to fixes for explicit boolean casting (`as bool`) in `fromJson` logic.
