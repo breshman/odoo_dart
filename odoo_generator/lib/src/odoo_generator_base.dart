@@ -28,6 +28,7 @@ class OdooModelGenerator extends GeneratorForAnnotation<OdooModel> {
 
     final className = element.displayName;
     final modelName = annotation.peek('modelName')?.stringValue;
+    final generateRepository = annotation.peek('generateRepository')?.boolValue ?? true;
 
     if (modelName == null || modelName.isEmpty) {
       throw InvalidGenerationSourceError(
@@ -70,7 +71,9 @@ class OdooModelGenerator extends GeneratorForAnnotation<OdooModel> {
     _generateCopyWith(buffer, element, fields, extendsBase);
     _generateToString(buffer, className, fields, extendsBase);
     _generateMeta(buffer, className, modelName, fields, extendsBase);
-    _generateRepository(buffer, className);
+    if (generateRepository) {
+      _generateRepository(buffer, className);
+    }
 
     return buffer.toString();
   }
@@ -348,12 +351,11 @@ class OdooModelGenerator extends GeneratorForAnnotation<OdooModel> {
     final raw = "json['$jsonKey']";
     final isNullable = dartType.nullabilitySuffix == NullabilitySuffix.question;
     final typeName = dartType.getDisplayString(withNullability: false);
-    final isListType = typeName.startsWith('List');
 
     return switch (fieldType) {
       OdooFieldType.string => isNullable
-          ? "$raw == false || $raw == null ? null : ($raw as String)"
-          : "$raw == false || $raw == null ? '' : ($raw as String)",
+          ? "$raw == false || $raw == null ? null : ($raw.toString())"
+          : "$raw == false || $raw == null ? '' : ($raw.toString())",
       OdooFieldType.integer => isNullable
           ? "$raw == false || $raw == null ? null : ($raw as num).toInt()"
           : "$raw == false || $raw == null ? 0 : ($raw as num).toInt()",
@@ -380,13 +382,13 @@ class OdooModelGenerator extends GeneratorForAnnotation<OdooModel> {
             if (innerType == 'dynamic') {
               // List<dynamic>? → retorna la lista cruda [id, name]
               return isNullable
-                  ? "$raw == false || $raw == null ? null : ($raw as List)"
-                  : "$raw == false || $raw == null ? [] : ($raw as List)";
+                  ? "$raw == false || $raw == null ? null : ($raw as List<dynamic>)"
+                  : "$raw == false || $raw == null ? [] : ($raw as List<dynamic>)";
             }
             // List<Category>? → mapea usando fromJson
             return isNullable
-                ? "$raw == false || $raw == null ? null : ($raw as List).map((e) => $innerType.fromJson(e as Map<String, dynamic>)).toList()"
-                : "$raw == false || $raw == null ? [] : ($raw as List).map((e) => $innerType.fromJson(e as Map<String, dynamic>)).toList()";
+                ? "$raw == false || $raw == null ? null : ($raw as List<dynamic>).map((e) => $innerType.fromJson(e as Map<String, dynamic>)).toList()"
+                : "$raw == false || $raw == null ? [] : ($raw as List<dynamic>).map((e) => $innerType.fromJson(e as Map<String, dynamic>)).toList()";
           }
 
           if (typeName == 'int') {

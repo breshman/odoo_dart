@@ -22,10 +22,10 @@ Partner _$PartnerFromJson(Map<String, dynamic> json) {
     writeDate: base.writeDate,
     email: json['email'] == false || json['email'] == null
         ? null
-        : (json['email'] as String),
+        : (json['email'].toString()),
     phone: json['phone'] == false || json['phone'] == null
         ? null
-        : (json['phone'] as String),
+        : (json['phone'].toString()),
     isOptimized:
         json['is_customer'] is bool ? json['is_customer'] as bool : null,
   );
@@ -125,7 +125,7 @@ User _$UserFromJson(Map<String, dynamic> json) {
     writeUid: base.writeUid,
     login: json['login'] == false || json['login'] == null
         ? null
-        : (json['login'] as String),
+        : (json['login'].toString()),
   );
 }
 
@@ -216,7 +216,7 @@ Employee _$EmployeeFromJson(Map<String, dynamic> json) {
     writeUid: base.writeUid,
     jobTitle: json['job_title'] == false || json['job_title'] == null
         ? null
-        : (json['job_title'] as String),
+        : (json['job_title'].toString()),
   );
 }
 

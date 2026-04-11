@@ -1,6 +1,6 @@
 name: odoo_core
 description: Core package and SOLID architecture to connect Odoo via RPC and WebSockets in pure Dart or Flutter. Includes typed Repositories, models and serialization.
-version: 2.0.3
+version: 2.0.4
 
 environment:
   sdk: ">=3.0.0 <4.0.0"

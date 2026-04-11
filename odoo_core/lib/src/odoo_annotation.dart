@@ -31,10 +31,10 @@ enum OdooFieldType {
   /// En Dart se mapea a una lista de IDs [List<int>].
   /// Ejemplo: `line_ids` en una Orden (Order). Odoo retorna `[500, 501]`.
   one2many,
-  
+
   /// Campo de selección (selection). Se mapea a un [String] o un [Enum] en Dart.
   selection,
-  
+
   /// Campo dinámico que puede ser de cualquier tipo.
   dynamic_,
 }
@@ -42,8 +42,10 @@ enum OdooFieldType {
 class OdooModel {
   const OdooModel({
     required this.modelName,
+    this.generateRepository = true,
   });
   final String modelName;
+  final bool generateRepository;
 }
 
 class OdooField {

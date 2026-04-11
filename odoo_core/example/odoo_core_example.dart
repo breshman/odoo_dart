@@ -9,14 +9,14 @@ import 'runbot_models.dart';
 
 void main() async {
   print('=== EJEMPLO CLIENTE ODOO (RunBot) ===');
-  
-  // URL de prueba basada en odoo runbot. 
+
+  // URL de prueba basada en odoo runbot.
   // NOTA: Esta URL es efímera y cambiará. Actualízala a la de tu entorno si arroja ConnectException.
   const baseUrl = 'https://106987691-18-0-all.runbot303.odoo.com';
-  
+
   print('1. Configurando cliente para $baseUrl ...');
   final dio = Dio(BaseOptions(baseUrl: baseUrl));
-  
+
   // Agregar un interceptor básico para manejar la sesión vía Cookie (requerido por Odoo)
   String? sessionId;
   dio.interceptors.add(InterceptorsWrapper(
@@ -46,7 +46,8 @@ void main() async {
     final authResponse = await odooClient.callRpc<Map<String, dynamic>>(
       path: '/web/session/authenticate',
       params: {
-        'db': '106987691-18-0-all', // Usualmente en runbot el nombre de bd es igual al subdominio o '18-0-all'
+        'db':
+            '106987691-18-0-all', // Usualmente en runbot el nombre de bd es igual al subdominio o '18-0-all'
         'login': 'admin',
         'password': 'admin'
       },
@@ -80,12 +81,12 @@ void main() async {
 
     // 5. Obtener Empleados (hr.employee)
     print('\n5. Obteniendo Empleados (hr.employee)...');
-    final employeeRepo = EmployeeRepository(client: odooClient);
-    final employeesSet = await employeeRepo.searchFetch(limit: 5);
-    print('  📌 Se obtuvieron ${employeesSet.records.length} empleados:');
-    for (var e in employeesSet.records) {
-      print('   - ID: ${e.id} | Nombre: ${e.name} | Puesto: ${e.jobTitle ?? "N/A"}');
-    }
+    // final employeeRepo = EmployeeRepository(client: odooClient);
+    // final employeesSet = await employeeRepo.searchFetch(limit: 5);
+    // print('  📌 Se obtuvieron ${employeesSet.records.length} empleados:');
+    // for (var e in employeesSet.records) {
+    //   print('   - ID: ${e.id} | Nombre: ${e.name} | Puesto: ${e.jobTitle ?? "N/A"}');
+    // }
 
     print('\n🚀 Flujo de lectura básica completado.');
     print('\n======================================================');
@@ -94,18 +95,16 @@ void main() async {
 
     // --- CREATE ---
     print('\n[CREATE] Creando nuevo contacto de prueba...');
-    final newPartnerId = await partnerRepo.create({
-      'name': 'Dart Integration Test',
-      'email': 'test@dart-odoo.dev',
-      'phone': '555-1234'
-    });
+    final newPartnerId = await partnerRepo.create(
+        {'name': 'Dart Integration Test', 'email': 'test@dart-odoo.dev', 'phone': '555-1234'});
     print('  ✅ Contacto creado exitosamente con ID: $newPartnerId');
 
     // --- READ ---
     print('\n[READ] Leyendo el contacto recien creado (ID $newPartnerId)...');
     final readRecords = await partnerRepo.read([newPartnerId]);
     if (readRecords.isNotEmpty) {
-      print('  ✅ Contacto leído de la BBDD: ${readRecords.first.name} - Tel: ${readRecords.first.phone}');
+      print(
+          '  ✅ Contacto leído de la BBDD: ${readRecords.first.name} - Tel: ${readRecords.first.phone}');
     }
 
     // --- WRITE ---
@@ -123,7 +122,8 @@ void main() async {
       toJson: (v) => v,
     );
     final webSavedRecords = await partnerRepo.webSave(webSaveParams);
-    print('  ✅ Contacto retornado de web_save: ${webSavedRecords.first.name} - Nuevo tel es ${webSavedRecords.first.phone}');
+    print(
+        '  ✅ Contacto retornado de web_save: ${webSavedRecords.first.name} - Nuevo tel es ${webSavedRecords.first.phone}');
 
     // --- UNLINK (Delete) ---
     print('\n[UNLINK] Eliminando el registro para no ensuciar el RunBot...');
@@ -131,7 +131,6 @@ void main() async {
     print('  ✅ Registro borrado de manera permanente: $unlinkSuccess');
 
     print('\n🚀 TODOS LOS MÉTODOS CRUD PROBADOS EXITOSAMENTE.');
-
   } on OdooException catch (e) {
     print('\n❌ Error de Odoo devuelto por la API:');
     print('   Código: ${e.code}');

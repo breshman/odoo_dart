@@ -1,3 +1,8 @@
+## 2.0.4
+
+- Feat: Added support for `generateRepository` in `@OdooModel` annotation to optionally disable the generation of Repositories for specific models.
+- Fix: String parser generation now outputs `.toString()` instead of `as String` to gracefully handle unexpected types coming from Odoo JSON-RPC. Lists are explicitly cast as `List<dynamic>` to satisfy the linter.
+
 ## 2.0.3
 
 - Chore: Version bump to maintain parity with `odoo_core` after strict `very_good_analysis` linter patches.

@@ -2,6 +2,13 @@
 
 All notable changes to the `odoo_core` project will be documented in this file.
 
+## [2.0.4] - 2026-04-11
+### Added
+* **@OdooModel:** Added `generateRepository` flag (defaults to `true`) allowing developers to opt-out of automatic repository generation.
+### Changed
+* **Generator Stability:** String fields parsed by the generator now use `.toString()` natively instead of `as String`, preventing cast-related exceptions when Odoo returns numeric values in string fields. Downcasts for generic lists (`List<dynamic>`) were also enforced.
+
+
 ## [2.0.3] - 2026-04-11
 ### Added
 * **Linter:** Implemented strict code rules utilizing `very_good_analysis` to ensure higher type safety across the repository.
