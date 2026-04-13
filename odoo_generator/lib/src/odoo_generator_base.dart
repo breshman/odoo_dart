@@ -28,7 +28,8 @@ class OdooModelGenerator extends GeneratorForAnnotation<OdooModel> {
 
     final className = element.displayName;
     final modelName = annotation.peek('modelName')?.stringValue;
-    final generateRepository = annotation.peek('generateRepository')?.boolValue ?? true;
+    final generateRepository =
+        annotation.peek('generateRepository')?.boolValue ?? true;
 
     if (modelName == null || modelName.isEmpty) {
       throw InvalidGenerationSourceError(
@@ -42,17 +43,19 @@ class OdooModelGenerator extends GeneratorForAnnotation<OdooModel> {
       'id',
       'name',
       'displayName',
-      'active',
       'createDate',
       'writeDate',
       'createUid',
       'writeUid'
     };
 
-    var fields = element.fields2.where((f) => !f.isStatic && _readOdooField(f) != null).toList();
+    var fields = element.fields2
+        .where((f) => !f.isStatic && _readOdooField(f) != null)
+        .toList();
 
     if (extendsBase) {
-      fields = fields.where((f) => !baseFieldNames.contains(f.displayName)).toList();
+      fields =
+          fields.where((f) => !baseFieldNames.contains(f.displayName)).toList();
     }
 
     if (fields.isEmpty && !extendsBase) {
@@ -79,7 +82,8 @@ class OdooModelGenerator extends GeneratorForAnnotation<OdooModel> {
   }
 
   void _generateRepository(StringBuffer buf, String className) {
-    buf.writeln('class ${className}Repository extends OdooRepository<$className> {');
+    buf.writeln(
+        'class ${className}Repository extends OdooRepository<$className> {');
     buf.writeln('  ${className}Repository({required super.client})');
     buf.writeln('      : super(');
     buf.writeln('          modelName: _\$${className}Meta.modelName,');
@@ -96,7 +100,8 @@ class OdooModelGenerator extends GeneratorForAnnotation<OdooModel> {
     bool extendsBase,
   ) {
     final className = element.displayName;
-    buf.writeln('$className _\$${className}FromJson(Map<String, dynamic> json) {');
+    buf.writeln(
+        '$className _\$${className}FromJson(Map<String, dynamic> json) {');
 
     if (extendsBase) {
       buf.writeln('  final base = OdooBaseModel.baseFromJson(json);');
@@ -105,24 +110,32 @@ class OdooModelGenerator extends GeneratorForAnnotation<OdooModel> {
     buf.writeln('  return $className(');
 
     if (extendsBase) {
-      final constructors = element.constructors2.where((c) => c.name3 == null || c.name3 == '');
-      final constructor =
-          constructors.isNotEmpty ? constructors.first : element.constructors2.first;
-      final paramNames = constructor.formalParameters.map((p) => p.name3).toSet();
+      final constructors =
+          element.constructors2.where((c) => c.name3 == null || c.name3 == '');
+      final constructor = constructors.isNotEmpty
+          ? constructors.first
+          : element.constructors2.first;
+      final paramNames =
+          constructor.formalParameters.map((p) => p.name3).toSet();
 
       if (paramNames.contains('id')) buf.writeln('    id: base.id,');
       if (paramNames.contains('name')) buf.writeln('    name: base.name,');
-      if (paramNames.contains('displayName')) buf.writeln('    displayName: base.displayName,');
-      if (paramNames.contains('active')) buf.writeln('    active: base.active,');
-      if (paramNames.contains('createDate')) buf.writeln('    createDate: base.createDate,');
-      if (paramNames.contains('writeDate')) buf.writeln('    writeDate: base.writeDate,');
-      if (paramNames.contains('createUid')) buf.writeln('    createUid: base.createUid,');
-      if (paramNames.contains('writeUid')) buf.writeln('    writeUid: base.writeUid,');
+      if (paramNames.contains('displayName'))
+        buf.writeln('    displayName: base.displayName,');
+      if (paramNames.contains('createDate'))
+        buf.writeln('    createDate: base.createDate,');
+      if (paramNames.contains('writeDate'))
+        buf.writeln('    writeDate: base.writeDate,');
+      if (paramNames.contains('createUid'))
+        buf.writeln('    createUid: base.createUid,');
+      if (paramNames.contains('writeUid'))
+        buf.writeln('    writeUid: base.writeUid,');
     }
 
     for (final field in fields) {
       final annotation = _readOdooField(field);
-      final jsonKey = annotation?.peek('name')?.stringValue ?? field.displayName;
+      final jsonKey =
+          annotation?.peek('name')?.stringValue ?? field.displayName;
       final fieldType = _resolveType(field, annotation);
 
       final expression = _buildFromJsonExpression(
@@ -156,10 +169,12 @@ class OdooModelGenerator extends GeneratorForAnnotation<OdooModel> {
 
     for (final field in fields) {
       final annotation = _readOdooField(field);
-      final jsonKey = annotation?.peek('name')?.stringValue ?? field.displayName;
+      final jsonKey =
+          annotation?.peek('name')?.stringValue ?? field.displayName;
       final fieldType = _resolveType(field, annotation);
       final fieldName = field.displayName;
-      final isNullable = field.type.nullabilitySuffix == NullabilitySuffix.question;
+      final isNullable =
+          field.type.nullabilitySuffix == NullabilitySuffix.question;
 
       final expression = _buildToJsonExpression(
         fieldType: fieldType,
@@ -192,24 +207,30 @@ class OdooModelGenerator extends GeneratorForAnnotation<OdooModel> {
   ) {
     final className = element.displayName;
     buf.writeln('extension \$${className}Extension on $className {');
-    buf.writeln('  Map<String, dynamic> toJson() => _\$${className}ToJson(this);');
-    buf.writeln('  Map<String, dynamic> toOdoo() => _\$${className}ToJson(this, toOdoo: true);');
+    buf.writeln(
+        '  Map<String, dynamic> toJson() => _\$${className}ToJson(this);');
+    buf.writeln(
+        '  Map<String, dynamic> toOdoo() => _\$${className}ToJson(this, toOdoo: true);');
     buf.writeln();
     buf.writeln('  $className copyWith({');
 
     Set<String?> paramNames = {};
     if (extendsBase) {
-      final constructors = element.constructors2.where((c) => c.name3 == null || c.name3 == '');
-      final constructor =
-          constructors.isNotEmpty ? constructors.first : element.constructors2.first;
+      final constructors =
+          element.constructors2.where((c) => c.name3 == null || c.name3 == '');
+      final constructor = constructors.isNotEmpty
+          ? constructors.first
+          : element.constructors2.first;
       paramNames = constructor.formalParameters.map((p) => p.name3).toSet();
 
       if (paramNames.contains('id')) buf.writeln('    int? id,');
       if (paramNames.contains('name')) buf.writeln('    String? name,');
-      if (paramNames.contains('displayName')) buf.writeln('    String? displayName,');
-      if (paramNames.contains('active')) buf.writeln('    bool? active,');
-      if (paramNames.contains('createDate')) buf.writeln('    DateTime? createDate,');
-      if (paramNames.contains('writeDate')) buf.writeln('    DateTime? writeDate,');
+      if (paramNames.contains('displayName'))
+        buf.writeln('    String? displayName,');
+      if (paramNames.contains('createDate'))
+        buf.writeln('    DateTime? createDate,');
+      if (paramNames.contains('writeDate'))
+        buf.writeln('    DateTime? writeDate,');
       if (paramNames.contains('createUid')) buf.writeln('    int? createUid,');
       if (paramNames.contains('writeUid')) buf.writeln('    int? writeUid,');
     }
@@ -226,11 +247,11 @@ class OdooModelGenerator extends GeneratorForAnnotation<OdooModel> {
 
     if (extendsBase) {
       if (paramNames.contains('id')) buf.writeln('      id: id ?? this.id,');
-      if (paramNames.contains('name')) buf.writeln('      name: name ?? this.name,');
+      if (paramNames.contains('name'))
+        buf.writeln('      name: name ?? this.name,');
       if (paramNames.contains('displayName')) {
         buf.writeln('      displayName: displayName ?? this.displayName,');
       }
-      if (paramNames.contains('active')) buf.writeln('      active: active ?? this.active,');
       if (paramNames.contains('createDate')) {
         buf.writeln('      createDate: createDate ?? this.createDate,');
       }
@@ -263,7 +284,8 @@ class OdooModelGenerator extends GeneratorForAnnotation<OdooModel> {
     bool extendsBase,
   ) {
     buf.writeln('mixin _\$$className {');
-    buf.writeln('  Map<String, dynamic> toJson() => _\$${className}ToJson(this as $className);');
+    buf.writeln(
+        '  Map<String, dynamic> toJson() => _\$${className}ToJson(this as $className);');
     buf.writeln(
         '  Map<String, dynamic> toOdoo() => _\$${className}ToJson(this as $className, toOdoo: true);');
     buf.writeln();
@@ -275,7 +297,6 @@ class OdooModelGenerator extends GeneratorForAnnotation<OdooModel> {
     if (extendsBase) {
       buf.writeln("        'id: \${instance.id}, '");
       buf.writeln("        'name: \${instance.name}, '");
-      buf.writeln("        'active: \${instance.active}${fields.isEmpty ? "" : ", "}'");
     }
 
     for (int i = 0; i < fields.length; i++) {
@@ -362,8 +383,9 @@ class OdooModelGenerator extends GeneratorForAnnotation<OdooModel> {
       OdooFieldType.double_ => isNullable
           ? "$raw == false || $raw == null ? null : ($raw as num).toDouble()"
           : "$raw == false || $raw == null ? 0.0 : ($raw as num).toDouble()",
-      OdooFieldType.boolean =>
-        isNullable ? "$raw is bool ? $raw as bool : null" : "$raw is bool ? $raw as bool : false",
+      OdooFieldType.boolean => isNullable
+          ? "$raw is bool ? $raw as bool : null"
+          : "$raw is bool ? $raw as bool : false",
       OdooFieldType.datetime => isNullable
           ? "$raw == false || $raw == null ? null : DateTime.parse(($raw as String).replaceFirst(' ', 'T') + 'Z').toLocal()"
           : "DateTime.parse(($raw as String).replaceFirst(' ', 'T') + 'Z').toLocal()",
@@ -399,7 +421,9 @@ class OdooModelGenerator extends GeneratorForAnnotation<OdooModel> {
           }
 
           if (primitives.contains(typeName)) {
-            return isNullable ? "$raw == false || $raw == null ? null : $raw" : "$raw ?? ''";
+            return isNullable
+                ? "$raw == false || $raw == null ? null : $raw"
+                : "$raw ?? ''";
           }
 
           // Objeto personalizado (PickingPacking, Employee, etc.)
@@ -510,10 +534,12 @@ class OdooModelGenerator extends GeneratorForAnnotation<OdooModel> {
     for (final field in fields) {
       final annotation = _readOdooField(field);
 
-      final includeInSpec = annotation?.peek('includeInSpec')?.boolValue ?? true;
+      final includeInSpec =
+          annotation?.peek('includeInSpec')?.boolValue ?? true;
       if (!includeInSpec) continue;
 
-      final jsonKey = annotation?.peek('name')?.stringValue ?? field.displayName;
+      final jsonKey =
+          annotation?.peek('name')?.stringValue ?? field.displayName;
       final specFieldsList = annotation
               ?.peek('specFields')
               ?.listValue
