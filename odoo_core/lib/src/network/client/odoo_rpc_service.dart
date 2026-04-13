@@ -1,15 +1,21 @@
 // filepath: lib/app/common/api_factory/odoo/services/odoo_rpc_service.dart
 import 'package:dio/dio.dart';
 
-import '../responses/rpc_response.dart';
-import '../params/rpc_payload.dart';
-import '../params/odoo_rpc_params.dart';
+import '../../odoo_base.dart';
 import '../exceptions/odoo_exception.dart';
-import '../../odoo_base.dart'; // import the OdooClient interface
+import '../params/odoo_rpc_params.dart';
+import '../params/rpc_payload.dart';
+import '../responses/rpc_response.dart';
 
 /// Servicio RPC reutilizable para Odoo, usando Dio.
 class OdooRpcService implements OdooClient {
-  OdooRpcService({Dio? dio}) : _dio = dio ?? Dio();
+  factory OdooRpcService({Dio? dio}) {
+    _instance ??= OdooRpcService._internal(dio ?? Dio());
+    return _instance!;
+  }
+
+  OdooRpcService._internal(this._dio);
+  static OdooRpcService? _instance;
 
   final Dio _dio;
 
@@ -62,7 +68,7 @@ class OdooRpcService implements OdooClient {
   Future<dynamic> callKwRaw({
     required String model,
     required String method,
-    List args = const [],
+    List<dynamic> args = const [],
     Map<String, dynamic> kwargs = const {},
   }) async {
     // Inyectar el odooContext automáticamente preservando contextos superpuestos
@@ -145,5 +151,4 @@ class OdooRpcService implements OdooClient {
       rethrow;
     }
   }
-
 }
