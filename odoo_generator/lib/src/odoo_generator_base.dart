@@ -30,6 +30,8 @@ class OdooModelGenerator extends GeneratorForAnnotation<OdooModel> {
     final modelName = annotation.peek('modelName')?.stringValue;
     final generateRepository =
         annotation.peek('generateRepository')?.boolValue ?? true;
+    final includeBaseFieldsInSpec =
+        annotation.peek('includeBaseFieldsInSpec')?.boolValue ?? true;
 
     if (modelName == null || modelName.isEmpty) {
       throw InvalidGenerationSourceError(
@@ -73,12 +75,27 @@ class OdooModelGenerator extends GeneratorForAnnotation<OdooModel> {
     _generateToJson(buffer, className, fields, extendsBase);
     _generateCopyWith(buffer, element, fields, extendsBase);
     _generateToString(buffer, className, fields, extendsBase);
-    _generateMeta(buffer, className, modelName, fields, extendsBase);
+    _generateFieldsEnum(buffer, className, fields, extendsBase);
+    _generateMeta(buffer, className, modelName, fields, extendsBase,
+        includeBaseFieldsInSpec);
     if (generateRepository) {
       _generateRepository(buffer, className);
     }
 
     return buffer.toString();
+  }
+
+  void _generateFieldsEnum(StringBuffer buf, String className,
+      List<FieldElement2> fields, bool extendsBase) {
+    buf.writeln('enum ${className}Fields {');
+    if (extendsBase) {
+      buf.writeln(
+          '  id, name, displayName, createDate, writeDate, createUid, writeUid,');
+    }
+    for (final field in fields) {
+      buf.writeln('  ${field.displayName},');
+    }
+    buf.writeln('}\n');
   }
 
   void _generateRepository(StringBuffer buf, String className) {
@@ -225,12 +242,15 @@ class OdooModelGenerator extends GeneratorForAnnotation<OdooModel> {
 
       if (paramNames.contains('id')) buf.writeln('    int? id,');
       if (paramNames.contains('name')) buf.writeln('    String? name,');
-      if (paramNames.contains('displayName'))
+      if (paramNames.contains('displayName')) {
         buf.writeln('    String? displayName,');
-      if (paramNames.contains('createDate'))
+      }
+      if (paramNames.contains('createDate')) {
         buf.writeln('    DateTime? createDate,');
-      if (paramNames.contains('writeDate'))
+      }
+      if (paramNames.contains('writeDate')) {
         buf.writeln('    DateTime? writeDate,');
+      }
       if (paramNames.contains('createUid')) buf.writeln('    int? createUid,');
       if (paramNames.contains('writeUid')) buf.writeln('    int? writeUid,');
     }
@@ -247,8 +267,9 @@ class OdooModelGenerator extends GeneratorForAnnotation<OdooModel> {
 
     if (extendsBase) {
       if (paramNames.contains('id')) buf.writeln('      id: id ?? this.id,');
-      if (paramNames.contains('name'))
+      if (paramNames.contains('name')) {
         buf.writeln('      name: name ?? this.name,');
+      }
       if (paramNames.contains('displayName')) {
         buf.writeln('      displayName: displayName ?? this.displayName,');
       }
@@ -521,13 +542,14 @@ class OdooModelGenerator extends GeneratorForAnnotation<OdooModel> {
     String modelName,
     List<FieldElement2> fields,
     bool extendsBase,
+    bool includeBaseFieldsInSpec,
   ) {
     buf.writeln('mixin _\$${className}Meta {');
     buf.writeln("  static const String modelName = '$modelName';");
     buf.writeln();
     buf.writeln('  static const Map<String, dynamic> specification = {');
 
-    if (extendsBase) {
+    if (extendsBase && includeBaseFieldsInSpec) {
       buf.writeln('    ...OdooBaseModel.baseSpecification,');
     }
 
@@ -562,6 +584,44 @@ class OdooModelGenerator extends GeneratorForAnnotation<OdooModel> {
     }
 
     buf.writeln('  };');
+    buf.writeln();
+    buf.writeln('  static const Map<String, String> fieldMapping = {');
+    if (extendsBase) {
+      buf.writeln("    'id': 'id',");
+      buf.writeln("    'name': 'name',");
+      buf.writeln("    'displayName': 'display_name',");
+      buf.writeln("    'createDate': 'create_date',");
+      buf.writeln("    'writeDate': 'write_date',");
+      buf.writeln("    'createUid': 'create_uid',");
+      buf.writeln("    'writeUid': 'write_uid',");
+    }
+    for (final field in fields) {
+      final annotation = _readOdooField(field);
+      final jsonKey =
+          annotation?.peek('name')?.stringValue ?? field.displayName;
+      buf.writeln("    '${field.displayName}': '$jsonKey',");
+    }
+    buf.writeln('  };');
+    buf.writeln();
+    buf.writeln(
+        '  static Map<String, dynamic> buildSpecification({List<${className}Fields>? only, Map<${className}Fields, Map<String, dynamic>>? nested}) {');
+    buf.writeln('    final spec = <String, dynamic>{};');
+    buf.writeln('    if (only != null) {');
+    buf.writeln('      for (final f in only) {');
+    buf.writeln('        final odooKey = fieldMapping[f.name] ?? f.name;');
+    buf.writeln('        spec[odooKey] = specification[odooKey] ?? {};');
+    buf.writeln('      }');
+    buf.writeln('    }');
+    buf.writeln('    if (nested != null) {');
+    buf.writeln('      nested.forEach((f, subSpec) {');
+    buf.writeln('        final odooKey = fieldMapping[f.name] ?? f.name;');
+    buf.writeln("        spec[odooKey] = {'fields': subSpec};");
+    buf.writeln('      });');
+    buf.writeln('    }');
+    buf.writeln(
+        '    if (only == null && nested == null) return specification;');
+    buf.writeln('    return spec;');
+    buf.writeln('  }');
     buf.writeln('}\n');
   }
 }

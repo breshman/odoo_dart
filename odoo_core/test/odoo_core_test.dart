@@ -61,7 +61,7 @@ void main() {
     test('searchFetch decodes correctly into models', () async {
       final client = MockOdooClient(mockResponse: {
         'records': [
-          {'id': 1, 'name': 'John Doe', 'active': true, 'create_uid': [2, 'Admin']},
+          {'id': 1, 'name': 'John Doe', 'create_uid': [2, 'Admin']},
         ],
         'length': 1,
       });

@@ -6,10 +6,11 @@ Este es el núcleo maestro de arquitectura (`odoo_core`) para interactuar rápid
 
 1. **Agnóstico al UI/State**: No depende de Flutter ni de ningún gestor de estados específico.
 2. **Sistema de Anotaciones Integrado**: Define modelos de Odoo usando `@OdooModel` y tipos de relaciones (`OdooFieldType`). Elimina la necesidad del empaquetado separado `odoo_annotation`.
-3. **`OdooBaseModel`**: Una clase maestra que provee todos los campos universales de Odoo (`id`, `name`, `active`, `create_date`, `write_date`, `create_uid`, `write_uid`) e incluye el parseo manual por defecto.
+3. **`OdooBaseModel`**: Una clase maestra que provee todos los campos universales de Odoo (`id`, `name`, `create_date`, `write_date`, `create_uid`, `write_uid`) e incluye el parseo manual por defecto.
 4. **`OdooRepository<T>`**: Repositorios genéricos integrados que te dan acceso estructurado a los métodos ORM base de Odoo: `searchIds`, `searchFetch`, `read`, `create`, `write`, `unlink` y `webSave`.
 5. **Tipado Estricto de Parámetros**: Todas las llamadas están fuertemente tipadas en la red con objetos encapsulados (`OdooWriteParams`, `OdooSearchParams`, etc.).
-6. **Soporte TR in-box (Realtime Socket)**: Incluye un cliente interno (`OdooRealtimeClient`) para WebSockets directo con el canal de tu usuario.
+6. **Selección Dinámica (Specification)**: Permite elegir exactamente qué campos pedir a Odoo (incluyendo relaciones anidadas) usando Enums generados automáticamente para evitar errores de escritura.
+7. **Soporte TR in-box (Realtime Socket)**: Incluye un cliente interno (`OdooRealtimeClient`) para WebSockets directo con el canal de tu usuario.
 
 
 ---
@@ -61,7 +62,6 @@ class Order extends OdooBaseModel {
     required super.id,
     required super.name,
     super.displayName,
-    super.active = true,
     super.createDate,
     super.writeDate,
     super.createUid,
@@ -115,6 +115,48 @@ final orderIds = await orderRepo.searchIds(
 );
 print("Hay ${orderIds.length} órdenes en borrador, pero sólo traje sus IDs.");
 ```
+
+---
+
+## 📊 4. Caso de Uso: Selección Dinámica de Datos (Specification)
+
+En Odoo 18+, las consultas de lectura utilizan una **especificación** para determinar qué campos devolver. Por defecto el generador incluye todo lo decorado, pero puedes optimizarlo dinámicamente.
+
+### A. Selección Tipada con Enums
+Para evitar errores de escritura, el generador crea un Enum `${ClassName}Fields` que puedes usar con el helper `buildSpecification`.
+
+```dart
+final repo = OrderRepository(client: odooClient);
+
+// Creamos una especificación que solo pida ID y Total
+final partialSpec = _$OrderMeta.buildSpecification(
+  only: [
+    OrderFields.id,
+    OrderFields.total,
+  ],
+);
+
+final result = await repo.searchFetch(specification: partialSpec);
+```
+
+### B. Consultas Anidadas (Relaciones)
+Puedes pedir campos específicos de modelos relacionados de forma muy sencilla combinando los helpers de ambas clases:
+
+```dart
+final nestedSpec = _$OrderMeta.buildSpecification(
+  only: [OrderFields.name, OrderFields.orderDate],
+  nested: {
+    // Pedimos campos específicos del modelo de Líneas de Orden
+    OrderFields.lineIds: _$OrderLineMeta.buildSpecification(
+      only: [OrderLineFields.id, OrderLineFields.productName, OrderLineFields.priceUnit],
+    ),
+  },
+);
+
+final result = await repo.searchFetch(specification: nestedSpec);
+```
+
+---
 
 ---
 

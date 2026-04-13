@@ -17,7 +17,6 @@ Partner _$PartnerFromJson(Map<String, dynamic> json) {
     id: base.id,
     name: base.name,
     displayName: base.displayName,
-    active: base.active,
     createDate: base.createDate,
     writeDate: base.writeDate,
     email: json['email'] == false || json['email'] == null
@@ -48,7 +47,6 @@ extension $PartnerExtension on Partner {
     int? id,
     String? name,
     String? displayName,
-    bool? active,
     DateTime? createDate,
     DateTime? writeDate,
     String? email,
@@ -59,7 +57,6 @@ extension $PartnerExtension on Partner {
       id: id ?? this.id,
       name: name ?? this.name,
       displayName: displayName ?? this.displayName,
-      active: active ?? this.active,
       createDate: createDate ?? this.createDate,
       writeDate: writeDate ?? this.writeDate,
       email: email ?? this.email,
@@ -80,12 +77,24 @@ mixin _$Partner {
     return 'Partner('
         'id: ${instance.id}, '
         'name: ${instance.name}, '
-        'active: ${instance.active}, '
         'email: ${instance.email}, '
         'phone: ${instance.phone}, '
         'isOptimized: ${instance.isOptimized}'
         ')';
   }
+}
+
+enum PartnerFields {
+  id,
+  name,
+  displayName,
+  createDate,
+  writeDate,
+  createUid,
+  writeUid,
+  email,
+  phone,
+  isOptimized,
 }
 
 mixin _$PartnerMeta {
@@ -97,6 +106,39 @@ mixin _$PartnerMeta {
     'phone': {},
     'is_customer': {},
   };
+
+  static const Map<String, String> fieldMapping = {
+    'id': 'id',
+    'name': 'name',
+    'displayName': 'display_name',
+    'createDate': 'create_date',
+    'writeDate': 'write_date',
+    'createUid': 'create_uid',
+    'writeUid': 'write_uid',
+    'email': 'email',
+    'phone': 'phone',
+    'isOptimized': 'is_customer',
+  };
+
+  static Map<String, dynamic> buildSpecification(
+      {List<PartnerFields>? only,
+      Map<PartnerFields, Map<String, dynamic>>? nested}) {
+    final spec = <String, dynamic>{};
+    if (only != null) {
+      for (final f in only) {
+        final odooKey = fieldMapping[f.name] ?? f.name;
+        spec[odooKey] = specification[odooKey] ?? {};
+      }
+    }
+    if (nested != null) {
+      nested.forEach((f, subSpec) {
+        final odooKey = fieldMapping[f.name] ?? f.name;
+        spec[odooKey] = {'fields': subSpec};
+      });
+    }
+    if (only == null && nested == null) return specification;
+    return spec;
+  }
 }
 
 class PartnerRepository extends OdooRepository<Partner> {
@@ -118,7 +160,6 @@ User _$UserFromJson(Map<String, dynamic> json) {
     id: base.id,
     name: base.name,
     displayName: base.displayName,
-    active: base.active,
     createDate: base.createDate,
     writeDate: base.writeDate,
     createUid: base.createUid,
@@ -144,7 +185,6 @@ extension $UserExtension on User {
     int? id,
     String? name,
     String? displayName,
-    bool? active,
     DateTime? createDate,
     DateTime? writeDate,
     int? createUid,
@@ -155,7 +195,6 @@ extension $UserExtension on User {
       id: id ?? this.id,
       name: name ?? this.name,
       displayName: displayName ?? this.displayName,
-      active: active ?? this.active,
       createDate: createDate ?? this.createDate,
       writeDate: writeDate ?? this.writeDate,
       createUid: createUid ?? this.createUid,
@@ -175,10 +214,20 @@ mixin _$User {
     return 'User('
         'id: ${instance.id}, '
         'name: ${instance.name}, '
-        'active: ${instance.active}, '
         'login: ${instance.login}'
         ')';
   }
+}
+
+enum UserFields {
+  id,
+  name,
+  displayName,
+  createDate,
+  writeDate,
+  createUid,
+  writeUid,
+  login,
 }
 
 mixin _$UserMeta {
@@ -188,6 +237,36 @@ mixin _$UserMeta {
     ...OdooBaseModel.baseSpecification,
     'login': {},
   };
+
+  static const Map<String, String> fieldMapping = {
+    'id': 'id',
+    'name': 'name',
+    'displayName': 'display_name',
+    'createDate': 'create_date',
+    'writeDate': 'write_date',
+    'createUid': 'create_uid',
+    'writeUid': 'write_uid',
+    'login': 'login',
+  };
+
+  static Map<String, dynamic> buildSpecification(
+      {List<UserFields>? only, Map<UserFields, Map<String, dynamic>>? nested}) {
+    final spec = <String, dynamic>{};
+    if (only != null) {
+      for (final f in only) {
+        final odooKey = fieldMapping[f.name] ?? f.name;
+        spec[odooKey] = specification[odooKey] ?? {};
+      }
+    }
+    if (nested != null) {
+      nested.forEach((f, subSpec) {
+        final odooKey = fieldMapping[f.name] ?? f.name;
+        spec[odooKey] = {'fields': subSpec};
+      });
+    }
+    if (only == null && nested == null) return specification;
+    return spec;
+  }
 }
 
 class UserRepository extends OdooRepository<User> {
@@ -209,7 +288,6 @@ Employee _$EmployeeFromJson(Map<String, dynamic> json) {
     id: base.id,
     name: base.name,
     displayName: base.displayName,
-    active: base.active,
     createDate: base.createDate,
     writeDate: base.writeDate,
     createUid: base.createUid,
@@ -236,7 +314,6 @@ extension $EmployeeExtension on Employee {
     int? id,
     String? name,
     String? displayName,
-    bool? active,
     DateTime? createDate,
     DateTime? writeDate,
     int? createUid,
@@ -247,7 +324,6 @@ extension $EmployeeExtension on Employee {
       id: id ?? this.id,
       name: name ?? this.name,
       displayName: displayName ?? this.displayName,
-      active: active ?? this.active,
       createDate: createDate ?? this.createDate,
       writeDate: writeDate ?? this.writeDate,
       createUid: createUid ?? this.createUid,
@@ -268,10 +344,20 @@ mixin _$Employee {
     return 'Employee('
         'id: ${instance.id}, '
         'name: ${instance.name}, '
-        'active: ${instance.active}, '
         'jobTitle: ${instance.jobTitle}'
         ')';
   }
+}
+
+enum EmployeeFields {
+  id,
+  name,
+  displayName,
+  createDate,
+  writeDate,
+  createUid,
+  writeUid,
+  jobTitle,
 }
 
 mixin _$EmployeeMeta {
@@ -281,6 +367,37 @@ mixin _$EmployeeMeta {
     ...OdooBaseModel.baseSpecification,
     'job_title': {},
   };
+
+  static const Map<String, String> fieldMapping = {
+    'id': 'id',
+    'name': 'name',
+    'displayName': 'display_name',
+    'createDate': 'create_date',
+    'writeDate': 'write_date',
+    'createUid': 'create_uid',
+    'writeUid': 'write_uid',
+    'jobTitle': 'job_title',
+  };
+
+  static Map<String, dynamic> buildSpecification(
+      {List<EmployeeFields>? only,
+      Map<EmployeeFields, Map<String, dynamic>>? nested}) {
+    final spec = <String, dynamic>{};
+    if (only != null) {
+      for (final f in only) {
+        final odooKey = fieldMapping[f.name] ?? f.name;
+        spec[odooKey] = specification[odooKey] ?? {};
+      }
+    }
+    if (nested != null) {
+      nested.forEach((f, subSpec) {
+        final odooKey = fieldMapping[f.name] ?? f.name;
+        spec[odooKey] = {'fields': subSpec};
+      });
+    }
+    if (only == null && nested == null) return specification;
+    return spec;
+  }
 }
 
 class EmployeeRepository extends OdooRepository<Employee> {

@@ -43,9 +43,11 @@ class OdooModel {
   const OdooModel({
     required this.modelName,
     this.generateRepository = true,
+    this.includeBaseFieldsInSpec = true,
   });
   final String modelName;
   final bool generateRepository;
+  final bool includeBaseFieldsInSpec;
 }
 
 class OdooField {

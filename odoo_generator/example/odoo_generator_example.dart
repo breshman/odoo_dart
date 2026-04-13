@@ -14,7 +14,6 @@ class Category extends OdooBaseModel with _$Category {
     required super.id,
     required super.name,
     super.displayName,
-    super.active = true,
     super.createDate,
     super.writeDate,
     super.createUid,
@@ -22,7 +21,8 @@ class Category extends OdooBaseModel with _$Category {
     this.description,
   });
 
-  factory Category.fromJson(Map<String, dynamic> json) => _$CategoryFromJson(json);
+  factory Category.fromJson(Map<String, dynamic> json) =>
+      _$CategoryFromJson(json);
   Map<String, dynamic> toJson() => _$CategoryToJson(this);
 }
 
@@ -36,7 +36,6 @@ class Tag extends OdooBaseModel with _$Tag {
     required super.id,
     required super.name,
     super.displayName,
-    super.active = true,
     super.createDate,
     super.writeDate,
     super.createUid,
@@ -81,7 +80,6 @@ class Product extends OdooBaseModel with _$Product {
     required super.id,
     required super.name,
     super.displayName,
-    super.active = true,
     super.createDate,
     super.writeDate,
     super.createUid,
@@ -96,7 +94,8 @@ class Product extends OdooBaseModel with _$Product {
     this.updatedAt,
   });
 
-  factory Product.fromJson(Map<String, dynamic> json) => _$ProductFromJson(json);
+  factory Product.fromJson(Map<String, dynamic> json) =>
+      _$ProductFromJson(json);
   Map<String, dynamic> toJson() => _$ProductToJson(this);
 }
 
@@ -123,7 +122,6 @@ class ProductLine extends OdooBaseModel with _$ProductLine {
     required super.id,
     required super.name,
     super.displayName,
-    super.active = true,
     super.createDate,
     super.writeDate,
     super.createUid,
@@ -135,7 +133,8 @@ class ProductLine extends OdooBaseModel with _$ProductLine {
     this.notes,
   });
 
-  factory ProductLine.fromJson(Map<String, dynamic> json) => _$ProductLineFromJson(json);
+  factory ProductLine.fromJson(Map<String, dynamic> json) =>
+      _$ProductLineFromJson(json);
   Map<String, dynamic> toJson() => _$ProductLineToJson(this);
 }
 
@@ -159,7 +158,6 @@ class Order extends OdooBaseModel with _$Order {
     required super.id,
     required super.name,
     super.displayName,
-    super.active = true,
     super.createDate,
     super.writeDate,
     super.createUid,
@@ -175,7 +173,8 @@ class Order extends OdooBaseModel with _$Order {
 }
 
 /// Función para cargar datos desde JSON
-T loadFromJsonFile<T>(String filename, T Function(Map<String, dynamic>) factory) {
+T loadFromJsonFile<T>(
+    String filename, T Function(Map<String, dynamic>) factory) {
   final file = File(filename);
   if (!file.existsSync()) {
     print('❌ Archivo no existe: $filename');
@@ -232,7 +231,8 @@ void main() {
     'created_at': '2025-01-15 09:30:00',
     'updated_at': false, // sin fecha de actualización
   };
-  File('$file/test_product_complete.json').writeAsStringSync(jsonEncode(productJson));
+  File('$file/test_product_complete.json')
+      .writeAsStringSync(jsonEncode(productJson));
   print('✓ Creado: $file/test_product_complete.json');
 
   // 4. Crear JSON de Product con muchos valores false
@@ -248,7 +248,8 @@ void main() {
     'created_at': '2025-03-23 10:00:00',
     'updated_at': false,
   };
-  File('$file/test_product_minimal.json').writeAsStringSync(jsonEncode(productMinimalJson));
+  File('$file/test_product_minimal.json')
+      .writeAsStringSync(jsonEncode(productMinimalJson));
   print('✓ Creado: $file/test_product_minimal.json');
 
   // 5. Crear JSON de ProductLine
@@ -284,23 +285,27 @@ void main() {
   try {
     // Cargar Category
     print('📦 Cargando Category...');
-    final category = loadFromJsonFile('$file/test_category.json', Category.fromJson);
+    final category =
+        loadFromJsonFile('$file/test_category.json', Category.fromJson);
 
     print(category.toString());
     print('  id: ${category.id}');
     print('  name: ${category.name}');
-    print('  description: ${category.description} (null porque RPC retornó false)\n');
+    print(
+        '  description: ${category.description} (null porque RPC retornó false)\n');
 
     // Cargar Tags
     print('🏷️  Cargando Tags...');
     final tag1 = loadFromJsonFile('$file/test_tag1.json', Tag.fromJson);
     final tag2 = loadFromJsonFile('$file/test_tag2.json', Tag.fromJson);
     print('  Tag1: ${tag1.name} color=${tag1.color}');
-    print('  Tag2: ${tag2.name} color=${tag2.color} (null porque RPC retornó false)\n');
+    print(
+        '  Tag2: ${tag2.name} color=${tag2.color} (null porque RPC retornó false)\n');
 
     // Cargar Product completo
     print('🛍️  Cargando Product (COMPLETO)...');
-    final productComplete = loadFromJsonFile('$file/test_product_complete.json', Product.fromJson);
+    final productComplete =
+        loadFromJsonFile('$file/test_product_complete.json', Product.fromJson);
     print('  id: ${productComplete.id}');
     print('  name: ${productComplete.name}');
     print('  sku: ${productComplete.sku}');
@@ -309,11 +314,13 @@ void main() {
     print('  isActive: ${productComplete.isActive}');
     print('  categoryId: ${productComplete.categoryId} (many2one)');
     print('  tagIds: ${productComplete.tagIds} (many2many)');
-    print('  updatedAt: ${productComplete.updatedAt} (null porque RPC retornó false)\n');
+    print(
+        '  updatedAt: ${productComplete.updatedAt} (null porque RPC retornó false)\n');
 
     // Cargar Product minimal
     print('🛍️  Cargando Product (MINIMAL - con muchos false)...');
-    final productMinimal = loadFromJsonFile('$file/test_product_minimal.json', Product.fromJson);
+    final productMinimal =
+        loadFromJsonFile('$file/test_product_minimal.json', Product.fromJson);
     print('  id: ${productMinimal.id}');
     print('  name: ${productMinimal.name}');
     print('  sku: ${productMinimal.sku} (null)');
@@ -321,13 +328,15 @@ void main() {
     print('  quantity: ${productMinimal.quantity} (null)');
     print('  isActive: ${productMinimal.isActive} (null)');
     print('  categoryId: ${productMinimal.categoryId} (null - many2one)');
-    print('  tagIds: ${productMinimal.tagIds?.isEmpty ?? true ? "[]" : productMinimal.tagIds}');
+    print(
+        '  tagIds: ${productMinimal.tagIds?.isEmpty ?? true ? "[]" : productMinimal.tagIds}');
     print('  createdAt: ${productMinimal.createdAt}');
     print('  updatedAt: ${productMinimal.updatedAt} (null)\n');
 
     // Cargar ProductLine
     print('📋 Cargando ProductLine...');
-    final line = loadFromJsonFile('$file/test_product_line.json', ProductLine.fromJson);
+    final line =
+        loadFromJsonFile('$file/test_product_line.json', ProductLine.fromJson);
     print('  id: ${line.id}');
     print('  productId: ${line.productId} (many2one)');
     print('  quantity: ${line.quantity}');
@@ -353,13 +362,15 @@ void main() {
 
     // Product completo -> JSON
     final productCompleteJson = productComplete.toJson();
-    File('$file/output_product_complete.json').writeAsStringSync(jsonEncode(productCompleteJson));
+    File('$file/output_product_complete.json')
+        .writeAsStringSync(jsonEncode(productCompleteJson));
     print('✓ Generado: $file/output_product_complete.json');
     print('  Contenido: ${jsonEncode(productCompleteJson)}\n');
 
     // Product minimal -> JSON
     final productMinimalJson = productMinimal.toJson();
-    File('$file/output_product_minimal.json').writeAsStringSync(jsonEncode(productMinimalJson));
+    File('$file/output_product_minimal.json')
+        .writeAsStringSync(jsonEncode(productMinimalJson));
     print('✓ Generado: $file/output_product_minimal.json');
     print('  Contenido: ${jsonEncode(productMinimalJson)}\n');
 

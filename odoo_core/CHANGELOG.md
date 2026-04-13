@@ -2,6 +2,13 @@
 
 All notable changes to the `odoo_core` project will be documented in this file.
 
+## [2.1.0] - 2026-04-13
+### Added
+* **Dynamic Specification:** Added an optional `specification` parameter to `OdooRepository` methods (`searchFetch`, `read`, `webSave`) allowing runtime control over fields returned from Odoo.
+* **@OdooModel:** Added `includeBaseFieldsInSpec` (defaults to `true`) to allow excluding standard auditoría fields (`create_date`, `write_uid`, etc.) from the default specification.
+### Changed
+* **OdooBaseModel:** Removed the `active` field from the base model for a cleaner, more robust structure across different Odoo versions.
+
 ## [2.0.4] - 2026-04-11
 ### Added
 * **@OdooModel:** Added `generateRepository` flag (defaults to `true`) allowing developers to opt-out of automatic repository generation.

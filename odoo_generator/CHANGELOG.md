@@ -1,3 +1,9 @@
+## 2.1.0
+
+- Feat: Added automatic generation of `[ClassName]Fields` enums for all models to enable type-safe field selection.
+- Feat: Implemented `fieldMapping` and a powerful `buildSpecification` method (with `only` and `nested` support) in generated Meta classes.
+- Feat: Added support for `includeBaseFieldsInSpec` from `@OdooModel` to control the presence of base fields in the default specification map.
+
 ## 2.0.4
 
 - Feat: Added support for `generateRepository` in `@OdooModel` annotation to optionally disable the generation of Repositories for specific models.
