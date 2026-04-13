@@ -6,7 +6,6 @@ abstract class OdooBaseModel {
   final int id;
   final String name;
   final String? displayName;
-  final bool active;
 
   // Timestamps de auditoría
   final DateTime? createDate;
@@ -18,7 +17,6 @@ abstract class OdooBaseModel {
     required this.id,
     required this.name,
     this.displayName,
-    this.active = true,
     this.createDate,
     this.writeDate,
     this.createUid,
@@ -31,7 +29,6 @@ abstract class OdooBaseModel {
     int id,
     String name,
     String? displayName,
-    bool active,
     DateTime? createDate,
     DateTime? writeDate,
     int? createUid,
@@ -39,7 +36,8 @@ abstract class OdooBaseModel {
   }) baseFromJson(Map<String, dynamic> json) {
     DateTime? parseOdooDate(dynamic raw) {
       if (raw == false || raw == null) return null;
-      return DateTime.parse('${(raw as String).replaceFirst(' ', 'T')}Z').toLocal();
+      return DateTime.parse('${(raw as String).replaceFirst(' ', 'T')}Z')
+          .toLocal();
     }
 
     int? parseUid(dynamic raw) {
@@ -50,12 +48,15 @@ abstract class OdooBaseModel {
     }
 
     return (
-      id: json['id'] == false || json['id'] == null ? 0 : (json['id'] as num).toInt(),
-      name: json['name'] == false || json['name'] == null ? '' : (json['name'] as String),
+      id: json['id'] == false || json['id'] == null
+          ? 0
+          : (json['id'] as num).toInt(),
+      name: json['name'] == false || json['name'] == null
+          ? ''
+          : (json['name'] as String),
       displayName: json['display_name'] == false || json['display_name'] == null
           ? null
           : (json['display_name'] as String),
-      active: json['active'] is bool ? json['active'] as bool : true,
       createDate: parseOdooDate(json['create_date']),
       writeDate: parseOdooDate(json['write_date']),
       createUid: parseUid(json['create_uid']),
@@ -68,14 +69,21 @@ abstract class OdooBaseModel {
       if (!toOdoo) 'id': id,
       'name': name,
       if (displayName != null) 'display_name': displayName,
-      'active': active,
       if (createDate != null)
         'create_date': toOdoo
-            ? createDate!.toUtc().toIso8601String().substring(0, 19).replaceFirst('T', ' ')
+            ? createDate!
+                .toUtc()
+                .toIso8601String()
+                .substring(0, 19)
+                .replaceFirst('T', ' ')
             : createDate!.toIso8601String(),
       if (writeDate != null)
         'write_date': toOdoo
-            ? writeDate!.toUtc().toIso8601String().substring(0, 19).replaceFirst('T', ' ')
+            ? writeDate!
+                .toUtc()
+                .toIso8601String()
+                .substring(0, 19)
+                .replaceFirst('T', ' ')
             : writeDate!.toIso8601String(),
       if (createUid != null) 'create_uid': createUid, // Enviar int
       if (writeUid != null) 'write_uid': writeUid,
@@ -86,7 +94,6 @@ abstract class OdooBaseModel {
     'id': {},
     'name': {},
     'display_name': {},
-    'active': {},
     'create_date': {},
     'write_date': {},
     'create_uid': {
@@ -98,5 +105,5 @@ abstract class OdooBaseModel {
   };
 
   @override
-  String toString() => '$runtimeType(id: $id, name: $name, active: $active)';
+  String toString() => '$runtimeType(id: $id, name: $name)';
 }
