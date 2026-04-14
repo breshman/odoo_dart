@@ -2,6 +2,10 @@
 
 All notable changes to the `odoo_core` project will be documented in this file.
 
+## [2.1.1] - 2026-04-13
+### Changed
+* **odoo_rpc_params.dart:** Se marco como comentado para ver si se puede usar luego.
+
 ## [2.1.0] - 2026-04-13
 ### Added
 * **Dynamic Specification:** Added an optional `specification` parameter to `OdooRepository` methods (`searchFetch`, `read`, `webSave`) allowing runtime control over fields returned from Odoo.

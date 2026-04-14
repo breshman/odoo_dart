@@ -1,3 +1,7 @@
+## 2.1.1
+
+- Feat: correcion de casteo de tipos dinamicos.
+
 ## 2.1.0
 
 - Feat: Added automatic generation of `[ClassName]Fields` enums for all models to enable type-safe field selection.
