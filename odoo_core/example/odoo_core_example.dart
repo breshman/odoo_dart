@@ -67,7 +67,8 @@ void main() async {
     final partnersSet = await partnerRepo.searchFetch(limit: 5);
     print('  📌 Se obtuvieron ${partnersSet.records.length} clientes:');
     for (var p in partnersSet.records) {
-      print('   - ID: ${p.id} | Nombre: ${p.name} | Teléfono: ${p.phone ?? "N/A"}');
+      print(
+          '   - ID: ${p.id} | Nombre: ${p.name} | Teléfono: ${p.phone ?? "N/A"}');
     }
 
     // 4. Obtener Usuarios (res.users)
@@ -76,7 +77,8 @@ void main() async {
     final usersSet = await userRepo.searchFetch(limit: 5);
     print('  📌 Se obtuvieron ${usersSet.records.length} usuarios:');
     for (var u in usersSet.records) {
-      print('   - ID: ${u.id} | Nombre: ${u.name} | Login: ${u.login ?? "N/A"}');
+      print(
+          '   - ID: ${u.id} | Nombre: ${u.name} | Login: ${u.login ?? "N/A"}');
     }
 
     // 5. Obtener Empleados (hr.employee)
@@ -95,8 +97,11 @@ void main() async {
 
     // --- CREATE ---
     print('\n[CREATE] Creando nuevo contacto de prueba...');
-    final newPartnerId = await partnerRepo.create(
-        {'name': 'Dart Integration Test', 'email': 'test@dart-odoo.dev', 'phone': '555-1234'});
+    final newPartnerId = await partnerRepo.create({
+      'name': 'Dart Integration Test',
+      'email': 'test@dart-odoo.dev',
+      'phone': '555-1234'
+    });
     print('  ✅ Contacto creado exitosamente con ID: $newPartnerId');
 
     // --- READ ---
@@ -109,19 +114,18 @@ void main() async {
 
     // --- WRITE ---
     print('\n[WRITE] Actualizando teléfono mediante escritura silenciosa...');
-    final writeSuccess = await partnerRepo.write([newPartnerId], {'phone': '555-9876'});
+    final writeSuccess =
+        await partnerRepo.write([newPartnerId], {'phone': '555-9876'});
     print('  ✅ Registro actualizado (boolean result): $writeSuccess');
 
     // --- WEBSAVE (Save + Read All in One) ---
-    print('\n[WEBSAVE] Cambiando nombre y obteniendo objeto retornado todo junto...');
-    final webSaveParams = OdooWriteParams<Partner, Map<String, dynamic>>(
-      model: 'res.partner',
+    print(
+        '\n[WEBSAVE] Cambiando nombre y obteniendo objeto retornado todo junto...');
+
+    final webSavedRecords = await partnerRepo.webSave(
       ids: [newPartnerId],
       values: {'name': 'Dart Integration Test V2'},
-      fromJsonT: (json) => Partner.fromJson(json as Map<String, dynamic>),
-      toJson: (v) => v,
     );
-    final webSavedRecords = await partnerRepo.webSave(webSaveParams);
     print(
         '  ✅ Contacto retornado de web_save: ${webSavedRecords.first.name} - Nuevo tel es ${webSavedRecords.first.phone}');
 

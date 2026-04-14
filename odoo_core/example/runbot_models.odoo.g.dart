@@ -295,6 +295,8 @@ Employee _$EmployeeFromJson(Map<String, dynamic> json) {
     jobTitle: json['job_title'] == false || json['job_title'] == null
         ? null
         : (json['job_title'].toString()),
+    companyIds:
+        json['company_ids'] == false ? null : json['company_ids'] as List<int>,
   );
 }
 
@@ -303,6 +305,7 @@ Map<String, dynamic> _$EmployeeToJson(Employee instance,
   return {
     ...instance.baseToJson(toOdoo: toOdoo),
     if (instance.jobTitle != null) 'job_title': instance.jobTitle!,
+    if (instance.companyIds != null) 'company_ids': instance.companyIds!,
   };
 }
 
@@ -319,6 +322,7 @@ extension $EmployeeExtension on Employee {
     int? createUid,
     int? writeUid,
     String? jobTitle,
+    List<int>? companyIds,
   }) {
     return Employee(
       id: id ?? this.id,
@@ -329,6 +333,7 @@ extension $EmployeeExtension on Employee {
       createUid: createUid ?? this.createUid,
       writeUid: writeUid ?? this.writeUid,
       jobTitle: jobTitle ?? this.jobTitle,
+      companyIds: companyIds ?? this.companyIds,
     );
   }
 }
@@ -344,7 +349,8 @@ mixin _$Employee {
     return 'Employee('
         'id: ${instance.id}, '
         'name: ${instance.name}, '
-        'jobTitle: ${instance.jobTitle}'
+        'jobTitle: ${instance.jobTitle}, '
+        'companyIds: ${instance.companyIds}'
         ')';
   }
 }
@@ -358,6 +364,7 @@ enum EmployeeFields {
   createUid,
   writeUid,
   jobTitle,
+  companyIds,
 }
 
 mixin _$EmployeeMeta {
@@ -366,6 +373,7 @@ mixin _$EmployeeMeta {
   static const Map<String, dynamic> specification = {
     ...OdooBaseModel.baseSpecification,
     'job_title': {},
+    'company_ids': {},
   };
 
   static const Map<String, String> fieldMapping = {
@@ -377,6 +385,7 @@ mixin _$EmployeeMeta {
     'createUid': 'create_uid',
     'writeUid': 'write_uid',
     'jobTitle': 'job_title',
+    'companyIds': 'company_ids',
   };
 
   static Map<String, dynamic> buildSpecification(

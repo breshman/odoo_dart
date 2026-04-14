@@ -40,10 +40,11 @@ Tus modelos ya no son simples JSONs. Al extender `OdooBaseModel` y decorarlos, n
 ```dart
 import 'package:odoo_core/odoo_core.dart'; // Contiene las anotaciones
 
-// part 'order.odoo.g.dart'; 
+ part 'order.odoo.g.dart'; 
 
 @OdooModel(modelName: 'sale.order')
-class Order extends OdooBaseModel {
+class Order extends OdooBaseModel with _$Order{
+
   @OdooField(type: OdooFieldType.date, name: 'order_date')
   final DateTime? orderDate;
 
@@ -73,8 +74,15 @@ class Order extends OdooBaseModel {
   });
 
   // factorías que se rellenan solas gracias tu odoo_generator
-  // factory Order.fromJson(Map<String, dynamic> json) => _$OrderFromJson(json);
-  // Map<String, dynamic> toJson() => _$OrderToJson(this);
+   factory Order.fromJson(Map<String, dynamic> json) => _$OrderFromJson(json);
+   Map<String, dynamic> toJson() => _$OrderToJson(this);
+
+   static Map<String, dynamic> buildSpecification({
+      List<OrderFields>? only,
+      Map<OrderFields, Map<String, dynamic>>? nested
+      }){
+        return _$OrderMeta.buildSpecification(only: only, nested: nested);
+   }
 }
 ```
 dart run build_runner build --delete-conflicting-outputs
@@ -129,7 +137,7 @@ Para evitar errores de escritura, el generador crea un Enum `${ClassName}Fields`
 final repo = OrderRepository(client: odooClient);
 
 // Creamos una especificación que solo pida ID y Total
-final partialSpec = _$OrderMeta.buildSpecification(
+final partialSpec = Order.buildSpecification(
   only: [
     OrderFields.id,
     OrderFields.total,
@@ -143,11 +151,11 @@ final result = await repo.searchFetch(specification: partialSpec);
 Puedes pedir campos específicos de modelos relacionados de forma muy sencilla combinando los helpers de ambas clases:
 
 ```dart
-final nestedSpec = _$OrderMeta.buildSpecification(
+final nestedSpec = Order.buildSpecification(
   only: [OrderFields.name, OrderFields.orderDate],
   nested: {
     // Pedimos campos específicos del modelo de Líneas de Orden
-    OrderFields.lineIds: _$OrderLineMeta.buildSpecification(
+    OrderFields.lineIds: OrderLine.buildSpecification(
       only: [OrderLineFields.id, OrderLineFields.productName, OrderLineFields.priceUnit],
     ),
   },

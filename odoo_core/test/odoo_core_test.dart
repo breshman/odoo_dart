@@ -41,10 +41,7 @@ void main() {
     });
 
     test('Parse from root message fallback', () {
-      final json = {
-        'code': 300,
-        'message': 'Session expired'
-      };
+      final json = {'code': 300, 'message': 'Session expired'};
       final ex = OdooException.fromJson(json);
       expect(ex.message, 'Session expired');
     });
@@ -61,7 +58,11 @@ void main() {
     test('searchFetch decodes correctly into models', () async {
       final client = MockOdooClient(mockResponse: {
         'records': [
-          {'id': 1, 'name': 'John Doe', 'create_uid': [2, 'Admin']},
+          {
+            'id': 1,
+            'name': 'John Doe',
+            'create_uid': [2, 'Admin']
+          },
         ],
         'length': 1,
       });
@@ -70,7 +71,7 @@ void main() {
       final res = await repo.searchFetch();
       expect(res.records, isNotEmpty);
       expect(res.length, equals(1));
-      
+
       final emp = res.records.first;
       expect(emp.name, equals('John Doe'));
       expect(emp.createUid, equals(2)); // Verifying the parsed many2one ID
@@ -98,7 +99,7 @@ void main() {
         {'id': 2, 'name': 'Emp 2'}
       ]);
       final repo = EmployeeRepository(client: client);
-      
+
       final records = await repo.read([1, 2]);
       expect(records, hasLength(2));
       expect(records.last.name, 'Emp 2');
@@ -148,30 +149,24 @@ void main() {
         {'id': 99, 'name': 'Jane Doe Modified'}
       ]);
       final repo = EmployeeRepository(client: client);
-      
-      final params = OdooWriteParams<Employee, Map<String, dynamic>>(
-        model: 'hr.employee',
+
+      final returnedObjects = await repo.webSave(
         ids: [99],
         values: {'name': 'Jane Doe Modified'},
-        fromJsonT: (json) => Employee.fromJson(json as Map<String, dynamic>),
-        toJson: (v) => v,
       );
-
-      final returnedObjects = await repo.webSave(params);
       expect(returnedObjects.length, 1);
       expect(returnedObjects.first.name, 'Jane Doe Modified');
     });
 
     test('Repository propagates exceptions', () async {
       final client = MockOdooClient(
-        throwException: OdooException(code: 500, message: 'Server Failed')
-      );
+          throwException: OdooException(code: 500, message: 'Server Failed'));
       final repo = EmployeeRepository(client: client);
-      
+
       expect(
-        () async => await repo.searchFetch(),
-        throwsA(isA<OdooException>().having((e) => e.message, 'message', 'Server Failed'))
-      );
+          () async => await repo.searchFetch(),
+          throwsA(isA<OdooException>()
+              .having((e) => e.message, 'message', 'Server Failed')));
     });
   });
 
@@ -180,7 +175,7 @@ void main() {
       // Setup Dio with interceptors like in example
       const baseUrl = 'https://106987691-18-0-all.runbot303.odoo.com';
       final dio = Dio(BaseOptions(baseUrl: baseUrl));
-      
+
       String? sessionId;
       dio.interceptors.add(InterceptorsWrapper(
         onRequest: (options, handler) {
@@ -234,24 +229,24 @@ void main() {
       expect(readRecords.first.name, 'Dart Integration Test');
 
       // 4. WRITE
-      final writeSuccess = await partnerRepo.write([newPartnerId], {'phone': '555-9876'});
+      final writeSuccess =
+          await partnerRepo.write([newPartnerId], {'phone': '555-9876'});
       expect(writeSuccess, isTrue);
 
       // 5. WEBSAVE
-      final webSaveParams = OdooWriteParams<Partner, Map<String, dynamic>>(
-        model: 'res.partner',
+
+      final webSavedRecords = await partnerRepo.webSave(
         ids: [newPartnerId],
         values: {'name': 'Dart Integration Test V2'},
-        fromJsonT: (json) => Partner.fromJson(json as Map<String, dynamic>),
-        toJson: (v) => v,
       );
-      final webSavedRecords = await partnerRepo.webSave(webSaveParams);
       expect(webSavedRecords.first.name, 'Dart Integration Test V2');
       expect(webSavedRecords.first.phone, '555-9876');
 
       // 6. UNLINK
       final unlinkSuccess = await partnerRepo.unlink([newPartnerId]);
       expect(unlinkSuccess, isTrue);
-    }, skip: 'Real API test depends on ephemeral runbot URL. Actualízala para ejecutar.');
+    },
+        skip:
+            'Real API test depends on ephemeral runbot URL. Actualízala para ejecutar.');
   });
 }

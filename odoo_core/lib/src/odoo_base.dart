@@ -27,17 +27,17 @@ abstract class OdooClient {
 /// Repositorio genérico que implementa todas las operaciones CRUD.
 /// El generador creará una sub-clase tipada de esto para cada modelo.
 abstract class OdooRepository<T extends OdooBaseModel> {
-  final OdooClient client;
-  final String modelName;
-  final OdooSpec specification;
-  final T Function(Map<String, dynamic>) fromJson;
-
   const OdooRepository({
     required this.client,
     required this.modelName,
     required this.specification,
     required this.fromJson,
   });
+
+  final OdooClient client;
+  final String modelName;
+  final OdooSpec specification;
+  final T Function(Map<String, dynamic>) fromJson;
 
   /// Realiza búsquedas usando dominio y retorna solo IDs.
   Future<List<int>> searchIds({
@@ -51,7 +51,12 @@ abstract class OdooRepository<T extends OdooBaseModel> {
       model: modelName,
       method: 'search',
       args: [domain],
-      kwargs: {'limit': limit, 'offset': offset, if (order != null) 'order': order, 'context': context ?? {}},
+      kwargs: {
+        'limit': limit,
+        'offset': offset,
+        if (order != null) 'order': order,
+        'context': context ?? {}
+      },
     );
     return List<int>.from(result as List);
   }
@@ -88,9 +93,33 @@ abstract class OdooRepository<T extends OdooBaseModel> {
     return (records: records, length: length);
   }
 
+  /// Guarda registros usando web_save asegurando tipado mediante OdooWriteParams
+  Future<List<T>> webSave({
+    required Map<String, dynamic> values,
+    required List<int> ids,
+    Map<String, dynamic>? context,
+    OdooSpec? specification,
+  }) async {
+    final result = await client.callKwRaw(
+      model: modelName,
+      method: 'web_save',
+      args: [ids, values],
+      kwargs: {
+        'specification': specification ?? this.specification,
+        'context': context ?? {}
+      },
+    );
+    return List<Map<String, dynamic>>.from(result as List)
+        .map<T>(fromJson)
+        .toList();
+  }
+
   /// Lee un conjunto de IDs y retorna los registros completos.
-  Future<List<T>> read(List<int> ids,
-      {Map<String, dynamic>? context, OdooSpec? specification}) async {
+  Future<List<T>> read(
+    List<int> ids, {
+    Map<String, dynamic>? context,
+    OdooSpec? specification,
+  }) async {
     if (ids.isEmpty) return [];
     final result = await client.callKwRaw(
       model: modelName,
@@ -107,8 +136,10 @@ abstract class OdooRepository<T extends OdooBaseModel> {
   }
 
   /// Crea un nuevo registro en Odoo a partir de valores puritos JSON o `toOdoo().
-  Future<int> create(Map<String, dynamic> values,
-      {Map<String, dynamic>? context}) async {
+  Future<int> create(
+    Map<String, dynamic> values, {
+    Map<String, dynamic>? context,
+  }) async {
     final result = await client.callKwRaw(
       model: modelName,
       method: 'create',
@@ -119,8 +150,11 @@ abstract class OdooRepository<T extends OdooBaseModel> {
   }
 
   /// Actualiza los registros especificados en `ids` pasándoles los nuevos campos `values`.
-  Future<bool> write(List<int> ids, Map<String, dynamic> values,
-      {Map<String, dynamic>? context}) async {
+  Future<bool> write(
+    List<int> ids,
+    Map<String, dynamic> values, {
+    Map<String, dynamic>? context,
+  }) async {
     if (ids.isEmpty) return true;
     final result = await client.callKwRaw(
       model: modelName,
@@ -141,22 +175,5 @@ abstract class OdooRepository<T extends OdooBaseModel> {
       kwargs: {'context': context ?? {}},
     );
     return result as bool;
-  }
-
-  /// Guarda registros usando web_save asegurando tipado mediante OdooWriteParams
-  Future<List<T>> webSave<V>(OdooWriteParams<T, V> params,
-      {Map<String, dynamic>? context, OdooSpec? specification}) async {
-    final result = await client.callKwRaw(
-      model: modelName,
-      method: 'web_save',
-      args: [params.ids, params.toJson(params.values)],
-      kwargs: {
-        'specification': specification ?? this.specification,
-        'context': context ?? {}
-      },
-    );
-    return List<Map<String, dynamic>>.from(result as List)
-        .map<T>(params.fromJsonT)
-        .toList();
   }
 }

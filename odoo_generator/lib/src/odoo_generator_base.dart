@@ -443,7 +443,7 @@ class OdooModelGenerator extends GeneratorForAnnotation<OdooModel> {
 
           if (primitives.contains(typeName)) {
             return isNullable
-                ? "$raw == false || $raw == null ? null : $raw"
+                ? "$raw == false || $raw == null ? null : $raw as $typeName"
                 : "$raw ?? ''";
           }
 
@@ -476,7 +476,7 @@ class OdooModelGenerator extends GeneratorForAnnotation<OdooModel> {
               ? "$raw == false || $raw == null ? null : ($raw as String)"
               : "$raw == false || $raw == null ? '' : ($raw as String)";
         }(),
-      OdooFieldType.dynamic_ => "$raw == false ? null : $raw",
+      OdooFieldType.dynamic_ => "$raw == false ? null : $raw as $typeName",
     };
   }
 

@@ -34,7 +34,8 @@ class Partner extends OdooBaseModel with _$Partner {
     isCustomer = value;
   }
 
-  factory Partner.fromJson(Map<String, dynamic> json) => _$PartnerFromJson(json);
+  factory Partner.fromJson(Map<String, dynamic> json) =>
+      _$PartnerFromJson(json);
 }
 
 @OdooModel(modelName: 'res.users')
@@ -60,6 +61,8 @@ class User extends OdooBaseModel with _$User {
 class Employee extends OdooBaseModel with _$Employee {
   @OdooField(type: OdooFieldType.string, name: 'job_title')
   final String? jobTitle;
+  @OdooField(type: OdooFieldType.dynamic_, name: 'company_ids')
+  final List<int>? companyIds;
 
   Employee({
     required super.id,
@@ -70,7 +73,9 @@ class Employee extends OdooBaseModel with _$Employee {
     super.createUid,
     super.writeUid,
     this.jobTitle,
+    this.companyIds,
   });
 
-  factory Employee.fromJson(Map<String, dynamic> json) => _$EmployeeFromJson(json);
+  factory Employee.fromJson(Map<String, dynamic> json) =>
+      _$EmployeeFromJson(json);
 }
