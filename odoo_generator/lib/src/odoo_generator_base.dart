@@ -1,4 +1,4 @@
-import 'package:analyzer/dart/element/element2.dart';
+import 'package:analyzer/dart/element/element.dart';
 import 'package:analyzer/dart/element/nullability_suffix.dart';
 import 'package:analyzer/dart/element/type.dart';
 import 'package:build/build.dart';
@@ -15,11 +15,11 @@ Builder odooModelBuilder(BuilderOptions options) =>
 class OdooModelGenerator extends GeneratorForAnnotation<OdooModel> {
   @override
   String generateForAnnotatedElement(
-    Element2 element, // <-- Element2, la nueva API
+    Element element, // <-- Element2, la nueva API
     ConstantReader annotation,
     BuildStep buildStep,
   ) {
-    if (element is! ClassElement2) {
+    if (element is! ClassElement) {
       throw InvalidGenerationSourceError(
         '@OdooModel solo puede aplicarse a clases.',
         element: element,
@@ -51,7 +51,7 @@ class OdooModelGenerator extends GeneratorForAnnotation<OdooModel> {
       'writeUid'
     };
 
-    var fields = element.fields2
+    var fields = element.fields
         .where((f) => !f.isStatic && _readOdooField(f) != null)
         .toList();
 
@@ -86,7 +86,7 @@ class OdooModelGenerator extends GeneratorForAnnotation<OdooModel> {
   }
 
   void _generateFieldsEnum(StringBuffer buf, String className,
-      List<FieldElement2> fields, bool extendsBase) {
+      List<FieldElement> fields, bool extendsBase) {
     buf.writeln('enum ${className}Fields {');
     if (extendsBase) {
       buf.writeln(
@@ -112,8 +112,8 @@ class OdooModelGenerator extends GeneratorForAnnotation<OdooModel> {
 
   void _generateFromJson(
     StringBuffer buf,
-    ClassElement2 element,
-    List<FieldElement2> fields,
+    ClassElement element,
+    List<FieldElement> fields,
     bool extendsBase,
   ) {
     final className = element.displayName;
@@ -128,12 +128,12 @@ class OdooModelGenerator extends GeneratorForAnnotation<OdooModel> {
 
     if (extendsBase) {
       final constructors =
-          element.constructors2.where((c) => c.name3 == null || c.name3 == '');
+          element.constructors.where((c) => c.name == null || c.name == '');
       final constructor = constructors.isNotEmpty
           ? constructors.first
-          : element.constructors2.first;
+          : element.constructors.first;
       final paramNames =
-          constructor.formalParameters.map((p) => p.name3).toSet();
+          constructor.formalParameters.map((p) => p.name).toSet();
 
       if (paramNames.contains('id')) buf.writeln('    id: base.id,');
       if (paramNames.contains('name')) buf.writeln('    name: base.name,');
@@ -172,7 +172,7 @@ class OdooModelGenerator extends GeneratorForAnnotation<OdooModel> {
   void _generateToJson(
     StringBuffer buf,
     String className,
-    List<FieldElement2> fields,
+    List<FieldElement> fields,
     bool extendsBase,
   ) {
     buf.writeln(
@@ -218,8 +218,8 @@ class OdooModelGenerator extends GeneratorForAnnotation<OdooModel> {
 
   void _generateCopyWith(
     StringBuffer buf,
-    ClassElement2 element,
-    List<FieldElement2> fields,
+    ClassElement element,
+    List<FieldElement> fields,
     bool extendsBase,
   ) {
     final className = element.displayName;
@@ -234,11 +234,11 @@ class OdooModelGenerator extends GeneratorForAnnotation<OdooModel> {
     Set<String?> paramNames = {};
     if (extendsBase) {
       final constructors =
-          element.constructors2.where((c) => c.name3 == null || c.name3 == '');
+          element.constructors.where((c) => c.name == null || c.name == '');
       final constructor = constructors.isNotEmpty
           ? constructors.first
-          : element.constructors2.first;
-      paramNames = constructor.formalParameters.map((p) => p.name3).toSet();
+          : element.constructors.first;
+      paramNames = constructor.formalParameters.map((p) => p.name).toSet();
 
       if (paramNames.contains('id')) buf.writeln('    int? id,');
       if (paramNames.contains('name')) buf.writeln('    String? name,');
@@ -301,7 +301,7 @@ class OdooModelGenerator extends GeneratorForAnnotation<OdooModel> {
   void _generateToString(
     StringBuffer buf,
     String className,
-    List<FieldElement2> fields,
+    List<FieldElement> fields,
     bool extendsBase,
   ) {
     buf.writeln('mixin _\$$className {');
@@ -335,18 +335,18 @@ class OdooModelGenerator extends GeneratorForAnnotation<OdooModel> {
 
   // ── Helpers ────────────────────────────────────────────────────────────────
 
-  bool _extendsOdooBaseModel(ClassElement2 element) {
+  bool _extendsOdooBaseModel(ClassElement element) {
     InterfaceType? supertype = element.supertype;
     while (supertype != null) {
-      if (supertype.element3.displayName == 'OdooBaseModel') return true;
-      supertype = supertype.element3.supertype;
+      if (supertype.element.displayName == 'OdooBaseModel') return true;
+      supertype = supertype.element.supertype;
     }
     return false;
   }
 
-  ConstantReader? _readOdooField(FieldElement2 field) {
+  ConstantReader? _readOdooField(FieldElement field) {
     // Se accede via el getter correcto de Element2
-    final annotations = field.metadata2.annotations; // List<ElementAnnotation2>
+    final annotations = field.metadata.annotations; // List<ElementAnnotation2>
 
     for (final meta in annotations) {
       final value = meta.computeConstantValue();
@@ -360,7 +360,7 @@ class OdooModelGenerator extends GeneratorForAnnotation<OdooModel> {
     return null;
   }
 
-  OdooFieldType _resolveType(FieldElement2 field, ConstantReader? annotation) {
+  OdooFieldType _resolveType(FieldElement field, ConstantReader? annotation) {
     if (annotation != null) {
       final typeValue = annotation.peek('type')?.objectValue;
       if (typeValue != null) {
@@ -369,7 +369,7 @@ class OdooModelGenerator extends GeneratorForAnnotation<OdooModel> {
       }
     }
     // Inferencia automática desde el tipo Dart
-    if (field.type.element3 is EnumElement2) {
+    if (field.type.element is EnumElement) {
       return OdooFieldType.selection;
     }
 
@@ -466,8 +466,8 @@ class OdooModelGenerator extends GeneratorForAnnotation<OdooModel> {
       OdooFieldType.one2many =>
         "$raw == false || $raw == null ? [] : ($raw as List).map((e) => e as int).toList()",
       OdooFieldType.selection => () {
-          final element = dartType.element3;
-          if (element is EnumElement2) {
+          final element = dartType.element;
+          if (element is EnumElement) {
             return isNullable
                 ? "$raw == false || $raw == null ? null : $typeName.values.byName($raw as String)"
                 : "$typeName.values.byName($raw as String)";
@@ -525,8 +525,8 @@ class OdooModelGenerator extends GeneratorForAnnotation<OdooModel> {
           return "($accessor.isNotEmpty ? $accessor[0].id : null)";
         }(),
       OdooFieldType.selection => () {
-          final element = dartType.element3;
-          if (element is EnumElement2) {
+          final element = dartType.element;
+          if (element is EnumElement) {
             return "$accessor.name";
           }
           return accessor;
@@ -540,7 +540,7 @@ class OdooModelGenerator extends GeneratorForAnnotation<OdooModel> {
     StringBuffer buf,
     String className,
     String modelName,
-    List<FieldElement2> fields,
+    List<FieldElement> fields,
     bool extendsBase,
     bool includeBaseFieldsInSpec,
   ) {

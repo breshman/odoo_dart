@@ -14,6 +14,10 @@ Este es el núcleo maestro de arquitectura (`odoo_core`) para interactuar rápid
 
 
 ---
+## 0. Generación de Modelos
+```bash
+dart run build_runner build --delete-conflicting-outputs
+```
 
 ## 🛠️ 1. Configuración y Cliente Base
 
@@ -85,7 +89,6 @@ class Order extends OdooBaseModel with _$Order{
    }
 }
 ```
-dart run build_runner build --delete-conflicting-outputs
 
 ---
 

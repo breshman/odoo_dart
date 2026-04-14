@@ -8,9 +8,9 @@ environment:
 
 # Add regular dependencies here.
 dependencies:
-  analyzer: ^7.0.0
-  build: ^3.0.0
-  source_gen: ^3.0.0
+  analyzer: ^9.0.0
+  build: ^4.0.5
+  source_gen: ^4.2.2
   
   # IMPORTANT: To publish to pub.dev, change this path dependency to `odoo_core: ^2.0.0`
   odoo_core:
