@@ -1,306 +1,551 @@
-# Odoo Core & Architecture
+# odoo_core
 
-Este es el núcleo maestro de arquitectura (`odoo_core`) para interactuar rápida y tipadamente con Odoo en Dart/Flutter. Está construido bajo principios **SOLID** y **Clean Architecture**, asegurando que puedes utilizarlo sin importar qué gestor de estado (Riverpod, Bloc, GetX, Provider) o framework elijas. ¡Funciona en Dart puro!
+[![pub.dev](https://img.shields.io/badge/pub.dev-odoo__core-blue)](https://pub.dev)
+[![Dart 3](https://img.shields.io/badge/Dart-3.x-0175C2)](https://dart.dev)
+
+El núcleo maestro de arquitectura para interactuar con Odoo desde Dart/Flutter. Construido sobre principios **SOLID** y **Clean Architecture** — funciona en Dart puro, sin atarse a Flutter, Riverpod, Bloc ni ningún otro framework.
+
+---
 
 ## 🚀 Características Principales
 
-1. **Agnóstico al UI/State**: No depende de Flutter ni de ningún gestor de estados específico.
-2. **Sistema de Anotaciones Integrado**: Define modelos de Odoo usando `@OdooModel` y tipos de relaciones (`OdooFieldType`). Elimina la necesidad del empaquetado separado `odoo_annotation`.
-3. **`OdooBaseModel`**: Una clase maestra que provee todos los campos universales de Odoo (`id`, `name`, `create_date`, `write_date`, `create_uid`, `write_uid`) e incluye el parseo manual por defecto.
-4. **`OdooRepository<T>`**: Repositorios genéricos integrados que te dan acceso estructurado a los métodos ORM base de Odoo: `searchIds`, `searchFetch`, `read`, `create`, `write`, `unlink` y `webSave`.
-5. **Tipado Estricto de Parámetros**: Todas las llamadas están fuertemente tipadas en la red con objetos encapsulados (`OdooWriteParams`, `OdooSearchParams`, etc.).
-6. **Selección Dinámica (Specification)**: Permite elegir exactamente qué campos pedir a Odoo (incluyendo relaciones anidadas) usando Enums generados automáticamente para evitar errores de escritura.
-7. **Soporte TR in-box (Realtime Socket)**: Incluye un cliente interno (`OdooRealtimeClient`) para WebSockets directo con el canal de tu usuario.
-
+| Característica | Descripción |
+|---|---|
+| **`OdooSession`** | Sesión tipada e inmutable con `websocketWorkerVersion`, `serverVersionInt`, persistencia JSON y soporte Odoo 12–18+ |
+| **`OdooCookie`** | Parser RFC 6265 cross-platform (web + native) para cookies HTTP — sin dependencias de `dart:io` |
+| **`OdooException` semántica** | Subclases `OdooSessionExpiredException`, factories `accessDenied` / `notFound` / `serverError`, getter `isAuthError` |
+| **`OdooRpcService`** | Autenticación tipada, gestión de sesión, `inRequestStream` para loading global, `connectRealtime()` integrado |
+| **`OdooRealtimeClient`** | WebSocket nativo con `fromSession()` — conéctate en una línea después de autenticar |
+| **`OdooRepository<T>`** | CRUD completo + `searchCount()` + `callMethod()` sin romper encapsulación |
+| **Anotaciones + Generador** | `@OdooModel` / `@OdooField` con conversión automática camelCase → snake_case |
+| **Selección dinámica** | Enums tipados + `buildSpecification(only:, nested:)` para controlar exactamente qué campos trae Odoo |
+| **Agnóstico al UI** | Compatible con cualquier gestor de estado (Riverpod, Bloc, GetX, Provider) |
 
 ---
-## 0. Generación de Modelos
+
+## 📦 Instalación
+
+```yaml
+# pubspec.yaml
+dependencies:
+  odoo_core:
+    path: ../odoo_core   # o via pub.dev cuando esté publicado
+  dio: ^5.7.0
+```
+
+---
+
+## 🛠️ 1. Inicialización del Cliente
+
+```dart
+import 'package:odoo_core/odoo_core.dart';
+import 'package:dio/dio.dart';
+
+void main() async {
+  final dio = Dio(BaseOptions(baseUrl: 'https://mi-odoo.com'));
+
+  // Interceptor de sesión usando OdooCookie (RFC 6265, cross-platform)
+  String? sessionCookie;
+  dio.interceptors.add(InterceptorsWrapper(
+    onRequest: (options, handler) {
+      if (sessionCookie != null) options.headers['Cookie'] = sessionCookie!;
+      handler.next(options);
+    },
+    onResponse: (response, handler) {
+      final rawCookies = response.headers['set-cookie'] ?? [];
+      final sessionId = OdooCookie.extractSessionId(rawCookies);
+      if (sessionId != null) {
+        sessionCookie = OdooCookie('session_id', sessionId).toString();
+      }
+      handler.next(response);
+    },
+  ));
+
+  final odoo = OdooRpcService(dio: dio);
+}
+```
+
+---
+
+## 🍪 2. OdooCookie — Parser RFC 6265
+
+`OdooCookie` es un parser completo del header `Set-Cookie` que funciona tanto en **Flutter/Dart nativo** como en **Flutter Web**, sin necesidad de importar `dart:io`.
+
+### ¿Por qué no usar `dart:io Cookie`?
+
+`dart:io` no está disponible en Flutter Web. `OdooCookie` implementa el mismo parseado siguiendo la especificación [RFC 6265](https://www.rfc-editor.org/rfc/rfc6265) y es seguro en todas las plataformas.
+
+### Casos de uso
+
+#### Extraer `session_id` automáticamente de una respuesta Dio
+
+```dart
+// En un interceptor Dio onResponse:
+final rawCookies = response.headers['set-cookie'] ?? [];
+final sessionId = OdooCookie.extractSessionId(rawCookies);
+
+if (sessionId != null) {
+  print('session_id: $sessionId'); // "abc123xyz..."
+  // Guardar la cookie formateada para enviarla en las siguientes peticiones
+  final cookieHeader = OdooCookie('session_id', sessionId).toString();
+  // cookieHeader == "session_id=abc123xyz; HttpOnly"
+}
+```
+
+#### Parsear un header `Set-Cookie` completo
+
+```dart
+final raw = 'session_id=abc123xyz; Path=/; HttpOnly; SameSite=Lax';
+final cookie = OdooCookie.fromSetCookieValue(raw);
+
+print(cookie.name);     // session_id
+print(cookie.value);    // abc123xyz
+print(cookie.path);     // /
+print(cookie.httpOnly); // true
+print(cookie.secure);   // false
+```
+
+#### Crear una cookie para enviarla en la cabecera `Cookie`
+
+```dart
+final cookie = OdooCookie('session_id', 'abc123xyz');
+print(cookie.toString()); // "session_id=abc123xyz; HttpOnly"
+
+// Úsalo en el header de la petición:
+dio.options.headers['Cookie'] = cookie.toString();
+```
+
+#### Parsear múltiples `Set-Cookie` headers
+
+```dart
+final headers = [
+  'session_id=abc123; Path=/; HttpOnly',
+  'lang=es_MX; Path=/; Max-Age=31536000',
+  'cids=1; Path=/; SameSite=Lax',
+];
+
+// Extraer solo el session_id:
+final sessionId = OdooCookie.extractSessionId(headers);
+print(sessionId); // "abc123"
+
+// O parsear todas:
+for (final raw in headers) {
+  final c = OdooCookie.fromSetCookieValue(raw);
+  print('${c.name} = ${c.value}');
+}
+// session_id = abc123
+// lang = es_MX
+// cids = 1
+```
+
+#### Uso junto a `OdooRealtimeClient`
+
+```dart
+// fromSession() usa OdooCookie internamente para formatear
+// correctamente la cookie de sesión:
+final ws = OdooRealtimeClient.fromSession(
+  session: odooClient.currentSession!,
+  baseUrl: 'https://mi-odoo.com',
+);
+// Equivalente a:
+// sessionId = OdooCookie('session_id', session.id).toString()
+//           = "session_id=<valor>; HttpOnly"
+```
+
+#### Manejo de cookies malformadas
+
+`OdooCookie.extractSessionId` es tolerante a cookies con formato incorrecto — si una cookie falla el parse, continúa con la siguiente sin lanzar excepción:
+
+```dart
+final messy = [
+  'malformed_cookie_no_equals_sign',  // ← se ignora
+  'other=value; Path=/',              // ← se ignora (no es session_id)
+  'session_id=abc123; HttpOnly',      // ← retorna "abc123"
+];
+final id = OdooCookie.extractSessionId(messy);
+print(id); // "abc123"
+```
+
+### API completa
+
+| Miembro | Tipo | Descripción |
+|---|---|---|
+| `OdooCookie(name, value)` | Constructor | Crea una cookie con nombre y valor |
+| `OdooCookie.fromSetCookieValue(raw)` | Factory | Parsea un header `Set-Cookie` completo (RFC 6265) |
+| `OdooCookie.extractSessionId(rawCookies)` | `static String?` | Extrae el valor de `session_id` de una lista de headers |
+| `.name` | `String` | Nombre de la cookie |
+| `.value` | `String` | Valor de la cookie |
+| `.path` | `String?` | Atributo `Path` |
+| `.domain` | `String?` | Atributo `Domain` |
+| `.expires` | `String?` | Atributo `Expires` |
+| `.maxAge` | `int?` | Atributo `Max-Age` en segundos |
+| `.httpOnly` | `bool` | `true` si tiene el flag `HttpOnly` |
+| `.secure` | `bool` | `true` si tiene el flag `Secure` |
+| `.toString()` | `String` | Serializa la cookie lista para el header `Cookie` |
+
+---
+
+## 🔐 3. Autenticación con `OdooSession`
+
+### Autenticación básica
+
+```dart
+try {
+  final OdooSession session = await odoo.authenticate(
+    'mi-base-de-datos',
+    'admin',
+    'admin',
+  );
+
+  print('Bienvenido: ${session.userName}');
+  print('Empresa activa: ${session.companyId}');
+  print('Versión Odoo: ${session.serverVersionInt}');          // 18
+  print('WS Worker version: ${session.websocketWorkerVersion}'); // "18.0-7"
+  print('Autenticado: ${session.isAuthenticated}');            // true
+
+} on OdooSessionExpiredException {
+  print('Login fallido: credenciales inválidas.');
+} on OdooException catch (e) {
+  print('Error ${e.code}: ${e.message}');
+}
+```
+
+> **Nota:** `authenticate()` extrae automáticamente el `session_id` del header `Set-Cookie` usando `OdooCookie` cuando el servidor no lo incluye en el body JSON (comportamiento común en RunBot).
+
+### Persistir y restaurar sesión
+
+```dart
+// Guardar en SharedPreferences, Hive, etc.
+final json = session.toJson();
+prefs.setString('session', jsonEncode(json));
+
+// Restaurar al arrancar la app
+final raw = jsonDecode(prefs.getString('session') ?? '{}');
+final restoredSession = OdooSession.fromJson(raw as Map<String, dynamic>);
+
+if (restoredSession.isAuthenticated) {
+  // ... continuar sin re-autenticar
+}
+```
+
+### Verificar sesión activa al arrancar
+
+```dart
+try {
+  await odoo.checkSession();
+  // La sesión sigue válida → ir al home
+} on OdooSessionExpiredException {
+  // Sesión expirada → ir al login
+}
+```
+
+### Cerrar sesión
+
+```dart
+await odoo.destroySession();
+OdooRpcService.reset();
+
+// Reconectar con otro servidor
+odoo.setBaseUrl('https://otro-servidor.odoo.com');
+```
+
+---
+
+## ⏳ 4. Indicador de Carga Global (`inRequestStream`)
+
+```dart
+// En Riverpod
+odoo.inRequestStream.listen((isLoading) {
+  ref.read(loadingProvider.notifier).state = isLoading;
+});
+
+// En StatefulWidget
+odoo.inRequestStream.listen((loading) {
+  setState(() => _isLoading = loading);
+});
+```
+
+---
+
+## 🏗️ 5. Definición de Modelos con Anotaciones
+
+```dart
+@OdooModel(modelName: 'res.partner')
+class Partner extends OdooBaseModel with _$Partner {
+
+  @OdooField(type: OdooFieldType.string)
+  final String? email;
+
+  // camelCase → snake_case automático: isCompany → is_company
+  @OdooField(type: OdooFieldType.boolean)
+  final bool? isCompany;
+
+  // many2one: categoryId → category_id automático
+  @OdooField(type: OdooFieldType.many2one)
+  final int? categoryId;
+
+  Partner({
+    required super.id,
+    required super.name,
+    this.email,
+    this.isCompany,
+    this.categoryId,
+  });
+
+  factory Partner.fromJson(Map<String, dynamic> json) => _$PartnerFromJson(json);
+}
+```
+
 ```bash
 dart run build_runner build --delete-conflicting-outputs
 ```
 
-## 🛠️ 1. Configuración y Cliente Base
+---
 
-Toda comunicación necesita un `OdooClient`. Por defecto usamos el `OdooRpcService` que viene optimizado dentro de la red (carpeta network):
+## 🔍 6. Consultas y CRUD
 
 ```dart
-import 'package:odoo_core/odoo_core.dart';
+final partnerRepo = PartnerRepository(client: odoo);
 
-void main() async {
-  // Inicializamos nuestra conexión master Odoo (En Flutter típicamente en un Provider o Singleton)
-  final odooClient = OdooRpcService();
-  
-  // Opcional: Proveerle un contexto específico de región/usuario (muy útil p/ Odoo)
-  odooClient.setContext(const UserContext(lang: 'es_PE', tz: 'America/Lima', uid: 1));
-}
+// searchFetch — web_search_read con paginación
+final result = await partnerRepo.searchFetch(
+  domain: [['is_company', '=', true]],
+  limit: 20,
+  order: 'name asc',
+);
+
+// searchCount — total sin traer datos
+final total = await partnerRepo.searchCount(
+  domain: [['is_company', '=', true]],
+);
+
+// searchIds — solo IDs
+final ids = await partnerRepo.searchIds(domain: [['active', '=', true]]);
+
+// read
+final partners = await partnerRepo.read([1, 2, 3]);
+
+// create
+final newId = await partnerRepo.create({'name': 'Acme', 'is_company': true});
+
+// write
+await partnerRepo.write([newId], {'phone': '555-9999'});
+
+// webSave — guarda y devuelve el registro actualizado
+final saved = await partnerRepo.webSave(
+  ids: [newId],
+  values: {'name': 'Acme S.A.'},
+);
+
+// unlink
+await partnerRepo.unlink([newId]);
 ```
 
 ---
 
-## 🏗️ 2. Caso de Uso: Declaración de tus Modelos
-
-Tus modelos ya no son simples JSONs. Al extender `OdooBaseModel` y decorarlos, nuestro generador (`odoo_generator`) hará el trabajo de crear parseadores, genéricos, listas, specification y los repositorios enteros automáticamente.
+## ⚙️ 7. Llamar Métodos de Negocio (`callMethod`)
 
 ```dart
-import 'package:odoo_core/odoo_core.dart'; // Contiene las anotaciones
+// Confirmar una orden de venta
+await saleOrderRepo.callMethod(
+  method: 'action_confirm',
+  ids: [orderId],
+);
 
- part 'order.odoo.g.dart'; 
+// Método con contexto adicional
+await invoiceRepo.callMethod(
+  method: 'action_post',
+  ids: [invoiceId],
+  context: {'move_type': 'out_invoice'},
+);
 
-@OdooModel(modelName: 'sale.order')
-class Order extends OdooBaseModel with _$Order{
-
-  @OdooField(type: OdooFieldType.date, name: 'order_date')
-  final DateTime? orderDate;
-
-  @OdooField(type: OdooFieldType.double_, name: 'total')
-  final double? total;
-
-  @OdooField(type: OdooFieldType.selection, name: 'status')
-  final String? status; // draft, confirmed, shipped, delivered
-
-  // ¡Define relaciones one2many y many2many con tipado genérico de id int!
-  @OdooField(type: OdooFieldType.one2many, name: 'line_ids')
-  final List<int>? lineIds;
-
-  // IMPORTANTÍSIMO: Invoca el super constructor para que OdooBaseModel exponga sus campos
-  Order({
-    required super.id,
-    required super.name,
-    super.displayName,
-    super.createDate,
-    super.writeDate,
-    super.createUid,
-    super.writeUid,
-    this.orderDate,
-    this.total,
-    this.status,
-    this.lineIds,
-  });
-
-  // factorías que se rellenan solas gracias tu odoo_generator
-   factory Order.fromJson(Map<String, dynamic> json) => _$OrderFromJson(json);
-   Map<String, dynamic> toJson() => _$OrderToJson(this);
-
-   static Map<String, dynamic> buildSpecification({
-      List<OrderFields>? only,
-      Map<OrderFields, Map<String, dynamic>>? nested
-      }){
-        return _$OrderMeta.buildSpecification(only: only, nested: nested);
-   }
-}
+// Método de clase (sin IDs) — retorna un wizard action
+final wizard = await partnerRepo.callMethod(
+  method: 'name_search',
+  kwargs: {'name': 'Mitchell', 'limit': 5},
+);
 ```
 
 ---
 
-## 🔍 3. Caso de Uso: Consultas, Filtrados y Lecturas Múltiples
-
-Tras haber generado tu modelo, el compilador construirá para ti un `{Modelo}Repository`.
+## 📊 8. Selección Dinámica de Campos (Specification)
 
 ```dart
-// 1. Instanciamos el repositorio inyectándole nuestro OdooClient configurado
-final orderRepo = OrderRepository(client: odooClient);
-
-// === BUSQUEDA DE MÚLTIPLES REGISTROS (equivalente a web_search_read) ===
-final records = await orderRepo.searchFetch(
-  domain: [
-    ['status', '=', 'confirmed'],
-    ['total', '>', 500]
-  ],
-  limit: 20,       // Paginación
-  offset: 0,
-  order: 'order_date desc'
+// El generador crea PartnerFields enum automáticamente
+final lightSpec = Partner.buildSpecification(
+  only: [PartnerFields.id, PartnerFields.name, PartnerFields.email],
 );
 
-print("Se encontraron ${records.length} elementos en total en base de datos.");
-for(var order in records.records) {
-  print('Orden: ${order.name} - Fecha: ${order.orderDate} - Total: ${order.total}');
-}
-
-// === LECTURA POR IDS (equivalente a web_read) ===
-// ¿Solo tienes los IDs de tu ORM? Obten la data llena (con el spec autogenerado)
-final specificallyRequestedOrders = await orderRepo.read([14, 15]);
-
-// === SÓLO OBTENER IDS (Búsqueda liviana - usa solo 'search') ===
-final orderIds = await orderRepo.searchIds(
-  domain: [['status', '=', 'draft']]
-);
-print("Hay ${orderIds.length} órdenes en borrador, pero sólo traje sus IDs.");
-```
-
----
-
-## 📊 4. Caso de Uso: Selección Dinámica de Datos (Specification)
-
-En Odoo 18+, las consultas de lectura utilizan una **especificación** para determinar qué campos devolver. Por defecto el generador incluye todo lo decorado, pero puedes optimizarlo dinámicamente.
-
-### A. Selección Tipada con Enums
-Para evitar errores de escritura, el generador crea un Enum `${ClassName}Fields` que puedes usar con el helper `buildSpecification`.
-
-```dart
-final repo = OrderRepository(client: odooClient);
-
-// Creamos una especificación que solo pida ID y Total
-final partialSpec = Order.buildSpecification(
-  only: [
-    OrderFields.id,
-    OrderFields.total,
-  ],
-);
-
-final result = await repo.searchFetch(specification: partialSpec);
-```
-
-### B. Consultas Anidadas (Relaciones)
-Puedes pedir campos específicos de modelos relacionados de forma muy sencilla combinando los helpers de ambas clases:
-
-```dart
-final nestedSpec = Order.buildSpecification(
-  only: [OrderFields.name, OrderFields.orderDate],
+// Con relaciones anidadas
+final nestedSpec = SaleOrder.buildSpecification(
+  only: [SaleOrderFields.name, SaleOrderFields.amountTotal],
   nested: {
-    // Pedimos campos específicos del modelo de Líneas de Orden
-    OrderFields.lineIds: OrderLine.buildSpecification(
-      only: [OrderLineFields.id, OrderLineFields.productName, OrderLineFields.priceUnit],
+    SaleOrderFields.orderLineIds: OrderLine.buildSpecification(
+      only: [OrderLineFields.productId, OrderLineFields.priceUnit],
     ),
   },
 );
 
-final result = await repo.searchFetch(specification: nestedSpec);
+final orders = await saleOrderRepo.searchFetch(specification: nestedSpec);
 ```
 
 ---
 
----
-
-## ✍🏻 4. Caso de Uso: Lógica CRUD Directa (Crear, Actualizar, Eliminar)
-
-Usa la simplicidad del mapeo JSON en operaciones atómicas:
+## 📡 9. Realtime con WebSockets
 
 ```dart
-// === CREAR REGISTRO ===
-// Los repositorios usan mapas nativos o la función toJson de tu modelo
-final newOrderId = await orderRepo.create({
-  'total': 1500.0,
-  'status': 'draft',
-});
-print("Orden creada con ID oficial Odoo: $newOrderId");
+// Un solo método configura todo desde la sesión activa
+final session = await odoo.authenticate('mydb', 'admin', 'admin');
+final ws = odoo.connectRealtime();
 
-// === ACTUALIZAR REGISTROS MASIVOS (write puro) ===
-final bool success = await orderRepo.write(
-  [newOrderId], 
-  {'status': 'confirmed'}
-);
+ws.connect(channels: ['discuss.channel_1', 'res.partner_10']);
 
-// === WEBSAVE ESTRICTAMENTE TIPADO ===
-// Guarda un registro Y trae la data actualizada de vuelta al mismo tiempo. Súper útil.
-final updatedOrders = await orderRepo.webSave(
-  OdooWriteParams(
-     model: OrderRepository.modelName,
-     ids: [newOrderId],
-     values: {'status': 'shipped'},
-     fromJsonT: Order.fromJson,
-     toJson: (v) => v // Helper temporal para convertir en diccionarios
-  )
-);
-print("Nuevo estado traido de Odoo al guardar: ${updatedOrders.first.status}");
-
-// === BORRAR REGISTROS (unlink) ===
-final isDeleted = await orderRepo.unlink([newOrderId]);
-```
-
----
-
-## 📡 5. Caso de Uso: Conexión Realtime (Sockets)
-
-Al estar en un ecosistema que usa el nuevo módulo realtime, `odoo_core` te exporta una utilidad directa (`OdooRealtimeClient`) para escuchar canales de Odoo sin dependencias extrañas y transmitir los eventos a tu UI limpiamente mediante un **Stream** de Dart:
-
-### Ejemplo Básico: Autenticación y Conexión
-Debes inicializar el socket extrayendo primero la versión estricta del Worker que solicita Odoo en la respuesta de Login (`websocket_worker_version`) y tu cookie de sesión.
-
-```dart
-import 'package:odoo_core/odoo_core.dart';
-import 'package:odoo_core/src/network/client/odoo_realtime_client.dart';
-
-// Supongamos que acabas de invocar el Auth de Odoo
-final workerVersion = authResponse['websocket_worker_version']?.toString() ?? '18.0-7';
-final sessionCookie = 'session_id=123f...'; // Recogida del interceptor de Headers
-
-final wsClient = OdooRealtimeClient(
-  baseUrl: 'https://mi-odoo-produccion.com',
-  sessionId: sessionCookie,
-  websocketWorkerVersion: workerVersion // Fundamental para pasar el Handshake HTTP 400
-);
-
-// Nos conectamos y le instruimos a Odoo a qué canales nos queremos suscribir al instante.
-// Ej. El canal 1 suele referirse al canal "General" del módulo de Chat. 
-wsClient.connect(channels: ['discuss.channel_1']);
-```
-
-### Ejemplo Avanzado: Escuchar el Stream en vivo (Bloc, Provider, UI)
-Debido a que `OdooRealtimeClient` exporta internamente su receptor como un `Stream.broadcast()` en la variable `.messages`, múltiples bloques de tu app pueden "oír" los milisegundos cuando llega algo.
-
-```dart
-// Abres un vigilante continuo
-wsClient.messages.listen((event) {
-  final message = event['message'];
-  if (message == null) return;
-
-  // Odoo arroja muchos eventos (type). Filtraremos si alguien envió un nuevo Mensaje.
-  if (message['type'] == 'mail.message/new') {
-     final payload = message['payload'];
-     final nameAuthor = payload['author_id']?[1] ?? 'Desconocido';
-     final htmlBody = payload['body'] ?? '';
-     
-     print('🔥 ¡Nuevo Chat Entrante! $nameAuthor acaba de escribir un mensaje.');
-     
-     // Aquí inyectarías a tu gestor favorito tu nuevo Widget o Estado.
-     // Ejemplo:
-     // ref.read(chatProvider.notifier).addNewBubble(htmlBody); 
-  } 
-  // O captura otros eventos custom...
-  else if (message['type'] == 'website.visitor/new') {
-     print('🔔 Alguien entró a tu página web.');
-  } else {
-     print('ℹ️ Evento desconocido del bus Odoo: ${message['type']}');
+ws.messages.listen((event) {
+  switch (event['message']?['type']) {
+    case 'mail.message/new':
+      final body = event['message']['payload']['body'];
+      print('Nuevo mensaje: $body');
+    case 'discuss.channel/new_message':
+      print('Mensaje en canal');
   }
 });
-```
 
-### Tips de Uso
-Si el usuario de tu app se desloguea, siempre asegúrate de apagar el canal en memoria:
-```dart
-wsClient.disconnect();
-```
+// Suscribirse a canales adicionales en caliente
+ws.subscribe(['discuss.channel_2']);
 
----
-
-## 🧩 6. Llamadas a RPC Crudas y Personalizadas
-
-¿Necesitas enviar contraseñas o llamar a endpoints a medida que tu python developer expuso?
-
-```dart
-// Acceso a OdooClient genérico
-final miResultado = await odooClient.callRpc(
-  path: '/web/session/authenticate',
-  params: {
-    'db': 'odoo_db',
-    'login': 'admin',
-    'password': '123'
+// Enviar un mensaje al canal vía RPC (el WS es solo lectura)
+await odoo.callKwRaw(
+  model: 'discuss.channel',
+  method: 'message_post',
+  args: [channelId],
+  kwargs: {
+    'body': 'Hello World! Testing with Flutter 🐦',
+    'message_type': 'comment',
+    'subtype_xmlid': 'mail.mt_comment',
   },
-  fromJsonT: MiClaseAuth.fromJson,
 );
 
-// Petición Directa (Call Keyword) evadiendo tu Repositorio 
-final resultList = await odooClient.callKwRaw(
-  model: 'res.partner',
-  method: 'name_search',
-  args: [],
-  kwargs: {'name': 'Mitchell', 'operator': 'ilike'}
+// La respuesta llegará al stream ws.messages como un evento
+ws.disconnect();
+await odoo.destroySession();
+OdooRpcService.reset();
+```
+
+### Conexión manual (sin `OdooRpcService`)
+
+```dart
+final session = OdooSession.fromJson(storedJson);
+
+// fromSession() usa OdooCookie internamente para formatear la cookie
+final ws = OdooRealtimeClient.fromSession(
+  session: session,
+  baseUrl: 'https://mi-odoo.com',
 );
+ws.connect(channels: ['discuss.channel_1']);
 ```
 
 ---
 
-## 🎯 Buenas Prácticas al Usar esta Arquitectura
-1. **Separación de Responsabilidades**: Evita llamar `odooClient.callKwRaw` desde tu capa de Interface Visual o Controller de UI. Todo intento de comunicación ORM debería pasar por tu Objeto Repositorio correspondiente y encapsulado.
-2. **Usa dependencias simuladas (Mocks)**: Gracias a que `OrderRepository` puede recibir `client: OdooClient`, en tus test en Flutter puedes inyectarle una clase falsa tipo `class MockOdooClient implements OdooClient` ¡y probar tus lógicas sin peticione de red reales!
-3. **Control Centralizado de `OdooFieldType`**: Ya no envuelvas las fechas pasándolas por la mano. Usa el enumerado provisto al decorar, así el generador gestiona y estandariza los cast a `DateTime`, `num`, booleanos perdidos que retornen `false` de Odoo, y relaciones `id,name`!
+## 🚨 10. Manejo de Excepciones
+
+```dart
+try {
+  await partnerRepo.searchFetch();
+} on OdooSessionExpiredException {
+  Navigator.pushReplacementNamed(context, '/login');
+} on OdooException catch (e) {
+  if (e.isAuthError) {
+    print('Error de auth (${e.code}): ${e.message}');
+  } else {
+    print('Error Odoo ${e.code}: ${e.message}');
+  }
+}
+
+// Factories semánticos
+throw OdooException.accessDenied('No tienes permiso');
+throw OdooException.notFound('Empleado no encontrado');
+throw OdooException.serverError('Fallo al procesar nómina');
+```
+
+---
+
+## 🧪 11. Testing con Mocks
+
+```dart
+class MockOdooClient implements OdooClient {
+  final dynamic mockResponse;
+  final Exception? error;
+
+  MockOdooClient({this.mockResponse, this.error});
+
+  @override
+  Future<dynamic> callKwRaw({
+    required String model,
+    required String method,
+    List args = const [],
+    Map<String, dynamic> kwargs = const {},
+  }) async {
+    if (error != null) throw error!;
+    return mockResponse;
+  }
+}
+
+// Tests unitarios sin red real
+test('searchCount retorna entero', () async {
+  final repo = PartnerRepository(client: MockOdooClient(mockResponse: 42));
+  expect(await repo.searchCount(), equals(42));
+});
+
+// Test de OdooCookie
+test('OdooCookie parsea Set-Cookie correctamente', () {
+  final c = OdooCookie.fromSetCookieValue(
+    'session_id=abc123; Path=/; HttpOnly; SameSite=Lax',
+  );
+  expect(c.name, 'session_id');
+  expect(c.value, 'abc123');
+  expect(c.httpOnly, isTrue);
+  expect(c.path, '/');
+});
+
+test('extractSessionId retorna null si no hay session_id', () {
+  final id = OdooCookie.extractSessionId(['lang=es_MX; Path=/']);
+  expect(id, isNull);
+});
+```
+
+---
+
+## 🎯 Buenas Prácticas
+
+1. **Usa `OdooCookie` en lugar de `dart:io Cookie`** — funciona en web y nativo.
+2. **Un singleton por servidor** — llama `reset()` solo al cambiar de servidor.
+3. **Maneja `OdooSessionExpiredException` globalmente** — intercepta en tu router raíz.
+4. **Usa `searchCount` antes de paginar** — evita traer datos innecesarios.
+5. **`callMethod` en lugar de `callKwRaw`** — mantén la lógica en el repositorio tipado.
+6. **Persiste `OdooSession`** con `toJson()` para evitar re-autenticar al reabrir la app.
+7. **`inRequestStream` para UX** — conecta al indicador de carga global en `main.dart`.
+
+---
+
+## 📁 Estructura del Paquete
+
+```
+odoo_core/
+└── lib/src/
+    ├── network/
+    │   ├── client/
+    │   │   ├── odoo_rpc_service.dart      # Cliente HTTP + autenticación + realtime
+    │   │   └── odoo_realtime_client.dart  # WebSocket client
+    │   ├── exceptions/
+    │   │   └── odoo_exception.dart        # OdooException + OdooSessionExpiredException
+    │   ├── model/
+    │   │   └── base_model.dart            # OdooBaseModel (id, name, timestamps)
+    │   ├── params/
+    │   │   └── odoo_rpc_params.dart       # UserContext
+    │   ├── responses/
+    │   │   └── rpc_response.dart          # RpcResponse<T>
+    │   ├── odoo_cookie.dart               # Parser RFC 6265 cross-platform ← NUEVO
+    │   └── odoo_session.dart              # OdooSession + OdooCompany
+    ├── odoo_annotation.dart               # @OdooModel, @OdooField, OdooFieldType
+    └── odoo_base.dart                     # OdooClient, OdooRepository<T>
+```

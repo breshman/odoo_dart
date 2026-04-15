@@ -4,14 +4,16 @@ part 'runbot_models.odoo.g.dart';
 
 @OdooModel(modelName: 'res.partner')
 class Partner extends OdooBaseModel with _$Partner {
-  @OdooField(type: OdooFieldType.string, name: 'email')
+  @OdooField(type: OdooFieldType.string)
   final String? email;
 
-  @OdooField(type: OdooFieldType.string, name: 'phone')
+  @OdooField(type: OdooFieldType.string)
   final String? phone;
 
-  @OdooField(type: OdooFieldType.boolean, name: 'is_customer')
-  final bool? isOptimized;
+  @OdooField(type: OdooFieldType.string, name: 'street')
+  final String? street;
+  @OdooField(type: OdooFieldType.string)
+  final String? lang;
 
   Partner({
     required super.id,
@@ -23,7 +25,8 @@ class Partner extends OdooBaseModel with _$Partner {
     // super.writeUid,
     this.email,
     this.phone,
-    this.isOptimized,
+    this.street,
+    this.lang,
   });
 
   bool get isCustomer => true;
@@ -61,8 +64,6 @@ class User extends OdooBaseModel with _$User {
 class Employee extends OdooBaseModel with _$Employee {
   @OdooField(type: OdooFieldType.string, name: 'job_title')
   final String? jobTitle;
-  @OdooField(type: OdooFieldType.dynamic_, name: 'company_ids')
-  final List<int>? companyIds;
 
   Employee({
     required super.id,
@@ -73,7 +74,6 @@ class Employee extends OdooBaseModel with _$Employee {
     super.createUid,
     super.writeUid,
     this.jobTitle,
-    this.companyIds,
   });
 
   factory Employee.fromJson(Map<String, dynamic> json) =>

@@ -1,3 +1,7 @@
+## 2.2.0
+
+- Feat: Conversión automática de nombres camelCase a snake_case cuando `@OdooField` no especifica `name`. Ejemplo: `partnerId` → `partner_id`. Elimina la necesidad de declarar `name` manualmente para la gran mayoría de campos Odoo.
+
 ## 2.1.1
 
 - Feat: correcion de casteo de tipos dinamicos.

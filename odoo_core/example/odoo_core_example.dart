@@ -1,147 +1,249 @@
+// ignore_for_file: avoid_print
 import 'package:dio/dio.dart';
 import 'package:odoo_core/odoo_core.dart';
 
 import 'runbot_models.dart';
 
-// =========================================================
-// SCRIPT PRINCIPAL DE EJEMPLO
-// =========================================================
+// ─────────────────────────────────────────────────────────────────────────────
+// SCRIPT DE EJEMPLO — odoo_core v2.2.0
+// RunBot: https://107503898-18-0-all.runbot215.odoo.com
+// ─────────────────────────────────────────────────────────────────────────────
+
+const _baseUrl = 'https://107503898-18-0-all.runbot215.odoo.com';
+const _db = '107503898-18-0-all';
+const _user = 'admin';
+const _pass = 'admin';
 
 void main() async {
-  print('=== EJEMPLO CLIENTE ODOO (RunBot) ===');
+  print('═══════════════════════════════════════════════════════');
+  print('  odoo_core v2.2.0 — Ejemplo completo con RunBot');
+  print('═══════════════════════════════════════════════════════\n');
 
-  // URL de prueba basada en odoo runbot.
-  // NOTA: Esta URL es efímera y cambiará. Actualízala a la de tu entorno si arroja ConnectException.
-  const baseUrl = 'https://106987691-18-0-all.runbot303.odoo.com';
+  // ── 1. Configurar Dio + interceptor de cookie ──────────────────────────────
+  final dio = Dio(BaseOptions(baseUrl: _baseUrl));
 
-  print('1. Configurando cliente para $baseUrl ...');
-  final dio = Dio(BaseOptions(baseUrl: baseUrl));
-
-  // Agregar un interceptor básico para manejar la sesión vía Cookie (requerido por Odoo)
-  String? sessionId;
+  String? sessionCookie;
   dio.interceptors.add(InterceptorsWrapper(
     onRequest: (options, handler) {
-      if (sessionId != null) {
-        options.headers['Cookie'] = sessionId;
-      }
-      return handler.next(options);
+      if (sessionCookie != null) options.headers['Cookie'] = sessionCookie!;
+      handler.next(options);
     },
     onResponse: (response, handler) {
-      final cookies = response.headers['set-cookie'];
-      if (cookies != null) {
-        for (var cookie in cookies) {
-          if (cookie.contains('session_id')) {
-            sessionId = cookie.split(';').first;
-          }
-        }
+      // Usar OdooCookie (RFC 6265) para parsear Set-Cookie correctamente
+      final rawCookies = response.headers['set-cookie'] ?? [];
+      final sessionId = OdooCookie.extractSessionId(rawCookies);
+      if (sessionId != null) {
+        // Reconstruir la cookie correctamente formateada
+        sessionCookie = OdooCookie('session_id', sessionId).toString();
       }
-      return handler.next(response);
+      handler.next(response);
     },
   ));
 
-  final odooClient = OdooRpcService(dio: dio);
+  final odoo = OdooRpcService(dio: dio);
+
+  // ── 2. Indicador de carga global ──────────────────────────────────────────
+  odoo.inRequestStream.listen(
+    (loading) => print('  ⏳ Loading: $loading'),
+  );
 
   try {
-    print('2. Autenticando (admin / admin)...');
-    final authResponse = await odooClient.callRpc<Map<String, dynamic>>(
-      path: '/web/session/authenticate',
-      params: {
-        'db':
-            '106987691-18-0-all', // Usualmente en runbot el nombre de bd es igual al subdominio o '18-0-all'
-        'login': 'admin',
-        'password': 'admin'
-      },
-      fromJsonT: (json) => json as Map<String, dynamic>,
+    // ── 3. Autenticar con OdooSession tipado ────────────────────────────────
+    print('1. Autenticando en $_baseUrl ...');
+    final session = await odoo.authenticate(_db, _user, _pass);
+
+    print('   ✅ Bienvenido: ${session.userName} (uid: ${session.userId})');
+    print('   🏢 Empresa: ${session.companyId} | DB: ${session.dbName}');
+    print(
+        '   🔖 Odoo v${session.serverVersionInt} | WS: ${session.websocketWorkerVersion}');
+    print('   🔐 isAuthenticated: ${session.isAuthenticated}\n');
+
+    // Serialización de sesión (para SharedPreferences, Hive, etc.)
+    final json = session.toJson();
+    final restored = OdooSession.fromJson(json);
+    final idPreview = restored.id.isEmpty
+        ? '(via cookie)'
+        : '${restored.id.substring(0, restored.id.length.clamp(0, 8))}...';
+    print('   📦 Round-trip JSON: id=$idPreview\n');
+
+    // ── 4. Verificar sesión activa ────────────────────────────────────────
+    print('2. Verificando sesión activa (checkSession)...');
+    await odoo.checkSession();
+    print('   ✅ Sesión válida.\n');
+
+    // ── 5. Repositorios ───────────────────────────────────────────────────
+    final partnerRepo = PartnerRepository(client: odoo);
+    final userRepo = UserRepository(client: odoo);
+    final empRepo = EmployeeRepository(client: odoo);
+
+    // ── 6. searchFetch res.partner ────────────────────────────────────────
+    print('3. searchFetch — 5 primeros res.partner...');
+    final partners = await partnerRepo.searchFetch(limit: 5, order: 'name asc');
+    print(
+        '   📋 ${partners.length} registros en total, mostrando ${partners.records.length}:');
+    for (final p in partners.records) {
+      print('      · ${p.id}: ${p.name} — ${p.email ?? "sin email"}');
+    }
+    print('');
+
+    // ── 7. searchCount ────────────────────────────────────────────────────
+    print('4. searchCount — empresas activas...');
+    final totalEmpresas = await partnerRepo.searchCount(
+      domain: [
+        ['is_company', '=', true]
+      ],
     );
+    print('   📊 Total empresas: $totalEmpresas\n');
 
-    if (authResponse.error != null) {
-      print('❌ Falló la autenticación: ${authResponse.error!.message}');
-      return;
-    }
+    // ── 8. searchIds ──────────────────────────────────────────────────────
+    print('5. searchIds — primeros 10 IDs de res.users...');
+    final userIds = await userRepo.searchIds(
+      domain: [
+        ['active', '=', true]
+      ],
+      limit: 10,
+    );
+    print('   🔢 IDs: $userIds\n');
 
-    print("✅ Autenticación exitosa! uid: ${authResponse.result?['uid']}");
+    // ── 9. CRUD completo ──────────────────────────────────────────────────
+    print('6. CRUD completo en res.partner...');
 
-    // 3. Obtener Clientes (res.partner)
-    print('\n3. Obteniendo Clientes (res.partner)...');
-    final partnerRepo = PartnerRepository(client: odooClient);
-    final partnersSet = await partnerRepo.searchFetch(limit: 5);
-    print('  📌 Se obtuvieron ${partnersSet.records.length} clientes:');
-    for (var p in partnersSet.records) {
-      print(
-          '   - ID: ${p.id} | Nombre: ${p.name} | Teléfono: ${p.phone ?? "N/A"}');
-    }
-
-    // 4. Obtener Usuarios (res.users)
-    print('\n4. Obteniendo Usuarios (res.users)...');
-    final userRepo = UserRepository(client: odooClient);
-    final usersSet = await userRepo.searchFetch(limit: 5);
-    print('  📌 Se obtuvieron ${usersSet.records.length} usuarios:');
-    for (var u in usersSet.records) {
-      print(
-          '   - ID: ${u.id} | Nombre: ${u.name} | Login: ${u.login ?? "N/A"}');
-    }
-
-    // 5. Obtener Empleados (hr.employee)
-    print('\n5. Obteniendo Empleados (hr.employee)...');
-    // final employeeRepo = EmployeeRepository(client: odooClient);
-    // final employeesSet = await employeeRepo.searchFetch(limit: 5);
-    // print('  📌 Se obtuvieron ${employeesSet.records.length} empleados:');
-    // for (var e in employeesSet.records) {
-    //   print('   - ID: ${e.id} | Nombre: ${e.name} | Puesto: ${e.jobTitle ?? "N/A"}');
-    // }
-
-    print('\n🚀 Flujo de lectura básica completado.');
-    print('\n======================================================');
-    print('          PROBANDO TODAS LAS OPERACIONES CRUD         ');
-    print('======================================================');
-
-    // --- CREATE ---
-    print('\n[CREATE] Creando nuevo contacto de prueba...');
-    final newPartnerId = await partnerRepo.create({
-      'name': 'Dart Integration Test',
-      'email': 'test@dart-odoo.dev',
-      'phone': '555-1234'
+    // CREATE
+    final newId = await partnerRepo.create({
+      'name': 'Dart Example Contact',
+      'email': 'dart@example.dev',
+      'phone': '555-0001',
     });
-    print('  ✅ Contacto creado exitosamente con ID: $newPartnerId');
+    print('   ✅ CREATE — nuevo ID: $newId');
 
-    // --- READ ---
-    print('\n[READ] Leyendo el contacto recien creado (ID $newPartnerId)...');
-    final readRecords = await partnerRepo.read([newPartnerId]);
-    if (readRecords.isNotEmpty) {
-      print(
-          '  ✅ Contacto leído de la BBDD: ${readRecords.first.name} - Tel: ${readRecords.first.phone}');
-    }
+    // READ
+    final read = await partnerRepo.read([newId]);
+    print('   ✅ READ  — ${read.first.name} | tel: ${read.first.phone}');
 
-    // --- WRITE ---
-    print('\n[WRITE] Actualizando teléfono mediante escritura silenciosa...');
-    final writeSuccess =
-        await partnerRepo.write([newPartnerId], {'phone': '555-9876'});
-    print('  ✅ Registro actualizado (boolean result): $writeSuccess');
+    // WRITE
+    await partnerRepo.write([newId], {'phone': '555-9999'});
+    print('   ✅ WRITE — teléfono actualizado a 555-9999');
 
-    // --- WEBSAVE (Save + Read All in One) ---
-    print(
-        '\n[WEBSAVE] Cambiando nombre y obteniendo objeto retornado todo junto...');
-
-    final webSavedRecords = await partnerRepo.webSave(
-      ids: [newPartnerId],
-      values: {'name': 'Dart Integration Test V2'},
+    // WEBSAVE
+    final saved = await partnerRepo.webSave(
+      ids: [newId],
+      values: {'name': 'Dart Example Contact V2'},
     );
     print(
-        '  ✅ Contacto retornado de web_save: ${webSavedRecords.first.name} - Nuevo tel es ${webSavedRecords.first.phone}');
+        '   ✅ WEBSAVE — nombre: ${saved.first.name} | tel: ${saved.first.phone}');
 
-    // --- UNLINK (Delete) ---
-    print('\n[UNLINK] Eliminando el registro para no ensuciar el RunBot...');
-    final unlinkSuccess = await partnerRepo.unlink([newPartnerId]);
-    print('  ✅ Registro borrado de manera permanente: $unlinkSuccess');
+    // callMethod — name_search
+    final found = await partnerRepo.callMethod(
+      method: 'name_search',
+      kwargs: {'name': 'Dart Example', 'limit': 5},
+    );
+    print(
+        '   ✅ callMethod(name_search) — ${(found as List).length} coincidencia(s)');
 
-    print('\n🚀 TODOS LOS MÉTODOS CRUD PROBADOS EXITOSAMENTE.');
+    // UNLINK
+    await partnerRepo.unlink([newId]);
+    print('   ✅ UNLINK — registro $newId eliminado\n');
+
+    // ── 10. Empleados ─────────────────────────────────────────────────────
+    print('7. hr.employee — primeros 3 empleados...');
+    final emps = await empRepo.searchFetch(limit: 3);
+    if (emps.records.isEmpty) {
+      print('   ℹ️  Sin empleados en este RunBot.');
+    } else {
+      for (final e in emps.records) {
+        print('      · ${e.id}: ${e.name} — ${e.jobTitle ?? "sin puesto"}');
+      }
+    }
+    print('');
+
+    // ── 11. WebSocket Realtime ────────────────────────────────────────────
+    print('8. WebSocket Realtime — conectando...');
+    final ws = odoo.connectRealtime();
+
+    final events = <String>[];
+    final sub = ws.messages.listen((event) {
+      final type =
+          (event['message'] as Map?)?['type'] as String? ?? event.keys.first;
+      events.add(type);
+      print('   📨 Evento: $type');
+    });
+
+    ws.connect(channels: ['odoo', 'discuss.channel_1']);
+
+    // Esperar un momento para que se establezca la conexión WS
+    await Future<void>.delayed(const Duration(seconds: 2));
+
+    // ── Enviar mensaje "Hello World" vía RPC ──────────────────────────────
+    // Una vez conectado el WS, cualquier mensaje_post en el canal
+    // llegará como evento al stream de mensajes.
+    print('   ✉️  Enviando mensaje de prueba al canal 1...');
+    try {
+      // Obtener el ID del canal "general" o usar el primero disponible
+      final channels = await odoo.callKwRaw(
+        model: 'discuss.channel',
+        method: 'search_read',
+        args: [[]],
+        kwargs: {
+          'fields': ['id', 'name'],
+          'limit': 1,
+          'order': 'id asc',
+        },
+      );
+
+      if (channels is List && channels.isNotEmpty) {
+        final channelId = (channels.first as Map)['id'] as int;
+        final channelName = (channels.first as Map)['name'] as String;
+        print('   📢 Enviando a canal "$channelName" (ID: $channelId)...');
+
+        await odoo.callKwRaw(
+          model: 'discuss.channel',
+          method: 'message_post',
+          args: [channelId],
+          kwargs: {
+            'body': 'Hello World! Testing with Flutter 🐦',
+            'message_type': 'comment',
+            'subtype_xmlid': 'mail.mt_comment',
+          },
+        );
+        print('   ✅ Mensaje enviado a "$channelName".');
+      } else {
+        print('   ⚠️  No se encontraron canales activos.');
+      }
+    } catch (e) {
+      print('   ⚠️  No se pudo enviar el mensaje: $e');
+    }
+
+    print('   ℹ️  Escuchando 10 segundos para recibir el evento WS...');
+    await Future<void>.delayed(const Duration(seconds: 10));
+
+    // Suscribirse a canal adicional en caliente
+    ws.subscribe(['discuss.channel_2']);
+    await Future<void>.delayed(const Duration(seconds: 2));
+
+    await sub.cancel();
+    ws.disconnect();
+    print('   ✅ WS desconectado. Eventos recibidos: ${events.length}\n');
+
+    // ── 12. Logout ────────────────────────────────────────────────────────
+    print('9. Cerrando sesión (destroySession)...');
+    await odoo.destroySession();
+    print('   ✅ Sesión cerrada. currentSession: ${odoo.currentSession}');
+    OdooRpcService.reset();
+    print('   ✅ Singleton reseteado.\n');
+
+    print('═══════════════════════════════════════════════════════');
+    print('  ✅ Todos los flujos completados exitosamente.');
+    print('═══════════════════════════════════════════════════════');
+  } on OdooSessionExpiredException {
+    print('\n❌ Sesión expirada o credenciales inválidas.');
+    print('   Actualiza la URL/credenciales del RunBot si caducó.');
   } on OdooException catch (e) {
-    print('\n❌ Error de Odoo devuelto por la API:');
-    print('   Código: ${e.code}');
-    print('   Mensaje: ${e.message}');
+    print('\n❌ Error Odoo (código ${e.code}): ${e.message}');
+    if (e.data != null) print('   Data: ${e.data}');
   } catch (e) {
-    print('\n❌ Error inesperado de conexión o ejecución:');
-    print('   Detalles: $e');
-    print('   (Recuerda que la URL de RunBot desaparece luego de un tiempo)');
+    print('\n❌ Error inesperado: $e');
+    print('   (La URL del RunBot puede haber expirado)');
+  } finally {
+    OdooRpcService.reset();
   }
 }

@@ -2,6 +2,26 @@
 
 All notable changes to the `odoo_core` project will be documented in this file.
 
+## [2.2.0] - 2026-04-15
+### Added
+* **`OdooSession`:** Nueva clase inmutable y serializable que representa la sesión autenticada de Odoo. Incluye `userId`, `companyId`, `allowedCompanies`, `userName`, `serverVersionInt` y soporte multi-versión (Odoo 12–18+). Métodos `fromSessionInfo`, `fromJson`, `toJson` y `updateSessionId`.
+* **`OdooCompany`:** Clase auxiliar de empresa para `OdooSession.allowedCompanies`.
+* **`OdooSessionExpiredException`:** Subclase de `OdooException` lanzada automáticamente cuando el servidor Odoo retorna código de error 100 (sesión expirada). Úsala para redirigir al login sin tener que inspeccionar códigos manualmente.
+* **`OdooException` — Factory constructors semánticos:** Agregados `OdooException.accessDenied()`, `OdooException.notFound()` y `OdooException.serverError()` para errores comunes.
+* **`OdooException.isAuthError`:** Getter booleano que retorna `true` para códigos 100 y 403.
+* **`OdooRpcService.authenticate()`:** Método tipado para autenticar contra Odoo, retorna `OdooSession` directamente.
+* **`OdooRpcService.destroySession()`:** Cierra la sesión en el servidor. Limpia `currentSession` localmente aunque el servidor falle.
+* **`OdooRpcService.checkSession()`:** Verifica si la sesión activa sigue siendo válida. Lanza `OdooSessionExpiredException` si expiró.
+* **`OdooRpcService.inRequestStream`:** `Stream<bool>` que emite `true` al inicio de cada petición HTTP y `false` al terminar. Implementado como interceptor Dio global para cubrir todos los métodos.
+* **`OdooRpcService.currentSession`:** Getter que retorna la `OdooSession` activa (null si no autenticado).
+* **`OdooRpcService.reset()`:** Destruye el singleton para reiniciar el cliente (cambio de servidor, logout completo).
+* **`OdooRpcService.setBaseUrl()`:** Cambia la URL base del cliente Dio en tiempo de ejecución.
+* **`OdooRepository.searchCount()`:** Cuenta registros con dominio sin traer datos. Usa `search_count` de Odoo ORM.
+* **`OdooRepository.callMethod()`:** Invoca cualquier método de negocio Odoo (e.g. `action_confirm`, `button_validate`) encapsulado dentro del repositorio tipado.
+
+### Changed
+* **`OdooRpcService`:** Ahora lanza `OdooSessionExpiredException` automáticamente cuando el servidor retorna `error.code == 100`, en lugar de la genérica `OdooException`.
+
 ## [2.1.1] - 2026-04-13
 ### Changed
 * **odoo_rpc_params.dart:** Se marco como comentado para ver si se puede usar luego.

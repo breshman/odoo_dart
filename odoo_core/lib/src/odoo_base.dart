@@ -176,4 +176,68 @@ abstract class OdooRepository<T extends OdooBaseModel> {
     );
     return result as bool;
   }
+
+  /// Cuenta los registros que coinciden con el [domain] sin traer datos.
+  ///
+  /// Equivalente al método `search_count` de Odoo ORM. Mucho más eficiente
+  /// que `searchFetch` cuando solo se necesita el total.
+  ///
+  /// ```dart
+  /// final total = await partnerRepo.searchCount(
+  ///   domain: [['is_company', '=', true]],
+  /// );
+  /// print('Hay $total empresas.');
+  /// ```
+  Future<int> searchCount({
+    OdooDomain domain = const [],
+    Map<String, dynamic>? context,
+  }) async {
+    final result = await client.callKwRaw(
+      model: modelName,
+      method: 'search_count',
+      args: [domain],
+      kwargs: {'context': context ?? {}},
+    );
+    return (result as num).toInt();
+  }
+
+  /// Invoca cualquier método de negocio de Odoo directamente desde el repositorio.
+  ///
+  /// Úsalo para llamadas como `action_confirm`, `button_validate`, `write_and_print`,
+  /// o cualquier método Python expuesto en el modelo.
+  ///
+  /// [method]: nombre del método Python en el modelo.
+  /// [ids]: lista de IDs sobre los que se ejecuta (puede ser vacía para métodos de clase).
+  /// [args]: argumentos posicionales adicionales.
+  /// [kwargs]: argumentos nombrados adicionales.
+  /// [context]: contexto Odoo opcional (idioma, empresa, etc.).
+  ///
+  /// ```dart
+  /// // Confirmar una orden de venta
+  /// await saleOrderRepo.callMethod(
+  ///   method: 'action_confirm',
+  ///   ids: [orderId],
+  /// );
+  ///
+  /// // Llamar un método con argumentos extra
+  /// await invoiceRepo.callMethod(
+  ///   method: 'action_post',
+  ///   ids: [invoiceId],
+  ///   context: {'move_type': 'out_invoice'},
+  /// );
+  /// ```
+  Future<dynamic> callMethod({
+    required String method,
+    List<int> ids = const [],
+    List<dynamic> args = const [],
+    Map<String, dynamic> kwargs = const {},
+    Map<String, dynamic>? context,
+  }) async {
+    return client.callKwRaw(
+      model: modelName,
+      method: method,
+      args: ids.isNotEmpty ? [ids, ...args] : args,
+      kwargs: {'context': context ?? {}, ...kwargs},
+    );
+  }
 }

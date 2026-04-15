@@ -152,7 +152,7 @@ class OdooModelGenerator extends GeneratorForAnnotation<OdooModel> {
     for (final field in fields) {
       final annotation = _readOdooField(field);
       final jsonKey =
-          annotation?.peek('name')?.stringValue ?? field.displayName;
+          annotation?.peek('name')?.stringValue ?? _camelToSnake(field.displayName);
       final fieldType = _resolveType(field, annotation);
 
       final expression = _buildFromJsonExpression(
@@ -187,7 +187,7 @@ class OdooModelGenerator extends GeneratorForAnnotation<OdooModel> {
     for (final field in fields) {
       final annotation = _readOdooField(field);
       final jsonKey =
-          annotation?.peek('name')?.stringValue ?? field.displayName;
+          annotation?.peek('name')?.stringValue ?? _camelToSnake(field.displayName);
       final fieldType = _resolveType(field, annotation);
       final fieldName = field.displayName;
       final isNullable =
@@ -358,6 +358,19 @@ class OdooModelGenerator extends GeneratorForAnnotation<OdooModel> {
       }
     }
     return null;
+  }
+
+  /// Convierte un nombre camelCase de Dart al snake_case de Odoo.
+  /// Ejemplo: `partnerId` → `partner_id`, `createDate` → `create_date`.
+  ///
+  /// Se usa como fallback cuando `@OdooField(name: ...)` no especifica `name`.
+  String _camelToSnake(String input) {
+    return input
+        .replaceAllMapped(
+          RegExp(r'[A-Z]'),
+          (m) => '_${m.group(0)!.toLowerCase()}',
+        )
+        .replaceFirst(RegExp(r'^_'), '');
   }
 
   OdooFieldType _resolveType(FieldElement field, ConstantReader? annotation) {
@@ -561,7 +574,7 @@ class OdooModelGenerator extends GeneratorForAnnotation<OdooModel> {
       if (!includeInSpec) continue;
 
       final jsonKey =
-          annotation?.peek('name')?.stringValue ?? field.displayName;
+          annotation?.peek('name')?.stringValue ?? _camelToSnake(field.displayName);
       final specFieldsList = annotation
               ?.peek('specFields')
               ?.listValue
@@ -598,7 +611,7 @@ class OdooModelGenerator extends GeneratorForAnnotation<OdooModel> {
     for (final field in fields) {
       final annotation = _readOdooField(field);
       final jsonKey =
-          annotation?.peek('name')?.stringValue ?? field.displayName;
+          annotation?.peek('name')?.stringValue ?? _camelToSnake(field.displayName);
       buf.writeln("    '${field.displayName}': '$jsonKey',");
     }
     buf.writeln('  };');

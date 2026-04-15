@@ -25,8 +25,12 @@ Partner _$PartnerFromJson(Map<String, dynamic> json) {
     phone: json['phone'] == false || json['phone'] == null
         ? null
         : (json['phone'].toString()),
-    isOptimized:
-        json['is_customer'] is bool ? json['is_customer'] as bool : null,
+    street: json['street'] == false || json['street'] == null
+        ? null
+        : (json['street'].toString()),
+    lang: json['lang'] == false || json['lang'] == null
+        ? null
+        : (json['lang'].toString()),
   );
 }
 
@@ -35,7 +39,8 @@ Map<String, dynamic> _$PartnerToJson(Partner instance, {bool toOdoo = false}) {
     ...instance.baseToJson(toOdoo: toOdoo),
     if (instance.email != null) 'email': instance.email!,
     if (instance.phone != null) 'phone': instance.phone!,
-    if (instance.isOptimized != null) 'is_customer': instance.isOptimized!,
+    if (instance.street != null) 'street': instance.street!,
+    if (instance.lang != null) 'lang': instance.lang!,
   };
 }
 
@@ -51,7 +56,8 @@ extension $PartnerExtension on Partner {
     DateTime? writeDate,
     String? email,
     String? phone,
-    bool? isOptimized,
+    String? street,
+    String? lang,
   }) {
     return Partner(
       id: id ?? this.id,
@@ -61,7 +67,8 @@ extension $PartnerExtension on Partner {
       writeDate: writeDate ?? this.writeDate,
       email: email ?? this.email,
       phone: phone ?? this.phone,
-      isOptimized: isOptimized ?? this.isOptimized,
+      street: street ?? this.street,
+      lang: lang ?? this.lang,
     );
   }
 }
@@ -79,7 +86,8 @@ mixin _$Partner {
         'name: ${instance.name}, '
         'email: ${instance.email}, '
         'phone: ${instance.phone}, '
-        'isOptimized: ${instance.isOptimized}'
+        'street: ${instance.street}, '
+        'lang: ${instance.lang}'
         ')';
   }
 }
@@ -94,7 +102,8 @@ enum PartnerFields {
   writeUid,
   email,
   phone,
-  isOptimized,
+  street,
+  lang,
 }
 
 mixin _$PartnerMeta {
@@ -104,7 +113,8 @@ mixin _$PartnerMeta {
     ...OdooBaseModel.baseSpecification,
     'email': {},
     'phone': {},
-    'is_customer': {},
+    'street': {},
+    'lang': {},
   };
 
   static const Map<String, String> fieldMapping = {
@@ -117,7 +127,8 @@ mixin _$PartnerMeta {
     'writeUid': 'write_uid',
     'email': 'email',
     'phone': 'phone',
-    'isOptimized': 'is_customer',
+    'street': 'street',
+    'lang': 'lang',
   };
 
   static Map<String, dynamic> buildSpecification(
@@ -295,8 +306,6 @@ Employee _$EmployeeFromJson(Map<String, dynamic> json) {
     jobTitle: json['job_title'] == false || json['job_title'] == null
         ? null
         : (json['job_title'].toString()),
-    companyIds:
-        json['company_ids'] == false ? null : json['company_ids'] as List<int>,
   );
 }
 
@@ -305,7 +314,6 @@ Map<String, dynamic> _$EmployeeToJson(Employee instance,
   return {
     ...instance.baseToJson(toOdoo: toOdoo),
     if (instance.jobTitle != null) 'job_title': instance.jobTitle!,
-    if (instance.companyIds != null) 'company_ids': instance.companyIds!,
   };
 }
 
@@ -322,7 +330,6 @@ extension $EmployeeExtension on Employee {
     int? createUid,
     int? writeUid,
     String? jobTitle,
-    List<int>? companyIds,
   }) {
     return Employee(
       id: id ?? this.id,
@@ -333,7 +340,6 @@ extension $EmployeeExtension on Employee {
       createUid: createUid ?? this.createUid,
       writeUid: writeUid ?? this.writeUid,
       jobTitle: jobTitle ?? this.jobTitle,
-      companyIds: companyIds ?? this.companyIds,
     );
   }
 }
@@ -349,8 +355,7 @@ mixin _$Employee {
     return 'Employee('
         'id: ${instance.id}, '
         'name: ${instance.name}, '
-        'jobTitle: ${instance.jobTitle}, '
-        'companyIds: ${instance.companyIds}'
+        'jobTitle: ${instance.jobTitle}'
         ')';
   }
 }
@@ -364,7 +369,6 @@ enum EmployeeFields {
   createUid,
   writeUid,
   jobTitle,
-  companyIds,
 }
 
 mixin _$EmployeeMeta {
@@ -373,7 +377,6 @@ mixin _$EmployeeMeta {
   static const Map<String, dynamic> specification = {
     ...OdooBaseModel.baseSpecification,
     'job_title': {},
-    'company_ids': {},
   };
 
   static const Map<String, String> fieldMapping = {
@@ -385,7 +388,6 @@ mixin _$EmployeeMeta {
     'createUid': 'create_uid',
     'writeUid': 'write_uid',
     'jobTitle': 'job_title',
-    'companyIds': 'company_ids',
   };
 
   static Map<String, dynamic> buildSpecification(
