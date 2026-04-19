@@ -65,6 +65,7 @@ class OdooSession {
     required this.dbName,
     required this.serverVersion,
     this.websocketWorkerVersion = '1',
+    this.csrfToken = '',
   });
 
   /// El valor de la cookie `session_id`.
@@ -103,13 +104,14 @@ class OdooSession {
   /// Versión mayor del servidor Odoo como string (e.g. "18", "17").
   final String serverVersion;
 
-  /// Versión del WebSocket Worker de Odoo (campo `websocket_worker_version`).
-  ///
-  /// Requerido para establecer la conexión WebSocket con el endpoint `/websocket`.
-  /// Se obtiene directamente de la respuesta de `/web/session/authenticate`.
-  ///
   /// Ejemplo: `'18.0-7'`, `'17.0-3'`
   final String websocketWorkerVersion;
+
+  /// Token CSRF para la sesión actual.
+  ///
+  /// Requerido para peticiones de tipo "http" (como carga de archivos).
+  /// Se obtiene de la respuesta de `/web/session/authenticate` o `/web/session/info`.
+  final String csrfToken;
 
   // ── Getters ────────────────────────────────────────────────
 
@@ -201,6 +203,7 @@ class OdooSession {
       serverVersion: versionInfo[0].toString(),
       websocketWorkerVersion:
           info['websocket_worker_version']?.toString() ?? '1',
+      csrfToken: info['csrf_token'] as String? ?? '',
     );
   }
 
@@ -223,6 +226,7 @@ class OdooSession {
       serverVersion: json['serverVersion']?.toString() ?? '18',
       websocketWorkerVersion:
           json['websocketWorkerVersion']?.toString() ?? '1',
+      csrfToken: json['csrfToken'] as String? ?? '',
     );
   }
 
@@ -244,6 +248,7 @@ class OdooSession {
         'dbName': dbName,
         'serverVersion': serverVersion,
         'websocketWorkerVersion': websocketWorkerVersion,
+        'csrfToken': csrfToken,
       };
 
   // ── Manipulación ───────────────────────────────────────────
@@ -266,6 +271,27 @@ class OdooSession {
       dbName: loggedOut ? '' : dbName,
       serverVersion: loggedOut ? '' : serverVersion,
       websocketWorkerVersion: loggedOut ? '1' : websocketWorkerVersion,
+      csrfToken: loggedOut ? '' : csrfToken,
+    );
+  }
+
+  /// Retorna una copia de la sesión con el `csrfToken` actualizado.
+  OdooSession updateCsrfToken(String newToken) {
+    return OdooSession(
+      id: id,
+      userId: userId,
+      partnerId: partnerId,
+      companyId: companyId,
+      allowedCompanies: allowedCompanies,
+      userName: userName,
+      userLogin: userLogin,
+      userLang: userLang,
+      userTz: userTz,
+      isSystem: isSystem,
+      dbName: dbName,
+      serverVersion: serverVersion,
+      websocketWorkerVersion: websocketWorkerVersion,
+      csrfToken: newToken,
     );
   }
 

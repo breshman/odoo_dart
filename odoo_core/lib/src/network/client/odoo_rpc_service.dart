@@ -125,7 +125,8 @@ class OdooRpcService implements OdooClient {
     }
     final baseUrl = _dio.options.baseUrl.isNotEmpty
         ? _dio.options.baseUrl
-        : throw StateError('No se ha configurado una baseUrl en el cliente Dio.');
+        : throw StateError(
+            'No se ha configurado una baseUrl en el cliente Dio.');
 
     return OdooRealtimeClient.fromSession(
       session: session,
@@ -188,7 +189,6 @@ class OdooRpcService implements OdooClient {
       '/web/session/authenticate',
       data: payload,
     );
-
     final data = response.data!;
 
     if (data.containsKey('error')) {
@@ -205,6 +205,16 @@ class OdooRpcService implements OdooClient {
     }
 
     _currentSession = OdooSession.fromSessionInfo(result);
+
+    // Si no vino el CSRF token (común en Odoo 18+ JSON RPC), intentamos obtenerlo explícitamente
+    if (_currentSession!.csrfToken.isEmpty) {
+      try {
+        await fetchCsrfToken();
+      } catch (e) {
+        // No es crítico para el login, solo para uploads posteriores
+        print('Warning: could not fetch CSRF token automatically: $e');
+      }
+    }
 
     // En algunos servidores Odoo (incluido RunBot) el session_id no viene en
     // el body sino sólo en el header Set-Cookie. Usamos OdooCookie (RFC 6265)
@@ -264,18 +274,63 @@ class OdooRpcService implements OdooClient {
   /// }
   /// ```
   Future<void> checkSession() async {
-    final payload = {
-      'jsonrpc': '2.0',
-      'method': 'call',
-      'params': <String, dynamic>{},
-    };
-    final response = await _dio.post<Map<String, dynamic>>(
-      '/web/session/check',
-      data: payload,
+    final response = await callRpc(
+      path: '/web/session/check',
+      fromJsonT: (json) {
+        if (json is Map) return json as Map<String, dynamic>;
+        return null;
+      },
     );
-    final data = response.data!;
-    if (data.containsKey('error')) {
+    final data = response.result;
+    if (data != null && data.containsKey('error')) {
       _throwOdooError(data['error'] as Map<String, dynamic>);
+    }
+  }
+
+  /// Obtiene el token CSRF del servidor.
+  ///
+  /// Útil en Odoo 18+ donde el token no se incluye en la respuesta de login.
+  /// Primero intenta mediante `/web/session/get_session_info` (JSON)
+  /// y si falla o no está, busca en el HTML de la página `/web`.
+  Future<String> fetchCsrfToken() async {
+    try {
+      // 2. Fallback: Parsear del HTML de /web
+      final response = await _dio.get<String>('/web');
+      final html = response.data ?? '';
+
+      // Regex robusto para capturar:
+      // csrf_token: "..."
+      // "csrf_token": "..."
+      // 'csrf_token': "..."
+      final regex = RegExp(r'''["']?csrf_token["']?\s*:\s*["']([^"']+)["']''');
+      final match = regex.firstMatch(html);
+      if (match != null) {
+        final token = match.group(1)!;
+        if (_currentSession != null) {
+          _currentSession = _currentSession!.updateCsrfToken(token);
+        }
+        return token;
+      }
+    } catch (_) {
+      // Ignorar fallo
+    }
+
+    return '';
+  }
+
+  Future<OdooSession?> checkCurrentUser() async {
+    try {
+      final response = await callRpc(
+        path: '/web/session/get_session_info',
+        fromJsonT: (json) {
+          if (json is Map)
+            return OdooSession.fromJson(json as Map<String, dynamic>);
+          return null;
+        },
+      );
+      return response.result;
+    } on OdooException {
+      return null;
     }
   }
 
@@ -292,8 +347,7 @@ class OdooRpcService implements OdooClient {
     required T Function(Object? json) fromJsonT,
   }) async {
     final finalKwargs = Map<String, dynamic>.from(kwargs ?? {});
-    final contextMap =
-        (finalKwargs['context'] as Map<String, dynamic>?) ?? {};
+    final contextMap = (finalKwargs['context'] as Map<String, dynamic>?) ?? {};
     finalKwargs['context'] = <String, dynamic>{
       ...odooContext.toJson(),
       ...contextMap,
@@ -327,8 +381,7 @@ class OdooRpcService implements OdooClient {
     Map<String, dynamic> kwargs = const {},
   }) async {
     final finalKwargs = Map<String, dynamic>.from(kwargs);
-    final contextMap =
-        (finalKwargs['context'] as Map<String, dynamic>?) ?? {};
+    final contextMap = (finalKwargs['context'] as Map<String, dynamic>?) ?? {};
     finalKwargs['context'] = <String, dynamic>{
       ...odooContext.toJson(),
       ...contextMap,
@@ -370,8 +423,7 @@ class OdooRpcService implements OdooClient {
       'method': 'call',
       'params': params ?? {},
     };
-    final response =
-        await _dio.post<Map<String, dynamic>>(path, data: payload);
+    final response = await _dio.post<Map<String, dynamic>>(path, data: payload);
     return RpcResponse<T>.fromJson(
       response.data as Map<String, dynamic>,
       fromJsonT,

@@ -10,8 +10,8 @@ import '../example/runbot_models.dart';
 // ─────────────────────────────────────────────────────────────────────────────
 // RunBot config — URL de pruebas activa
 // ─────────────────────────────────────────────────────────────────────────────
-const _runbotUrl = 'https://107503898-18-0-all.runbot215.odoo.com';
-const _runbotDb = '107503898-18-0-all';
+const _runbotUrl = 'https://107897960-18-0-all.runbot213.odoo.com';
+const _runbotDb = '107897960-18-0-all';
 const _runbotUser = 'admin';
 const _runbotPass = 'admin';
 
@@ -223,6 +223,13 @@ void main() {
       expect(s.websocketWorkerVersion, '18.0-7');
     });
 
+    test('fromSessionInfo — extrae csrfToken', () {
+      final infoWithCsrf = Map<String, dynamic>.from(sessionInfo)
+        ..['csrf_token'] = 'csrf-12345';
+      final s = OdooSession.fromSessionInfo(infoWithCsrf);
+      expect(s.csrfToken, 'csrf-12345');
+    });
+
     test('fromSessionInfo — default websocketWorkerVersion cuando falta', () {
       final noWs = Map<String, dynamic>.from(sessionInfo)
         ..remove('websocket_worker_version');
@@ -259,7 +266,9 @@ void main() {
       expect(s.isAuthenticated, isFalse);
     });
 
-    test('isAuthenticated true aunque id esté vacío si userId > 0 (cookie-only auth)', () {
+    test(
+        'isAuthenticated true aunque id esté vacío si userId > 0 (cookie-only auth)',
+        () {
       const s = OdooSession(
         id: '', // sin session_id en body (solo cookie)
         userId: 2,
@@ -292,6 +301,7 @@ void main() {
       expect(restored.dbName, original.dbName);
       expect(restored.serverVersionInt, original.serverVersionInt);
       expect(restored.websocketWorkerVersion, original.websocketWorkerVersion);
+      expect(restored.csrfToken, original.csrfToken);
     });
 
     test('updateSessionId con id vacío resetea todos los campos', () {
@@ -302,6 +312,7 @@ void main() {
       expect(out.userName, '');
       expect(out.isAuthenticated, isFalse);
       expect(out.websocketWorkerVersion, '1');
+      expect(out.csrfToken, '');
     });
 
     test('updateSessionId con nuevo id mantiene datos de usuario', () {
@@ -352,7 +363,11 @@ void main() {
       final repo = EmployeeRepository(
         client: MockOdooClient(mockResponse: {
           'records': [
-            {'id': 1, 'name': 'Ana López', 'create_uid': [2, 'Admin']},
+            {
+              'id': 1,
+              'name': 'Ana López',
+              'create_uid': [2, 'Admin']
+            },
             {'id': 2, 'name': 'Carlos Ruiz'},
           ],
           'length': 2,
@@ -451,7 +466,8 @@ void main() {
       expect(
         () => repo.searchFetch(),
         throwsA(
-          isA<OdooException>().having((e) => e.message, 'message', 'Server crashed'),
+          isA<OdooException>()
+              .having((e) => e.message, 'message', 'Server crashed'),
         ),
       );
     });
@@ -476,7 +492,9 @@ void main() {
     test('searchCount — retorna entero con dominio', () async {
       final repo = PartnerRepository(client: MockOdooClient(mockResponse: 42));
       final count = await repo.searchCount(
-        domain: [['is_company', '=', true]],
+        domain: [
+          ['is_company', '=', true]
+        ],
       );
       expect(count, equals(42));
     });
@@ -496,7 +514,8 @@ void main() {
     });
 
     test('callMethod — retorna respuesta del servidor', () async {
-      final repo = PartnerRepository(client: MockOdooClient(mockResponse: true));
+      final repo =
+          PartnerRepository(client: MockOdooClient(mockResponse: true));
       final result = await repo.callMethod(
         method: 'action_confirm',
         ids: [1, 2],
@@ -516,7 +535,8 @@ void main() {
     });
 
     test('callMethod con kwargs adicionales', () async {
-      final repo = PartnerRepository(client: MockOdooClient(mockResponse: 'ok'));
+      final repo =
+          PartnerRepository(client: MockOdooClient(mockResponse: 'ok'));
       final result = await repo.callMethod(
         method: 'do_something',
         ids: [5],
@@ -535,7 +555,8 @@ void main() {
       expect(
         () => repo.callMethod(method: 'action_confirm', ids: [1]),
         throwsA(
-          isA<OdooException>().having((e) => e.isAuthError, 'isAuthError', isTrue),
+          isA<OdooException>()
+              .having((e) => e.isAuthError, 'isAuthError', isTrue),
         ),
       );
     });
@@ -620,6 +641,8 @@ void main() {
       expect(session.userId, isNonZero);
       expect(session.userLogin, _runbotUser);
       expect(session.dbName, _runbotDb);
+      expect(session.csrfToken, isNotEmpty);
+      print('  🛡️ CSRF Token: ${session.csrfToken}');
     });
 
     test('serverVersionInt es 17 o superior', () {
@@ -642,13 +665,15 @@ void main() {
       expect(restored.userId, session.userId);
       expect(restored.dbName, session.dbName);
       expect(restored.websocketWorkerVersion, session.websocketWorkerVersion);
+      expect(restored.csrfToken, session.csrfToken);
     });
 
     test('checkSession no lanza excepción con sesión válida', () async {
       await expectLater(odoo.checkSession(), completes);
     });
 
-    test('inRequestStream emite true luego false durante una petición', () async {
+    test('inRequestStream emite true luego false durante una petición',
+        () async {
       final events = <bool>[];
       final subscription = odoo.inRequestStream.listen(events.add);
 
@@ -696,7 +721,9 @@ void main() {
 
     test('searchFetch con domain filtra correctamente', () async {
       final res = await partnerRepo.searchFetch(
-        domain: [['id', '=', testPartnerId]],
+        domain: [
+          ['id', '=', testPartnerId]
+        ],
         limit: 1,
       );
       expect(res.records, hasLength(1));
@@ -705,14 +732,18 @@ void main() {
 
     test('searchIds retorna ID correcto con domain', () async {
       final ids = await partnerRepo.searchIds(
-        domain: [['id', '=', testPartnerId]],
+        domain: [
+          ['id', '=', testPartnerId]
+        ],
       );
       expect(ids, contains(testPartnerId));
     });
 
     test('searchCount retorna 1 para el contacto creado', () async {
       final count = await partnerRepo.searchCount(
-        domain: [['id', '=', testPartnerId]],
+        domain: [
+          ['id', '=', testPartnerId]
+        ],
       );
       expect(count, equals(1));
     });
@@ -756,7 +787,9 @@ void main() {
       expect(ok, isTrue);
       // Verificar que ya no existe
       final count = await partnerRepo.searchCount(
-        domain: [['id', '=', testPartnerId]],
+        domain: [
+          ['id', '=', testPartnerId]
+        ],
       );
       expect(count, equals(0));
     });
@@ -873,7 +906,8 @@ void main() {
           print('  ℹ️  No se recibieron eventos en 8s '
               '(normal si el server no emite al suscribirse).');
         } else {
-          print('  ✅ Se recibieron ${receivedEvents.length} eventos en tiempo real.');
+          print(
+              '  ✅ Se recibieron ${receivedEvents.length} eventos en tiempo real.');
         }
 
         // El test es exitoso si no lanzó excepción grave
