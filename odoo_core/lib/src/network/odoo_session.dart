@@ -149,13 +149,11 @@ class OdooSession {
     }
 
     // Empresa activa y empresas permitidas (multi-versión)
-    int companyId = info['company_id'] as int? ?? 0;
-    final List<OdooCompany> allowedCompanies = [];
+    var companyId = info['company_id'] as int? ?? 0;
+    final allowedCompanies = <OdooCompany>[];
 
-    if (info.containsKey('user_companies') &&
-        info['user_companies'] is! bool) {
-      final userCompanies =
-          info['user_companies'] as Map<String, dynamic>;
+    if (info.containsKey('user_companies') && info['user_companies'] is! bool) {
+      final userCompanies = info['user_companies'] as Map<String, dynamic>;
       final currentCompany = userCompanies['current_company'];
 
       if (currentCompany is List) {
@@ -224,8 +222,7 @@ class OdooSession {
       isSystem: json['isSystem'] as bool? ?? false,
       dbName: json['dbName'] as String? ?? '',
       serverVersion: json['serverVersion']?.toString() ?? '18',
-      websocketWorkerVersion:
-          json['websocketWorkerVersion']?.toString() ?? '1',
+      websocketWorkerVersion: json['websocketWorkerVersion']?.toString() ?? '1',
       csrfToken: json['csrfToken'] as String? ?? '',
     );
   }
@@ -238,8 +235,7 @@ class OdooSession {
         'userId': userId,
         'partnerId': partnerId,
         'companyId': companyId,
-        'allowedCompanies':
-            allowedCompanies.map((c) => c.toJson()).toList(),
+        'allowedCompanies': allowedCompanies.map((c) => c.toJson()).toList(),
         'userName': userName,
         'userLogin': userLogin,
         'userLang': userLang,
@@ -296,7 +292,6 @@ class OdooSession {
   }
 
   @override
-  String toString() =>
-      'OdooSession{userId: $userId, userName: $userName, '
+  String toString() => 'OdooSession{userId: $userId, userName: $userName, '
       'userLogin: $userLogin, db: $dbName, v: $serverVersion}';
 }

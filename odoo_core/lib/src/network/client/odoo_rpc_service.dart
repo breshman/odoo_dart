@@ -288,13 +288,8 @@ class OdooRpcService implements OdooClient {
   }
 
   /// Obtiene el token CSRF del servidor.
-  ///
-  /// Útil en Odoo 18+ donde el token no se incluye en la respuesta de login.
-  /// Primero intenta mediante `/web/session/get_session_info` (JSON)
-  /// y si falla o no está, busca en el HTML de la página `/web`.
   Future<String> fetchCsrfToken() async {
     try {
-      // 2. Fallback: Parsear del HTML de /web
       final response = await _dio.get<String>('/web');
       final html = response.data ?? '';
 
@@ -323,13 +318,25 @@ class OdooRpcService implements OdooClient {
       final response = await callRpc(
         path: '/web/session/get_session_info',
         fromJsonT: (json) {
-          if (json is Map)
+          if (json is Map) {
             return OdooSession.fromJson(json as Map<String, dynamic>);
+          }
           return null;
         },
       );
-      return response.result;
+      _currentSession = response.result;
+
+      if (_currentSession!.csrfToken.isEmpty) {
+        try {
+          await fetchCsrfToken();
+        } catch (e) {
+          print('Warning: could not fetch CSRF token automatically: $e');
+        }
+      }
+
+      return currentSession;
     } on OdooException {
+      _currentSession = null;
       return null;
     }
   }
