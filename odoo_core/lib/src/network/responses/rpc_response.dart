@@ -21,7 +21,9 @@ class RpcResponse<T> {
       jsonrpc: json['jsonrpc'] as String? ?? '2.0',
       id: json['id']?.toString(),
       result: json['result'] != null ? fromJsonT(json['result']) : null,
-      error: json['error'] != null ? OdooException.fromJson(json['error'] as Map<String, dynamic>) : null,
+      error: json['error'] != null
+          ? OdooException.fromJson(json['error'] as Map<String, dynamic>)
+          : null,
     );
   }
 
@@ -34,5 +36,3 @@ class RpcResponse<T> {
     };
   }
 }
-
-

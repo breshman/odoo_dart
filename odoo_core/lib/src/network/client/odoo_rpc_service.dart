@@ -414,6 +414,7 @@ class OdooRpcService implements OdooClient {
   /// [path]: ruta del endpoint (e.g. `/web/session/authenticate`).
   /// [params]: parámetros a enviar en la petición (opcional).
   /// [fromJsonT]: función para convertir el resultado JSON al tipo T.
+  @override
   Future<RpcResponse<T>> callRpc<T>({
     required String path,
     Map<String, dynamic>? params,

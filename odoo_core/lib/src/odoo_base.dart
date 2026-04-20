@@ -3,8 +3,8 @@
 //  Clase base y arquitectura SOLID para Odoo.
 // ============================================================
 
+import '../odoo_core.dart';
 import 'network/model/base_model.dart';
-import 'network/params/odoo_rpc_params.dart';
 
 // ─── Tipos auxiliares ────────────────────────────────────────
 
@@ -21,6 +21,12 @@ abstract class OdooClient {
     required String method,
     List args = const [],
     Map<String, dynamic> kwargs = const {},
+  });
+
+  Future<RpcResponse<T>> callRpc<T>({
+    required String path,
+    required T Function(Object? json) fromJsonT,
+    Map<String, dynamic>? params,
   });
 }
 

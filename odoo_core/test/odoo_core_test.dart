@@ -34,6 +34,15 @@ class MockOdooClient implements OdooClient {
     if (throwException != null) throw throwException!;
     return mockResponse;
   }
+
+  @override
+  Future<RpcResponse<T>> callRpc<T>(
+      {required String path,
+      required T Function(Object? json) fromJsonT,
+      Map<String, dynamic>? params}) {
+    // TODO: implement callRpc
+    throw UnimplementedError();
+  }
 }
 
 // ─────────────────────────────────────────────────────────────────────────────
