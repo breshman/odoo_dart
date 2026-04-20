@@ -9,8 +9,8 @@ import 'runbot_models.dart';
 // RunBot: https://107503898-18-0-all.runbot215.odoo.com
 // ─────────────────────────────────────────────────────────────────────────────
 
-const _baseUrl = 'https://107503898-18-0-all.runbot215.odoo.com';
-const _db = '107503898-18-0-all';
+const _baseUrl = 'https://107897960-18-0-all.runbot213.odoo.com';
+const _db = '107897960-18-0-all';
 const _user = 'admin';
 const _pass = 'admin';
 
@@ -54,8 +54,8 @@ void main() async {
 
     print('   ✅ Bienvenido: ${session.userName} (uid: ${session.userId})');
     print('   🏢 Empresa: ${session.companyId} | DB: ${session.dbName}');
-    print(
-        '   🔖 Odoo v${session.serverVersionInt} | WS: ${session.websocketWorkerVersion}');
+    print('   🏢 Empresa: ${session.csrfToken} | DB: ${session.csrfToken}');
+    print('   🔖 | WS: ${session.websocketWorkerVersion}');
     print('   🔐 isAuthenticated: ${session.isAuthenticated}\n');
 
     // Serialización de sesión (para SharedPreferences, Hive, etc.)
@@ -70,6 +70,10 @@ void main() async {
     print('2. Verificando sesión activa (checkSession)...');
     await odoo.checkSession();
     print('   ✅ Sesión válida.\n');
+
+    final currentUser = await odoo.checkCurrentUser();
+    print('   ✅ Chequeanso usuario.\n');
+    print(currentUser);
 
     // ── 5. Repositorios ───────────────────────────────────────────────────
     final partnerRepo = PartnerRepository(client: odoo);

@@ -3,6 +3,8 @@
 //  Modelo inmutable de sesión Odoo con soporte multi-versión.
 // ============================================================
 
+import 'dart:convert';
+
 /// Representa una empresa dentro de la sesión de Odoo.
 class OdooCompany {
   const OdooCompany({required this.id, required this.name});
@@ -119,12 +121,12 @@ class OdooSession {
   /// ```dart
   /// final imageField = session.serverVersionInt >= 13 ? 'image_128' : 'image_small';
   /// ```
-  int get serverVersionInt {
-    final sanitized = serverVersion.length == 1
-        ? serverVersion
-        : serverVersion.substring(serverVersion.length - 2);
-    return int.tryParse(sanitized) ?? -1;
-  }
+  // int get serverVersionInt {
+  //   final sanitized = serverVersion.length == 1
+  //       ? serverVersion
+  //       : serverVersion.substring(serverVersion.length - 2);
+  //   return int.tryParse(sanitized) ?? -1;
+  // }
 
   /// `true` si la sesión tiene un `userId` válido (> 0).
   ///
@@ -188,19 +190,19 @@ class OdooSession {
 
     return OdooSession(
       id: info['session_id'] as String? ?? info['id'] as String? ?? '',
-      userId: info['uid'] as int? ?? 0,
-      partnerId: info['partner_id'] as int? ?? 0,
+      userId: info['uid'] as int? ?? -1,
+      partnerId: info['partner_id'] as int? ?? -1,
       companyId: companyId,
       allowedCompanies: allowedCompanies,
       userName: info['name'] as String? ?? '',
       userLogin: info['username'] as String? ?? '',
-      userLang: ctx['lang'] as String? ?? 'en_US',
-      userTz: ctx['tz'] is String ? ctx['tz'] as String : 'UTC',
+      userLang: ctx['lang'] as String? ?? '',
+      userTz: ctx['tz'] is String ? ctx['tz'] as String : '',
       isSystem: info['is_system'] as bool? ?? false,
       dbName: info['db'] as String? ?? '',
       serverVersion: versionInfo[0].toString(),
       websocketWorkerVersion:
-          info['websocket_worker_version']?.toString() ?? '1',
+          info['websocket_worker_version']?.toString() ?? '',
       csrfToken: info['csrf_token'] as String? ?? '',
     );
   }
@@ -217,12 +219,12 @@ class OdooSession {
       ),
       userName: json['userName'] as String? ?? '',
       userLogin: json['userLogin'] as String? ?? '',
-      userLang: json['userLang'] as String? ?? 'en_US',
-      userTz: json['userTz'] as String? ?? 'UTC',
+      userLang: json['userLang'] as String? ?? '',
+      userTz: json['userTz'] as String? ?? '',
       isSystem: json['isSystem'] as bool? ?? false,
       dbName: json['dbName'] as String? ?? '',
-      serverVersion: json['serverVersion']?.toString() ?? '18',
-      websocketWorkerVersion: json['websocketWorkerVersion']?.toString() ?? '1',
+      serverVersion: json['serverVersion']?.toString() ?? '',
+      websocketWorkerVersion: json['websocketWorkerVersion']?.toString() ?? '',
       csrfToken: json['csrfToken'] as String? ?? '',
     );
   }
@@ -292,6 +294,6 @@ class OdooSession {
   }
 
   @override
-  String toString() => 'OdooSession{userId: $userId, userName: $userName, '
-      'userLogin: $userLogin, db: $dbName, v: $serverVersion}';
+  String toString() =>
+      'OdooSession{${jsonEncode(toJson()).split(',').join('\n')}}';
 }
