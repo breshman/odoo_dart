@@ -246,4 +246,12 @@ abstract class OdooRepository<T extends OdooBaseModel> {
       kwargs: {'context': context ?? {}, ...kwargs},
     );
   }
+
+  Future<RpcResponse<T>> callRpc<T>({
+    required String path,
+    required T Function(Object? json) fromJsonT,
+    Map<String, dynamic>? params,
+  }) async {
+    return client.callRpc<T>(path: path, fromJsonT: fromJsonT, params: params);
+  }
 }
