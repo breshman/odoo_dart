@@ -145,7 +145,7 @@ class OdooSession {
     final ctx = info['user_context'] as Map<String, dynamic>? ?? {};
 
     // Versión del servidor
-    List<dynamic> versionInfo = [18];
+    List<dynamic> versionInfo = [];
     if (info.containsKey('server_version_info')) {
       versionInfo = info['server_version_info'] as List<dynamic>;
     }

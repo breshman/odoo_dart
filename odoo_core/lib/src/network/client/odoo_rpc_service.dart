@@ -6,7 +6,7 @@ import 'package:dio/dio.dart';
 import '../../odoo_base.dart';
 import '../exceptions/odoo_exception.dart';
 import '../odoo_cookie.dart';
-import '../odoo_session.dart';
+import '../model/odoo_session.dart';
 import '../params/odoo_rpc_params.dart';
 import '../params/rpc_payload.dart';
 import '../responses/rpc_response.dart';
@@ -189,45 +189,7 @@ class OdooRpcService implements OdooClient {
       '/web/session/authenticate',
       data: payload,
     );
-    final data = response.data!;
-
-    if (data.containsKey('error')) {
-      _throwOdooError(data['error'] as Map<String, dynamic>);
-    }
-
-    final result = data['result'] as Map<String, dynamic>;
-
-    // Odoo retorna uid: false cuando las credenciales son incorrectas
-    if (result['uid'] is bool && result['uid'] == false) {
-      throw const OdooSessionExpiredException(
-        message: 'Authentication failed: invalid credentials',
-      );
-    }
-
-    _currentSession = OdooSession.fromSessionInfo(result);
-
-    // Si no vino el CSRF token (común en Odoo 18+ JSON RPC), intentamos obtenerlo explícitamente
-    if (_currentSession!.csrfToken.isEmpty) {
-      try {
-        await fetchCsrfToken();
-      } catch (e) {
-        // No es crítico para el login, solo para uploads posteriores
-        print('Warning: could not fetch CSRF token automatically: $e');
-      }
-    }
-
-    // En algunos servidores Odoo (incluido RunBot) el session_id no viene en
-    // el body sino sólo en el header Set-Cookie. Usamos OdooCookie (RFC 6265)
-    // para extraerlo correctamente sin depender de dart:io.
-    if (_currentSession!.id.isEmpty) {
-      final rawCookies = response.headers['set-cookie'] ?? [];
-      final cookieSessionId = OdooCookie.extractSessionId(rawCookies);
-      if (cookieSessionId != null) {
-        _currentSession = _currentSession!.updateSessionId(cookieSessionId);
-      }
-    }
-
-    return _currentSession!;
+    return _updateSessionFromResponse(response);
   }
 
   /// Invalida la sesión actual en el servidor Odoo (logout).
@@ -324,6 +286,14 @@ class OdooRpcService implements OdooClient {
       '/web/session/get_session_info',
       data: payload,
     );
+    return _updateSessionFromResponse(response);
+  }
+
+  /// Procesa la respuesta de Odoo para actualizar la sesión activa.
+  /// Centraliza errores, validación de UID, CSRF y cookies.
+  Future<OdooSession> _updateSessionFromResponse(
+    Response<Map<String, dynamic>> response,
+  ) async {
     final data = response.data!;
 
     if (data.containsKey('error')) {

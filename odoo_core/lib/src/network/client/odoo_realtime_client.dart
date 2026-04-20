@@ -4,7 +4,7 @@ import 'package:web_socket_channel/io.dart';
 import 'package:web_socket_channel/web_socket_channel.dart';
 
 import '../odoo_cookie.dart';
-import '../odoo_session.dart';
+import '../model/odoo_session.dart';
 
 /// Cliente WebSocket para recibir notificaciones en tiempo real de Odoo.
 ///
@@ -89,8 +89,7 @@ class OdooRealtimeClient {
   WebSocketChannel? _channel;
 
   /// StreamController que expone los eventos decodificados al resto de la app.
-  final _messageController =
-      StreamController<Map<String, dynamic>>.broadcast();
+  final _messageController = StreamController<Map<String, dynamic>>.broadcast();
 
   /// Stream de notificaciones recibidas desde Odoo en tiempo real.
   ///
