@@ -68,7 +68,7 @@ class OdooModelGenerator extends GeneratorForAnnotation<OdooModel> {
     }
 
     final buffer = StringBuffer()
-      ..writeln('// GENERATED CODE - DO NOT MODIFY BY HAND\n')
+      ..writeln('// GENERATED CODE - DO NOT MODIFY BY BR\n')
       ..writeln('// ignore_for_file: type=lint\n');
 
     _generateFromJson(buffer, element, fields, extendsBase);
@@ -151,8 +151,8 @@ class OdooModelGenerator extends GeneratorForAnnotation<OdooModel> {
 
     for (final field in fields) {
       final annotation = _readOdooField(field);
-      final jsonKey =
-          annotation?.peek('name')?.stringValue ?? _camelToSnake(field.displayName);
+      final jsonKey = annotation?.peek('name')?.stringValue ??
+          _camelToSnake(field.displayName);
       final fieldType = _resolveType(field, annotation);
 
       final expression = _buildFromJsonExpression(
@@ -186,8 +186,8 @@ class OdooModelGenerator extends GeneratorForAnnotation<OdooModel> {
 
     for (final field in fields) {
       final annotation = _readOdooField(field);
-      final jsonKey =
-          annotation?.peek('name')?.stringValue ?? _camelToSnake(field.displayName);
+      final jsonKey = annotation?.peek('name')?.stringValue ??
+          _camelToSnake(field.displayName);
       final fieldType = _resolveType(field, annotation);
       final fieldName = field.displayName;
       final isNullable =
@@ -573,8 +573,8 @@ class OdooModelGenerator extends GeneratorForAnnotation<OdooModel> {
           annotation?.peek('includeInSpec')?.boolValue ?? true;
       if (!includeInSpec) continue;
 
-      final jsonKey =
-          annotation?.peek('name')?.stringValue ?? _camelToSnake(field.displayName);
+      final jsonKey = annotation?.peek('name')?.stringValue ??
+          _camelToSnake(field.displayName);
       final specFieldsList = annotation
               ?.peek('specFields')
               ?.listValue
@@ -610,8 +610,8 @@ class OdooModelGenerator extends GeneratorForAnnotation<OdooModel> {
     }
     for (final field in fields) {
       final annotation = _readOdooField(field);
-      final jsonKey =
-          annotation?.peek('name')?.stringValue ?? _camelToSnake(field.displayName);
+      final jsonKey = annotation?.peek('name')?.stringValue ??
+          _camelToSnake(field.displayName);
       buf.writeln("    '${field.displayName}': '$jsonKey',");
     }
     buf.writeln('  };');

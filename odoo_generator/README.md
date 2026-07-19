@@ -3,7 +3,7 @@
 [![pub.dev](https://img.shields.io/badge/pub.dev-odoo__generator-blue)](https://pub.dev)
 [![Dart 3](https://img.shields.io/badge/Dart-3.x-0175C2)](https://dart.dev)
 
-Generador de código fuente para `odoo_core`. Convierte clases Dart anotadas con `@OdooModel` / `@OdooField` en repositorios tipados, métodos `fromJson`/`toJson`, especificaciones de campos y enums para selección dinámica.
+Generador de código fuente para `odoo_core`. Convierte clases Dart anotadas con `@OdooModel` / `@OdooField` en repositorios tipados, métodos `fromJson`/`toJson`, especificaciones de campos, enums para selección dinámica y el método `copyWith`.
 
 ---
 
@@ -135,6 +135,7 @@ El generador produce un archivo `*.odoo.g.dart` por cada clase anotada, que cont
 - **`_$PartnerMeta`** — metadata del modelo (modelName, fields)
 - **`_$PartnerSpecification`** — mapa para `web_search_read` specification
 - **`PartnerFields`** — enum de todos los campos para selección tipada
+- **`$PartnerExtension`** — extensión con el método `copyWith` y de serialización
 - **`PartnerRepository`** — repositorio concreto ya listo para usar
 
 ---
