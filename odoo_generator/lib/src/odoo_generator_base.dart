@@ -296,7 +296,7 @@ class OdooModelGenerator extends GeneratorForAnnotation<OdooModel> {
     buf.writeln('  }');
     buf.writeln();
     buf.writeln(
-        '  static ${className}SpecificationBuilder buildSpecification({Iterable<${className}Fields>? only, Map<${className}Fields, Map<String, dynamic>>? nested}) =>');
+        '  static ${className}SpecificationBuilder buildSpecification({Iterable<${className}Fields>? only, Map<${className}Fields, Object>? nested}) =>');
     buf.writeln(
         '      _\$${className}Meta.buildSpecification(only: only, nested: nested);');
     buf.writeln('}\n');
@@ -621,7 +621,7 @@ class OdooModelGenerator extends GeneratorForAnnotation<OdooModel> {
     buf.writeln('  };');
     buf.writeln();
     buf.writeln(
-        '  static ${className}SpecificationBuilder buildSpecification({Iterable<${className}Fields>? only, Map<${className}Fields, Map<String, dynamic>>? nested}) {');
+        '  static ${className}SpecificationBuilder buildSpecification({Iterable<${className}Fields>? only, Map<${className}Fields, Object>? nested}) {');
     buf.writeln('    final builder = ${className}SpecificationBuilder();');
     buf.writeln('    if (only != null) builder.addOnly(only);');
     buf.writeln('    if (nested != null) builder.addNestedMap(nested);');
@@ -654,8 +654,8 @@ class OdooModelGenerator extends GeneratorForAnnotation<OdooModel> {
     buf.writeln('  }');
     buf.writeln();
     buf.writeln(
-        '  ${className}SpecificationBuilder addNestedMap(Map<${className}Fields, Map<String, dynamic>> map) {');
-    buf.writeln('    _nested.addAll(map);');
+        '  ${className}SpecificationBuilder addNestedMap(Map<${className}Fields, Object> map) {');
+    buf.writeln('    map.forEach((field, spec) => addNested(field, spec));');
     buf.writeln('    return this;');
     buf.writeln('  }');
     buf.writeln();

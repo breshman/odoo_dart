@@ -1,11 +1,11 @@
 # Graph Report - odoo_dart  (2026-08-02)
 
 ## Corpus Check
-- 42 files · ~22,004 words
+- 42 files · ~22,263 words
 - Verdict: corpus is large enough that graph structure adds value.
 
 ## Summary
-- 460 nodes · 517 edges · 24 communities (19 shown, 5 thin omitted)
+- 467 nodes · 529 edges · 23 communities (18 shown, 5 thin omitted)
 - Extraction: 100% EXTRACTED · 0% INFERRED · 0% AMBIGUOUS
 - Token cost: 0 input · 0 output
 
@@ -26,7 +26,6 @@
 - Cookie & Header Interceptors
 - Type Resolver & Analyzer Helpers
 - Test Suite & Mocks
-- HTTP Client Extensions
 - Base RPC Service Helpers
 - Core Utilities & Helpers
 - Build Config & Options
@@ -44,8 +43,8 @@
 1. `odoo_core` - 16 edges
 2. `odoo_generator` - 13 edges
 3. `OdooModel` - 10 edges
-4. `OdooBaseModel` - 9 edges
-5. `Changelog` - 9 edges
+4. `Changelog` - 10 edges
+5. `OdooBaseModel` - 9 edges
 6. `Casos de uso` - 7 edges
 7. `Partner` - 6 edges
 8. `User` - 6 edges
@@ -67,7 +66,7 @@
 ## Import Cycles
 - None detected.
 
-## Communities (24 total, 5 thin omitted)
+## Communities (23 total, 5 thin omitted)
 
 ### Community 0 - "Generator Examples & Tests"
 Cohesion: 0.06
@@ -75,7 +74,7 @@ Nodes (44): bool?, double?, GeneratorForAnnotation, OdooBaseModel, OdooModel, bu
 
 ### Community 1 - "Odoo Models & Repositories"
 Cohesion: 0.06
-Nodes (40): email, Employee, fromJson, isCustomer, isVendor, jobTitle, lang, login (+32 more)
+Nodes (41): email, Employee, fromJson, isCustomer, isVendor, jobTitle, lang, login (+33 more)
 
 ### Community 2 - "Network RPC Service & Dio Client"
 Cohesion: 0.06
@@ -86,8 +85,8 @@ Cohesion: 0.18
 Nodes (10): EmptyBody, from, fromJson, id, jsonrpc, method, params, RpcPayload (+2 more)
 
 ### Community 4 - "Source Generator Code Builder"
-Cohesion: 0.07
-Nodes (27): ../exceptions/odoo_exception.dart, int?, List, generateRepository, includeBaseFieldsInSpec, includeInSpec, modelName, name (+19 more)
+Cohesion: 0.05
+Nodes (40): DateTime?, ../exceptions/odoo_exception.dart, int?, List, baseFromJson, baseSpecification, baseToJson, createDate (+32 more)
 
 ### Community 5 - "Session Management & Storage"
 Cohesion: 0.07
@@ -98,24 +97,20 @@ Cohesion: 0.09
 Nodes (22): _buildFromJsonExpression, _buildToJsonExpression, _camelToSnake, _extendsOdooBaseModel, _generateCopyWith, _generateFieldsEnum, generateForAnnotatedElement, _generateFromJson (+14 more)
 
 ### Community 7 - "Exception Handling & Errors"
-Cohesion: 0.07
-Nodes (25): dart:convert, dart:io, ../example/odoo_generator_example.dart, ../model/odoo_session.dart, ../odoo_cookie.dart, baseUrl, _channel, connect (+17 more)
+Cohesion: 0.10
+Nodes (20): ../model/odoo_session.dart, ../odoo_cookie.dart, baseUrl, _channel, connect, disconnect, fromSession, _handleIncomingMessage (+12 more)
 
 ### Community 8 - "Cookie & Header Interceptors"
-Cohesion: 0.10
-Nodes (20): network/model/base_model.dart, ../odoo_core.dart, OdooRpcService, callKwRaw, callMethod, client, create, modelName (+12 more)
+Cohesion: 0.08
+Nodes (24): network/model/base_model.dart, ../odoo_core.dart, OdooRpcService, build, callKwRaw, callMethod, client, create (+16 more)
 
 ### Community 9 - "Type Resolver & Analyzer Helpers"
-Cohesion: 0.11
-Nodes (18): _baseUrl, _db, dio, main, odoo, _pass, sessionCookie, _user (+10 more)
+Cohesion: 0.08
+Nodes (23): dart:convert, dart:io, ../example/odoo_generator_example.dart, _baseUrl, _db, dio, main, odoo (+15 more)
 
 ### Community 10 - "Test Suite & Mocks"
 Cohesion: 0.12
 Nodes (16): domain, expires, extractSessionId, httpOnly, maxAge, _name, OdooCookie, _parseSetCookieValue (+8 more)
-
-### Community 11 - "HTTP Client Extensions"
-Cohesion: 0.14
-Nodes (13): DateTime?, baseFromJson, baseSpecification, baseToJson, createDate, createUid, displayName, id (+5 more)
 
 ### Community 12 - "Base RPC Service Helpers"
 Cohesion: 0.15
@@ -131,7 +126,7 @@ Nodes (30): 🚨 10. Manejo de Excepciones, 🧪 11. Testing con Mocks, 🛠️ 
 
 ### Community 17 - "Changelog"
 Cohesion: 0.08
-Nodes (23): [2.0.0] - 2026-04-10, [2.0.1] - 2026-04-11, [2.0.2] - 2026-04-11, [2.0.3] - 2026-04-11, [2.0.4] - 2026-04-11, [2.1.0] - 2026-04-13, [2.1.1] - 2026-04-13, [2.2.0] - 2026-04-15 (+15 more)
+Nodes (25): [2.0.0] - 2026-04-10, [2.0.1] - 2026-04-11, [2.0.2] - 2026-04-11, [2.0.3] - 2026-04-11, [2.0.4] - 2026-04-11, [2.1.0] - 2026-04-13, [2.1.1] - 2026-04-13, [2.2.0] - 2026-04-15 (+17 more)
 
 ### Community 18 - "odoo_generator"
 Cohesion: 0.09
@@ -146,7 +141,7 @@ Cohesion: 0.29
 Nodes (6): 1. Estructura de Paquetes Recomendada, 2. El Dilema de Riverpod: ¿Usarlo o no en una librería?, 3. Integración de `OdooRpcService` con `OdooRepository`, Plan de Acción:, Plan de Arquitectura: Librería Odoo Dart (Completa y Escalable), Próximos pasos
 
 ## Knowledge Gaps
-- **325 isolated node(s):** `_baseUrl`, `_db`, `_user`, `_pass`, `dio` (+320 more)
+- **326 isolated node(s):** `_baseUrl`, `_db`, `_user`, `_pass`, `dio` (+321 more)
   These have ≤1 connection - possible missing edges or undocumented components.
 - **5 thin communities (<3 nodes) omitted from report** — run `graphify query` to explore isolated nodes.
 
@@ -154,16 +149,16 @@ Nodes (6): 1. Estructura de Paquetes Recomendada, 2. El Dilema de Riverpod: ¿Us
 _Questions this graph is uniquely positioned to answer:_
 
 - **Why does `OdooSession` connect `Session Management & Storage` to `Network RPC Service & Dio Client`?**
-  _High betweenness centrality (0.017) - this node is a cross-community bridge._
+  _High betweenness centrality (0.016) - this node is a cross-community bridge._
 - **Why does `OdooException` connect `Core Utilities & Helpers` to `Source Generator Code Builder`?**
   _High betweenness centrality (0.012) - this node is a cross-community bridge._
 - **What connects `_baseUrl`, `_db`, `_user` to the rest of the system?**
-  _325 weakly-connected nodes found - possible documentation gaps or missing edges._
+  _326 weakly-connected nodes found - possible documentation gaps or missing edges._
 - **Should `Generator Examples & Tests` be split into smaller, more focused modules?**
   _Cohesion score 0.05757575757575758 - nodes in this community are weakly interconnected._
 - **Should `Odoo Models & Repositories` be split into smaller, more focused modules?**
-  _Cohesion score 0.05853658536585366 - nodes in this community are weakly interconnected._
+  _Cohesion score 0.059233449477351915 - nodes in this community are weakly interconnected._
 - **Should `Network RPC Service & Dio Client` be split into smaller, more focused modules?**
   _Cohesion score 0.05714285714285714 - nodes in this community are weakly interconnected._
 - **Should `Source Generator Code Builder` be split into smaller, more focused modules?**
-  _Cohesion score 0.06896551724137931 - nodes in this community are weakly interconnected._
+  _Cohesion score 0.04756871035940803 - nodes in this community are weakly interconnected._
