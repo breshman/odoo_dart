@@ -228,5 +228,10 @@
     "mtime": 1776197048.1646926,
     "ast_hash": "237c786490231dbd5a9900bd963d0ede",
     "semantic_hash": "237c786490231dbd5a9900bd963d0ede"
+  },
+  ".agents/rules/changelog_and_graphify.md": {
+    "mtime": 1785647065.2409878,
+    "ast_hash": "5f90e54cf63c045c871279d3ac8459c2",
+    "semantic_hash": ""
   }
 }
