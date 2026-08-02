@@ -97,6 +97,16 @@ class Product extends OdooBaseModel with _$Product {
   factory Product.fromJson(Map<String, dynamic> json) =>
       _$ProductFromJson(json);
   Map<String, dynamic> toJson() => _$ProductToJson(this);
+
+  static ProductSpecificationBuilder buildSpecification({
+    List<ProductFields>? only,
+    Map<ProductFields, Map<String, dynamic>>? nested,
+  }) {
+    return _$ProductMeta.buildSpecification(
+      only: only,
+      nested: nested,
+    );
+  }
 }
 
 /// Modelo: ProductLine (Línea de producto - simula detalle de pedido)

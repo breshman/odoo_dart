@@ -174,10 +174,25 @@ await saleOrderRepo.callMethod(
 
 ## 📊 6. Selección Dinámica de Campos (Specification)
 
-El enum `PartnerFields` generado permite seleccionar campos de forma tipada, eliminando strings sueltos:
+El enum `PartnerFields` generado y la clase `SpecificationBuilder` permiten seleccionar campos e incrustar relaciones de forma totalmente tipada y fluida, eliminando strings sueltos.
+
+### 🔹 Uso 1: Estilo Builder Fluido (`.addField()`, `.addOnly()`, `.addNested()`, `.build()`)
 
 ```dart
-// ✅ Sin errores de typo — el compilador verifica los campos
+// ✅ Construcción encadenada paso a paso
+final lightSpec = Partner.buildSpecification()
+    .addField(PartnerFields.id)
+    .addField(PartnerFields.name)
+    .addOnly([PartnerFields.email, PartnerFields.phone])
+    .build();
+
+final result = await partnerRepo.searchFetch(specification: lightSpec);
+```
+
+### 🔹 Uso 2: Parámetros posicionales directos con `.build()`
+
+```dart
+// ✅ Estilo directo compacto con .build() al final
 final lightSpec = Partner.buildSpecification(
   only: [
     PartnerFields.id,
@@ -185,39 +200,66 @@ final lightSpec = Partner.buildSpecification(
     PartnerFields.email,
     PartnerFields.phone,
   ],
-);
+).build();
 
 final result = await partnerRepo.searchFetch(specification: lightSpec);
 ```
 
-### Especificación anidada (relaciones)
+### 🔹 Uso 3: Especificación anidada (Relaciones many2one / one2many)
 
 ```dart
-// Traer campos específicos de líneas de pedido dentro de una venta
-final nestedSpec = SaleOrder.buildSpecification(
-  only: [
-    SaleOrderFields.name,
-    SaleOrderFields.amountTotal,
-    SaleOrderFields.state,
-    SaleOrderFields.orderLineIds,
-  ],
-  nested: {
-    SaleOrderFields.orderLineIds: OrderLine.buildSpecification(
-      only: [
-        OrderLineFields.id,
-        OrderLineFields.productId,
-        OrderLineFields.priceUnit,
-        OrderLineFields.productUomQty,
-      ],
-    ),
-  },
-);
+// ✅ Traer campos específicos de líneas de pedido dentro de una venta
+final nestedSpec = SaleOrder.buildSpecification()
+    .addOnly([
+      SaleOrderFields.name,
+      SaleOrderFields.amountTotal,
+      SaleOrderFields.state,
+      SaleOrderFields.orderLineIds,
+    ])
+    .addNested(
+      SaleOrderFields.orderLineIds,
+      OrderLine.buildSpecification()
+          .addOnly([
+            OrderLineFields.id,
+            OrderLineFields.productId,
+            OrderLineFields.priceUnit,
+            OrderLineFields.productUomQty,
+          ])
+          .build(),
+    )
+    .build();
 
 final orders = await saleOrderRepo.searchFetch(specification: nestedSpec);
 for (final order in orders.records) {
   print('Orden: ${order.name} — Total: ${order.amountTotal}');
 }
 ```
+
+### 🔹 Uso 4: Exposición manual / estática dentro de tu clase modelo (opcional)
+
+Si deseas exponer explícitamente `buildSpecification` como un método `static` directo en tu propia clase `Model` (delegando a `_$ModelMeta`), puedes agregarlo en el cuerpo del modelo:
+
+```dart
+@OdooModel(modelName: 'res.partner')
+class Partner extends OdooBaseModel with _$Partner {
+  @OdooField(type: OdooFieldType.string)
+  final String? email;
+
+  Partner({required super.id, required super.name, this.email});
+
+  factory Partner.fromJson(Map<String, dynamic> json) => _$PartnerFromJson(json);
+
+  /// Método estático conveniente en el modelo
+  static PartnerSpecificationBuilder buildSpecification({
+    Iterable<PartnerFields>? only,
+    Map<PartnerFields, Map<String, dynamic>>? nested,
+  }) {
+    return _$PartnerMeta.buildSpecification(only: only, nested: nested);
+  }
+}
+```
+
+De esta forma puedes invocarlo directamente desde la clase `Partner` o utilizando la extensión `$PartnerExtension`.
 
 ---
 

@@ -7,7 +7,7 @@ part of 'runbot_models.dart';
 // OdooModelGenerator
 // **************************************************************************
 
-// GENERATED CODE - DO NOT MODIFY BY HAND
+// GENERATED CODE - DO NOT MODIFY BY BR
 
 // ignore_for_file: type=lint
 
@@ -71,6 +71,11 @@ extension $PartnerExtension on Partner {
       lang: lang ?? this.lang,
     );
   }
+
+  static PartnerSpecificationBuilder buildSpecification(
+          {Iterable<PartnerFields>? only,
+          Map<PartnerFields, Map<String, dynamic>>? nested}) =>
+      _$PartnerMeta.buildSpecification(only: only, nested: nested);
 }
 
 mixin _$Partner {
@@ -131,23 +136,60 @@ mixin _$PartnerMeta {
     'lang': 'lang',
   };
 
-  static Map<String, dynamic> buildSpecification(
-      {List<PartnerFields>? only,
+  static PartnerSpecificationBuilder buildSpecification(
+      {Iterable<PartnerFields>? only,
       Map<PartnerFields, Map<String, dynamic>>? nested}) {
+    final builder = PartnerSpecificationBuilder();
+    if (only != null) builder.addOnly(only);
+    if (nested != null) builder.addNestedMap(nested);
+    return builder;
+  }
+}
+
+class PartnerSpecificationBuilder implements SpecificationBuilder {
+  final List<PartnerFields> _only = [];
+  final Map<PartnerFields, Map<String, dynamic>> _nested = {};
+
+  PartnerSpecificationBuilder addOnly(Iterable<PartnerFields> fields) {
+    _only.addAll(fields);
+    return this;
+  }
+
+  PartnerSpecificationBuilder addField(PartnerFields field) {
+    _only.add(field);
+    return this;
+  }
+
+  PartnerSpecificationBuilder addNested(PartnerFields field, Object spec) {
+    final resolved = spec is SpecificationBuilder
+        ? spec.build()
+        : (spec is Map<String, dynamic>
+            ? spec
+            : Map<String, dynamic>.from(spec as Map));
+    _nested[field] = resolved;
+    return this;
+  }
+
+  PartnerSpecificationBuilder addNestedMap(
+      Map<PartnerFields, Map<String, dynamic>> map) {
+    _nested.addAll(map);
+    return this;
+  }
+
+  @override
+  Map<String, dynamic> build() {
+    if (_only.isEmpty && _nested.isEmpty) {
+      return _$PartnerMeta.specification;
+    }
     final spec = <String, dynamic>{};
-    if (only != null) {
-      for (final f in only) {
-        final odooKey = fieldMapping[f.name] ?? f.name;
-        spec[odooKey] = specification[odooKey] ?? {};
-      }
+    for (final f in _only) {
+      final odooKey = _$PartnerMeta.fieldMapping[f.name] ?? f.name;
+      spec[odooKey] = _$PartnerMeta.specification[odooKey] ?? {};
     }
-    if (nested != null) {
-      nested.forEach((f, subSpec) {
-        final odooKey = fieldMapping[f.name] ?? f.name;
-        spec[odooKey] = {'fields': subSpec};
-      });
-    }
-    if (only == null && nested == null) return specification;
+    _nested.forEach((f, subSpec) {
+      final odooKey = _$PartnerMeta.fieldMapping[f.name] ?? f.name;
+      spec[odooKey] = {'fields': subSpec};
+    });
     return spec;
   }
 }
@@ -161,7 +203,7 @@ class PartnerRepository extends OdooRepository<Partner> {
         );
 }
 
-// GENERATED CODE - DO NOT MODIFY BY HAND
+// GENERATED CODE - DO NOT MODIFY BY BR
 
 // ignore_for_file: type=lint
 
@@ -213,6 +255,11 @@ extension $UserExtension on User {
       login: login ?? this.login,
     );
   }
+
+  static UserSpecificationBuilder buildSpecification(
+          {Iterable<UserFields>? only,
+          Map<UserFields, Map<String, dynamic>>? nested}) =>
+      _$UserMeta.buildSpecification(only: only, nested: nested);
 }
 
 mixin _$User {
@@ -260,22 +307,60 @@ mixin _$UserMeta {
     'login': 'login',
   };
 
-  static Map<String, dynamic> buildSpecification(
-      {List<UserFields>? only, Map<UserFields, Map<String, dynamic>>? nested}) {
+  static UserSpecificationBuilder buildSpecification(
+      {Iterable<UserFields>? only,
+      Map<UserFields, Map<String, dynamic>>? nested}) {
+    final builder = UserSpecificationBuilder();
+    if (only != null) builder.addOnly(only);
+    if (nested != null) builder.addNestedMap(nested);
+    return builder;
+  }
+}
+
+class UserSpecificationBuilder implements SpecificationBuilder {
+  final List<UserFields> _only = [];
+  final Map<UserFields, Map<String, dynamic>> _nested = {};
+
+  UserSpecificationBuilder addOnly(Iterable<UserFields> fields) {
+    _only.addAll(fields);
+    return this;
+  }
+
+  UserSpecificationBuilder addField(UserFields field) {
+    _only.add(field);
+    return this;
+  }
+
+  UserSpecificationBuilder addNested(UserFields field, Object spec) {
+    final resolved = spec is SpecificationBuilder
+        ? spec.build()
+        : (spec is Map<String, dynamic>
+            ? spec
+            : Map<String, dynamic>.from(spec as Map));
+    _nested[field] = resolved;
+    return this;
+  }
+
+  UserSpecificationBuilder addNestedMap(
+      Map<UserFields, Map<String, dynamic>> map) {
+    _nested.addAll(map);
+    return this;
+  }
+
+  @override
+  Map<String, dynamic> build() {
+    if (_only.isEmpty && _nested.isEmpty) {
+      return _$UserMeta.specification;
+    }
     final spec = <String, dynamic>{};
-    if (only != null) {
-      for (final f in only) {
-        final odooKey = fieldMapping[f.name] ?? f.name;
-        spec[odooKey] = specification[odooKey] ?? {};
-      }
+    for (final f in _only) {
+      final odooKey = _$UserMeta.fieldMapping[f.name] ?? f.name;
+      spec[odooKey] = _$UserMeta.specification[odooKey] ?? {};
     }
-    if (nested != null) {
-      nested.forEach((f, subSpec) {
-        final odooKey = fieldMapping[f.name] ?? f.name;
-        spec[odooKey] = {'fields': subSpec};
-      });
-    }
-    if (only == null && nested == null) return specification;
+    _nested.forEach((f, subSpec) {
+      final odooKey = _$UserMeta.fieldMapping[f.name] ?? f.name;
+      spec[odooKey] = {'fields': subSpec};
+    });
     return spec;
   }
 }
@@ -289,7 +374,7 @@ class UserRepository extends OdooRepository<User> {
         );
 }
 
-// GENERATED CODE - DO NOT MODIFY BY HAND
+// GENERATED CODE - DO NOT MODIFY BY BR
 
 // ignore_for_file: type=lint
 
@@ -342,6 +427,11 @@ extension $EmployeeExtension on Employee {
       jobTitle: jobTitle ?? this.jobTitle,
     );
   }
+
+  static EmployeeSpecificationBuilder buildSpecification(
+          {Iterable<EmployeeFields>? only,
+          Map<EmployeeFields, Map<String, dynamic>>? nested}) =>
+      _$EmployeeMeta.buildSpecification(only: only, nested: nested);
 }
 
 mixin _$Employee {
@@ -390,23 +480,60 @@ mixin _$EmployeeMeta {
     'jobTitle': 'job_title',
   };
 
-  static Map<String, dynamic> buildSpecification(
-      {List<EmployeeFields>? only,
+  static EmployeeSpecificationBuilder buildSpecification(
+      {Iterable<EmployeeFields>? only,
       Map<EmployeeFields, Map<String, dynamic>>? nested}) {
+    final builder = EmployeeSpecificationBuilder();
+    if (only != null) builder.addOnly(only);
+    if (nested != null) builder.addNestedMap(nested);
+    return builder;
+  }
+}
+
+class EmployeeSpecificationBuilder implements SpecificationBuilder {
+  final List<EmployeeFields> _only = [];
+  final Map<EmployeeFields, Map<String, dynamic>> _nested = {};
+
+  EmployeeSpecificationBuilder addOnly(Iterable<EmployeeFields> fields) {
+    _only.addAll(fields);
+    return this;
+  }
+
+  EmployeeSpecificationBuilder addField(EmployeeFields field) {
+    _only.add(field);
+    return this;
+  }
+
+  EmployeeSpecificationBuilder addNested(EmployeeFields field, Object spec) {
+    final resolved = spec is SpecificationBuilder
+        ? spec.build()
+        : (spec is Map<String, dynamic>
+            ? spec
+            : Map<String, dynamic>.from(spec as Map));
+    _nested[field] = resolved;
+    return this;
+  }
+
+  EmployeeSpecificationBuilder addNestedMap(
+      Map<EmployeeFields, Map<String, dynamic>> map) {
+    _nested.addAll(map);
+    return this;
+  }
+
+  @override
+  Map<String, dynamic> build() {
+    if (_only.isEmpty && _nested.isEmpty) {
+      return _$EmployeeMeta.specification;
+    }
     final spec = <String, dynamic>{};
-    if (only != null) {
-      for (final f in only) {
-        final odooKey = fieldMapping[f.name] ?? f.name;
-        spec[odooKey] = specification[odooKey] ?? {};
-      }
+    for (final f in _only) {
+      final odooKey = _$EmployeeMeta.fieldMapping[f.name] ?? f.name;
+      spec[odooKey] = _$EmployeeMeta.specification[odooKey] ?? {};
     }
-    if (nested != null) {
-      nested.forEach((f, subSpec) {
-        final odooKey = fieldMapping[f.name] ?? f.name;
-        spec[odooKey] = {'fields': subSpec};
-      });
-    }
-    if (only == null && nested == null) return specification;
+    _nested.forEach((f, subSpec) {
+      final odooKey = _$EmployeeMeta.fieldMapping[f.name] ?? f.name;
+      spec[odooKey] = {'fields': subSpec};
+    });
     return spec;
   }
 }

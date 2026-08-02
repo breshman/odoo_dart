@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'dart:io';
 
+import 'package:odoo_core/odoo_core.dart';
 import 'package:test/test.dart';
 
 // Importamos el ejemplo real con modelos generados.
@@ -86,10 +87,29 @@ void main() {
         expect(json.containsKey('price'), isFalse);
       });
 
-      // test('Tag: toString y specification', () {
-      //   final tag = Tag(id: 5, name: 'Premium', color: '#ff0000');
-      //   expect(tag.toString(), contains('Tag(id: 5, name: Premium, color: #ff0000)'));
-      // });
+      test('Category: buildSpecification builder pattern', () {
+        // Direct positional parameters (backward compatible)
+        final spec1 = $CategoryExtension.buildSpecification(
+          only: [CategoryFields.name, CategoryFields.description],
+        ).build();
+        expect(spec1.keys, unorderedEquals(['name', 'description']));
+
+        // Builder pattern with addField and addOnly
+        final spec2 = $CategoryExtension.buildSpecification()
+            .addField(CategoryFields.description)
+            .addOnly([CategoryFields.id]);
+
+        // Implements abstract SpecificationBuilder
+        expect(spec2, isA<SpecificationBuilder>());
+
+        final resolvedSpec = resolveOdooSpec(spec2, {});
+        expect(resolvedSpec.keys, unorderedEquals(['description', 'id']));
+
+        // Empty builder returns full specification
+        final spec3 = $CategoryExtension.buildSpecification().build();
+        expect(spec3.containsKey('description'), isTrue);
+        expect(spec3.containsKey('name'), isTrue);
+      });
     });
   });
 }

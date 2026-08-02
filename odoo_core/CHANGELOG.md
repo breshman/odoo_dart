@@ -2,6 +2,11 @@
 
 All notable changes to the `odoo_core` project will be documented in this file.
 
+## [2.3.0] - 2026-08-02
+### Added
+* **`SpecificationBuilder`:** Clase abstracta base implementada por todos los builders generados (`${ClassName}SpecificationBuilder`).
+* **`OdooSpec` & `resolveOdooSpec`:** `typedef OdooSpec = Object;` permite que `OdooRepository` (`searchFetch`, `read`, `webSave`) acepte directamente una instancia de `SpecificationBuilder` o un `Map<String, dynamic>`, ejecutando `.build()` internamente de forma automática.
+
 ## [2.2.0] - 2026-04-15
 ### Added
 * **`OdooSession`:** Nueva clase inmutable y serializable que representa la sesión autenticada de Odoo. Incluye `userId`, `companyId`, `allowedCompanies`, `userName`, `serverVersionInt` y soporte multi-versión (Odoo 12–18+). Métodos `fromSessionInfo`, `fromJson`, `toJson` y `updateSessionId`.

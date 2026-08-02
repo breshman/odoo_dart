@@ -1,3 +1,7 @@
+## 2.3.0
+
+- Feat: Se agregó la clase abstracta `SpecificationBuilder` y la función polimórfica `resolveOdooSpec` en `odoo_core`. `OdooRepository` (`searchFetch`, `read`, `webSave`) acepta instancias directas de `SpecificationBuilder` (o `Map<String, dynamic>`) como parámetro `specification`, convirtiéndolos automáticamente sin requerir `.build()` manual explícito.
+
 ## 2.2.0
 
 - Feat: Conversión automática de nombres camelCase a snake_case cuando `@OdooField` no especifica `name`. Ejemplo: `partnerId` → `partner_id`. Elimina la necesidad de declarar `name` manualmente para la gran mayoría de campos Odoo.

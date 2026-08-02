@@ -4,12 +4,26 @@
 // ============================================================
 
 import '../odoo_core.dart';
-import 'network/model/base_model.dart';
 
 // ─── Tipos auxiliares ────────────────────────────────────────
 
 typedef OdooDomain = List<List<dynamic>>;
-typedef OdooSpec = Map<String, dynamic>;
+typedef OdooSpec = Object; // Acepta Map<String, dynamic> o SpecificationBuilder
+
+/// Interfaz base generada para construir especificaciones tipadas.
+// ignore: one_member_abstracts
+abstract class SpecificationBuilder {
+  Map<String, dynamic> build();
+}
+
+Map<String, dynamic> resolveOdooSpec(
+    OdooSpec? spec, Map<String, dynamic> defaultSpec) {
+  if (spec == null) return defaultSpec;
+  if (spec is SpecificationBuilder) return spec.build();
+  if (spec is Map<String, dynamic>) return spec;
+  if (spec is Map) return Map<String, dynamic>.from(spec);
+  return defaultSpec;
+}
 
 // ─── Arquitectura SOLID (Repositorios) ───────────────────────
 
@@ -77,13 +91,15 @@ abstract class OdooRepository<T extends OdooBaseModel> {
     Map<String, dynamic>? context,
     OdooSpec? specification,
   }) async {
+    final effectiveSpec =
+        resolveOdooSpec(specification, resolveOdooSpec(this.specification, {}));
     final result = await client.callKwRaw(
       model: modelName,
       method: 'web_search_read',
       args: [],
       kwargs: {
         'domain': domain,
-        'specification': specification ?? this.specification,
+        'specification': effectiveSpec,
         'limit': limit,
         'offset': offset,
         if (order != null) 'order': order,
@@ -106,14 +122,13 @@ abstract class OdooRepository<T extends OdooBaseModel> {
     Map<String, dynamic>? context,
     OdooSpec? specification,
   }) async {
+    final effectiveSpec =
+        resolveOdooSpec(specification, resolveOdooSpec(this.specification, {}));
     final result = await client.callKwRaw(
       model: modelName,
       method: 'web_save',
       args: [ids, values],
-      kwargs: {
-        'specification': specification ?? this.specification,
-        'context': context ?? {}
-      },
+      kwargs: {'specification': effectiveSpec, 'context': context ?? {}},
     );
     return List<Map<String, dynamic>>.from(result as List)
         .map<T>(fromJson)
@@ -127,14 +142,13 @@ abstract class OdooRepository<T extends OdooBaseModel> {
     OdooSpec? specification,
   }) async {
     if (ids.isEmpty) return [];
+    final effectiveSpec =
+        resolveOdooSpec(specification, resolveOdooSpec(this.specification, {}));
     final result = await client.callKwRaw(
       model: modelName,
       method: 'web_read',
       args: [ids],
-      kwargs: {
-        'specification': specification ?? this.specification,
-        'context': context ?? {}
-      },
+      kwargs: {'specification': effectiveSpec, 'context': context ?? {}},
     );
     return List<Map<String, dynamic>>.from(result as List)
         .map(fromJson)

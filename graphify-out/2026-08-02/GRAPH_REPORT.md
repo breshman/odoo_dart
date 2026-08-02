@@ -1,16 +1,16 @@
-# Graph Report - odoo_dart  (2026-08-01)
+# Graph Report - odoo_dart  (2026-08-02)
 
 ## Corpus Check
-- 41 files · ~21,285 words
+- 42 files · ~22,004 words
 - Verdict: corpus is large enough that graph structure adds value.
 
 ## Summary
-- 443 nodes · 499 edges · 23 communities (19 shown, 4 thin omitted)
+- 460 nodes · 517 edges · 24 communities (19 shown, 5 thin omitted)
 - Extraction: 100% EXTRACTED · 0% INFERRED · 0% AMBIGUOUS
 - Token cost: 0 input · 0 output
 
 ## Graph Freshness
-- Built from commit: `3e2f11e5`
+- Built from commit: `ca00ecaf`
 - Run `git rev-parse HEAD` and compare to check if the graph is stale.
 - Run `graphify update .` after code changes (no API cost).
 
@@ -38,6 +38,7 @@
 - Plan de Arquitectura: Librería Odoo Dart (Completa y Escalable)
 - graphify.md
 - graphify.md
+- changelog_and_graphify.md
 
 ## God Nodes (most connected - your core abstractions)
 1. `odoo_core` - 16 edges
@@ -52,8 +53,6 @@
 10. `OdooException` - 5 edges
 
 ## Surprising Connections (you probably didn't know these)
-- `OdooModelGenerator` --references--> `OdooModel`  [EXTRACTED]
-  odoo_generator/lib/src/odoo_generator_base.dart → odoo_core/lib/src/network/model/odoo_annotation.dart
 - `Category` --inherits--> `OdooBaseModel`  [EXTRACTED]
   odoo_generator/example/odoo_generator_example.dart → odoo_core/lib/src/network/model/base_model.dart
 - `Order` --inherits--> `OdooBaseModel`  [EXTRACTED]
@@ -62,27 +61,29 @@
   odoo_generator/example/odoo_generator_example.dart → odoo_core/lib/src/network/model/base_model.dart
 - `ProductLine` --inherits--> `OdooBaseModel`  [EXTRACTED]
   odoo_generator/example/odoo_generator_example.dart → odoo_core/lib/src/network/model/base_model.dart
+- `Tag` --inherits--> `OdooBaseModel`  [EXTRACTED]
+  odoo_generator/example/odoo_generator_example.dart → odoo_core/lib/src/network/model/base_model.dart
 
 ## Import Cycles
 - None detected.
 
-## Communities (23 total, 4 thin omitted)
+## Communities (24 total, 5 thin omitted)
 
 ### Community 0 - "Generator Examples & Tests"
-Cohesion: 0.05
-Nodes (39): bool?, dart:convert, dart:io, double?, ../example/odoo_generator_example.dart, categoryId, categoryJson, color (+31 more)
+Cohesion: 0.06
+Nodes (44): bool?, double?, GeneratorForAnnotation, OdooBaseModel, OdooModel, buildSpecification, Category, categoryId (+36 more)
 
 ### Community 1 - "Odoo Models & Repositories"
-Cohesion: 0.08
-Nodes (37): email, Employee, fromJson, isCustomer, isVendor, jobTitle, lang, login (+29 more)
+Cohesion: 0.06
+Nodes (40): email, Employee, fromJson, isCustomer, isVendor, jobTitle, lang, login (+32 more)
 
 ### Community 2 - "Network RPC Service & Dio Client"
 Cohesion: 0.06
 Nodes (33): Dio, ../../odoo_base.dart, authenticate, callKwRaw, checkCurrentUser, checkSession, connectRealtime, _currentSession (+25 more)
 
 ### Community 3 - "Core BaseModel & Annotations"
-Cohesion: 0.07
-Nodes (29): bool get, dart:async, ../example/runbot_models.dart, Exception?, Map, accessDenied, code, data (+21 more)
+Cohesion: 0.18
+Nodes (10): EmptyBody, from, fromJson, id, jsonrpc, method, params, RpcPayload (+2 more)
 
 ### Community 4 - "Source Generator Code Builder"
 Cohesion: 0.07
@@ -93,12 +94,12 @@ Cohesion: 0.07
 Nodes (28): int get, allowedCompanies, companyId, csrfToken, dbName, fromJson, fromJsonList, fromSessionInfo (+20 more)
 
 ### Community 6 - "Realtime WebSocket Client"
-Cohesion: 0.08
-Nodes (24): GeneratorForAnnotation, _buildFromJsonExpression, _buildToJsonExpression, _camelToSnake, _extendsOdooBaseModel, _generateCopyWith, _generateFieldsEnum, generateForAnnotatedElement (+16 more)
+Cohesion: 0.09
+Nodes (22): _buildFromJsonExpression, _buildToJsonExpression, _camelToSnake, _extendsOdooBaseModel, _generateCopyWith, _generateFieldsEnum, generateForAnnotatedElement, _generateFromJson (+14 more)
 
 ### Community 7 - "Exception Handling & Errors"
-Cohesion: 0.10
-Nodes (20): ../model/odoo_session.dart, ../odoo_cookie.dart, baseUrl, _channel, connect, disconnect, fromSession, _handleIncomingMessage (+12 more)
+Cohesion: 0.07
+Nodes (25): dart:convert, dart:io, ../example/odoo_generator_example.dart, ../model/odoo_session.dart, ../odoo_cookie.dart, baseUrl, _channel, connect (+17 more)
 
 ### Community 8 - "Cookie & Header Interceptors"
 Cohesion: 0.10
@@ -121,8 +122,8 @@ Cohesion: 0.15
 Nodes (12): library, odoo_core, src/network/client/odoo_realtime_client.dart, src/network/client/odoo_rpc_service.dart, src/network/exceptions/odoo_exception.dart, src/network/model/base_model.dart, src/network/model/odoo_annotation.dart, src/network/model/odoo_session.dart (+4 more)
 
 ### Community 13 - "Core Utilities & Helpers"
-Cohesion: 0.18
-Nodes (10): EmptyBody, from, fromJson, id, jsonrpc, method, params, RpcPayload (+2 more)
+Cohesion: 0.07
+Nodes (29): bool get, dart:async, ../example/runbot_models.dart, Exception?, Map, accessDenied, code, data (+21 more)
 
 ### Community 16 - "odoo_core"
 Cohesion: 0.07
@@ -133,36 +134,36 @@ Cohesion: 0.08
 Nodes (23): [2.0.0] - 2026-04-10, [2.0.1] - 2026-04-11, [2.0.2] - 2026-04-11, [2.0.3] - 2026-04-11, [2.0.4] - 2026-04-11, [2.1.0] - 2026-04-13, [2.1.1] - 2026-04-13, [2.2.0] - 2026-04-15 (+15 more)
 
 ### Community 18 - "odoo_generator"
-Cohesion: 0.11
-Nodes (16): 🏗️ 1. Definir un Modelo, ⚙️ 2. Tipos de Campo (`OdooFieldType`), 🔄 3. Conversión Automática camelCase → snake_case, 🏭 4. Generar el Código, 📋 5. Usar el Repositorio Generado, 📊 6. Selección Dinámica de Campos (Specification), 🧩 7. Modelo Complejo con Varios Tipos, 🧪 8. Testing de Repositorios Generados (+8 more)
+Cohesion: 0.09
+Nodes (19): 🏗️ 1. Definir un Modelo, ⚙️ 2. Tipos de Campo (`OdooFieldType`), 🔄 3. Conversión Automática camelCase → snake_case, 🏭 4. Generar el Código, 📋 5. Usar el Repositorio Generado, 📊 6. Selección Dinámica de Campos (Specification), 🧩 7. Modelo Complejo con Varios Tipos, 🧪 8. Testing de Repositorios Generados (+11 more)
 
 ### Community 19 - "CHANGELOG.md"
-Cohesion: 0.22
-Nodes (8): 2.0.0, 2.0.1, 2.0.2, 2.0.3, 2.0.4, 2.1.0, 2.1.1, 2.2.0
+Cohesion: 0.20
+Nodes (9): 2.0.0, 2.0.1, 2.0.2, 2.0.3, 2.0.4, 2.1.0, 2.1.1, 2.2.0 (+1 more)
 
 ### Community 20 - "Plan de Arquitectura: Librería Odoo Dart (Completa y Escalable)"
 Cohesion: 0.29
 Nodes (6): 1. Estructura de Paquetes Recomendada, 2. El Dilema de Riverpod: ¿Usarlo o no en una librería?, 3. Integración de `OdooRpcService` con `OdooRepository`, Plan de Acción:, Plan de Arquitectura: Librería Odoo Dart (Completa y Escalable), Próximos pasos
 
 ## Knowledge Gaps
-- **309 isolated node(s):** `_baseUrl`, `_db`, `_user`, `_pass`, `dio` (+304 more)
+- **325 isolated node(s):** `_baseUrl`, `_db`, `_user`, `_pass`, `dio` (+320 more)
   These have ≤1 connection - possible missing edges or undocumented components.
-- **4 thin communities (<3 nodes) omitted from report** — run `graphify query` to explore isolated nodes.
+- **5 thin communities (<3 nodes) omitted from report** — run `graphify query` to explore isolated nodes.
 
 ## Suggested Questions
 _Questions this graph is uniquely positioned to answer:_
 
 - **Why does `OdooSession` connect `Session Management & Storage` to `Network RPC Service & Dio Client`?**
-  _High betweenness centrality (0.018) - this node is a cross-community bridge._
-- **Why does `OdooException` connect `Core BaseModel & Annotations` to `Source Generator Code Builder`?**
-  _High betweenness centrality (0.015) - this node is a cross-community bridge._
+  _High betweenness centrality (0.017) - this node is a cross-community bridge._
+- **Why does `OdooException` connect `Core Utilities & Helpers` to `Source Generator Code Builder`?**
+  _High betweenness centrality (0.012) - this node is a cross-community bridge._
 - **What connects `_baseUrl`, `_db`, `_user` to the rest of the system?**
-  _309 weakly-connected nodes found - possible documentation gaps or missing edges._
+  _325 weakly-connected nodes found - possible documentation gaps or missing edges._
 - **Should `Generator Examples & Tests` be split into smaller, more focused modules?**
-  _Cohesion score 0.05 - nodes in this community are weakly interconnected._
+  _Cohesion score 0.05757575757575758 - nodes in this community are weakly interconnected._
 - **Should `Odoo Models & Repositories` be split into smaller, more focused modules?**
-  _Cohesion score 0.08392603129445235 - nodes in this community are weakly interconnected._
+  _Cohesion score 0.05853658536585366 - nodes in this community are weakly interconnected._
 - **Should `Network RPC Service & Dio Client` be split into smaller, more focused modules?**
   _Cohesion score 0.05714285714285714 - nodes in this community are weakly interconnected._
-- **Should `Core BaseModel & Annotations` be split into smaller, more focused modules?**
-  _Cohesion score 0.07096774193548387 - nodes in this community are weakly interconnected._
+- **Should `Source Generator Code Builder` be split into smaller, more focused modules?**
+  _Cohesion score 0.06896551724137931 - nodes in this community are weakly interconnected._

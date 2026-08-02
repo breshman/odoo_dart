@@ -294,7 +294,11 @@ class OdooModelGenerator extends GeneratorForAnnotation<OdooModel> {
 
     buf.writeln('    );');
     buf.writeln('  }');
-
+    buf.writeln();
+    buf.writeln(
+        '  static ${className}SpecificationBuilder buildSpecification({Iterable<${className}Fields>? only, Map<${className}Fields, Map<String, dynamic>>? nested}) =>');
+    buf.writeln(
+        '      _\$${className}Meta.buildSpecification(only: only, nested: nested);');
     buf.writeln('}\n');
   }
 
@@ -617,22 +621,61 @@ class OdooModelGenerator extends GeneratorForAnnotation<OdooModel> {
     buf.writeln('  };');
     buf.writeln();
     buf.writeln(
-        '  static Map<String, dynamic> buildSpecification({List<${className}Fields>? only, Map<${className}Fields, Map<String, dynamic>>? nested}) {');
-    buf.writeln('    final spec = <String, dynamic>{};');
-    buf.writeln('    if (only != null) {');
-    buf.writeln('      for (final f in only) {');
-    buf.writeln('        final odooKey = fieldMapping[f.name] ?? f.name;');
-    buf.writeln('        spec[odooKey] = specification[odooKey] ?? {};');
-    buf.writeln('      }');
-    buf.writeln('    }');
-    buf.writeln('    if (nested != null) {');
-    buf.writeln('      nested.forEach((f, subSpec) {');
-    buf.writeln('        final odooKey = fieldMapping[f.name] ?? f.name;');
-    buf.writeln("        spec[odooKey] = {'fields': subSpec};");
-    buf.writeln('      });');
-    buf.writeln('    }');
+        '  static ${className}SpecificationBuilder buildSpecification({Iterable<${className}Fields>? only, Map<${className}Fields, Map<String, dynamic>>? nested}) {');
+    buf.writeln('    final builder = ${className}SpecificationBuilder();');
+    buf.writeln('    if (only != null) builder.addOnly(only);');
+    buf.writeln('    if (nested != null) builder.addNestedMap(nested);');
+    buf.writeln('    return builder;');
+    buf.writeln('  }');
+    buf.writeln('}');
+    buf.writeln();
+    buf.writeln('class ${className}SpecificationBuilder implements SpecificationBuilder {');
+    buf.writeln('  final List<${className}Fields> _only = [];');
     buf.writeln(
-        '    if (only == null && nested == null) return specification;');
+        '  final Map<${className}Fields, Map<String, dynamic>> _nested = {};');
+    buf.writeln();
+    buf.writeln(
+        '  ${className}SpecificationBuilder addOnly(Iterable<${className}Fields> fields) {');
+    buf.writeln('    _only.addAll(fields);');
+    buf.writeln('    return this;');
+    buf.writeln('  }');
+    buf.writeln();
+    buf.writeln(
+        '  ${className}SpecificationBuilder addField(${className}Fields field) {');
+    buf.writeln('    _only.add(field);');
+    buf.writeln('    return this;');
+    buf.writeln('  }');
+    buf.writeln();
+    buf.writeln(
+        '  ${className}SpecificationBuilder addNested(${className}Fields field, Object spec) {');
+    buf.writeln('    final resolved = spec is SpecificationBuilder ? spec.build() : (spec is Map<String, dynamic> ? spec : Map<String, dynamic>.from(spec as Map));');
+    buf.writeln('    _nested[field] = resolved;');
+    buf.writeln('    return this;');
+    buf.writeln('  }');
+    buf.writeln();
+    buf.writeln(
+        '  ${className}SpecificationBuilder addNestedMap(Map<${className}Fields, Map<String, dynamic>> map) {');
+    buf.writeln('    _nested.addAll(map);');
+    buf.writeln('    return this;');
+    buf.writeln('  }');
+    buf.writeln();
+    buf.writeln('  @override');
+    buf.writeln('  Map<String, dynamic> build() {');
+    buf.writeln('    if (_only.isEmpty && _nested.isEmpty) {');
+    buf.writeln('      return _\$${className}Meta.specification;');
+    buf.writeln('    }');
+    buf.writeln('    final spec = <String, dynamic>{};');
+    buf.writeln('    for (final f in _only) {');
+    buf.writeln(
+        '      final odooKey = _\$${className}Meta.fieldMapping[f.name] ?? f.name;');
+    buf.writeln(
+        '      spec[odooKey] = _\$${className}Meta.specification[odooKey] ?? {};');
+    buf.writeln('    }');
+    buf.writeln('    _nested.forEach((f, subSpec) {');
+    buf.writeln(
+        '      final odooKey = _\$${className}Meta.fieldMapping[f.name] ?? f.name;');
+    buf.writeln("      spec[odooKey] = {'fields': subSpec};");
+    buf.writeln('    });');
     buf.writeln('    return spec;');
     buf.writeln('  }');
     buf.writeln('}\n');

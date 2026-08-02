@@ -219,8 +219,8 @@
       "source_location": null,
       "_origin": "ast",
       "id": "dart_io",
-      "community": 0,
-      "community_name": "Generator Examples & Tests",
+      "community": 7,
+      "community_name": "Exception Handling & Errors",
       "norm_label": "dart:io"
     },
     {
@@ -351,8 +351,8 @@
       "source_location": null,
       "_origin": "ast",
       "id": "bool_get",
-      "community": 3,
-      "community_name": "Core BaseModel & Annotations",
+      "community": 13,
+      "community_name": "Core Utilities & Helpers",
       "norm_label": "bool get"
     },
     {
@@ -422,6 +422,17 @@
       "norm_label": "partnerfields"
     },
     {
+      "label": "PartnerSpecificationBuilder",
+      "file_type": "code",
+      "source_file": "odoo_core/example/runbot_models.odoo.g.dart",
+      "source_location": null,
+      "_origin": "ast",
+      "id": "users_macbook_documents_proyectos_flutter_odoo_dart_odoo_core_example_runbot_models_partnerspecificationbuilder",
+      "community": 1,
+      "community_name": "Odoo Models & Repositories",
+      "norm_label": "partnerspecificationbuilder"
+    },
+    {
       "label": "PartnerRepository",
       "file_type": "code",
       "source_file": "odoo_core/example/runbot_models.odoo.g.dart",
@@ -444,6 +455,17 @@
       "norm_label": "userfields"
     },
     {
+      "label": "UserSpecificationBuilder",
+      "file_type": "code",
+      "source_file": "odoo_core/example/runbot_models.odoo.g.dart",
+      "source_location": null,
+      "_origin": "ast",
+      "id": "users_macbook_documents_proyectos_flutter_odoo_dart_odoo_core_example_runbot_models_userspecificationbuilder",
+      "community": 1,
+      "community_name": "Odoo Models & Repositories",
+      "norm_label": "userspecificationbuilder"
+    },
+    {
       "label": "UserRepository",
       "file_type": "code",
       "source_file": "odoo_core/example/runbot_models.odoo.g.dart",
@@ -464,6 +486,17 @@
       "community": 1,
       "community_name": "Odoo Models & Repositories",
       "norm_label": "employeefields"
+    },
+    {
+      "label": "EmployeeSpecificationBuilder",
+      "file_type": "code",
+      "source_file": "odoo_core/example/runbot_models.odoo.g.dart",
+      "source_location": null,
+      "_origin": "ast",
+      "id": "users_macbook_documents_proyectos_flutter_odoo_dart_odoo_core_example_runbot_models_employeespecificationbuilder",
+      "community": 1,
+      "community_name": "Odoo Models & Repositories",
+      "norm_label": "employeespecificationbuilder"
     },
     {
       "label": "EmployeeRepository",
@@ -543,6 +576,50 @@
       "norm_label": "fieldmapping"
     },
     {
+      "label": "_only",
+      "file_type": "code",
+      "source_file": "odoo_core/example/runbot_models.odoo.g.dart",
+      "source_location": null,
+      "_origin": "ast",
+      "id": "users_macbook_documents_proyectos_flutter_odoo_dart_odoo_core_example_runbot_models_only",
+      "community": 1,
+      "community_name": "Odoo Models & Repositories",
+      "norm_label": "_only"
+    },
+    {
+      "label": "List",
+      "file_type": "code",
+      "source_file": null,
+      "source_location": null,
+      "_origin": "ast",
+      "id": "list",
+      "community": 4,
+      "community_name": "Source Generator Code Builder",
+      "norm_label": "list"
+    },
+    {
+      "label": "_nested",
+      "file_type": "code",
+      "source_file": "odoo_core/example/runbot_models.odoo.g.dart",
+      "source_location": null,
+      "_origin": "ast",
+      "id": "users_macbook_documents_proyectos_flutter_odoo_dart_odoo_core_example_runbot_models_nested",
+      "community": 1,
+      "community_name": "Odoo Models & Repositories",
+      "norm_label": "_nested"
+    },
+    {
+      "label": "Map",
+      "file_type": "code",
+      "source_file": null,
+      "source_location": null,
+      "_origin": "ast",
+      "id": "map",
+      "community": 13,
+      "community_name": "Core Utilities & Helpers",
+      "norm_label": "map"
+    },
+    {
       "label": "toJson",
       "file_type": "code",
       "source_file": "odoo_core/example/runbot_models.odoo.g.dart",
@@ -596,6 +673,61 @@
       "community": 1,
       "community_name": "Odoo Models & Repositories",
       "norm_label": "buildspecification"
+    },
+    {
+      "label": "addOnly",
+      "file_type": "code",
+      "source_file": "odoo_core/example/runbot_models.odoo.g.dart",
+      "source_location": null,
+      "_origin": "ast",
+      "id": "users_macbook_documents_proyectos_flutter_odoo_dart_odoo_core_example_runbot_models_addonly",
+      "community": 1,
+      "community_name": "Odoo Models & Repositories",
+      "norm_label": "addonly"
+    },
+    {
+      "label": "addField",
+      "file_type": "code",
+      "source_file": "odoo_core/example/runbot_models.odoo.g.dart",
+      "source_location": null,
+      "_origin": "ast",
+      "id": "users_macbook_documents_proyectos_flutter_odoo_dart_odoo_core_example_runbot_models_addfield",
+      "community": 1,
+      "community_name": "Odoo Models & Repositories",
+      "norm_label": "addfield"
+    },
+    {
+      "label": "addNested",
+      "file_type": "code",
+      "source_file": "odoo_core/example/runbot_models.odoo.g.dart",
+      "source_location": null,
+      "_origin": "ast",
+      "id": "users_macbook_documents_proyectos_flutter_odoo_dart_odoo_core_example_runbot_models_addnested",
+      "community": 1,
+      "community_name": "Odoo Models & Repositories",
+      "norm_label": "addnested"
+    },
+    {
+      "label": "addNestedMap",
+      "file_type": "code",
+      "source_file": "odoo_core/example/runbot_models.odoo.g.dart",
+      "source_location": null,
+      "_origin": "ast",
+      "id": "users_macbook_documents_proyectos_flutter_odoo_dart_odoo_core_example_runbot_models_addnestedmap",
+      "community": 1,
+      "community_name": "Odoo Models & Repositories",
+      "norm_label": "addnestedmap"
+    },
+    {
+      "label": "build",
+      "file_type": "code",
+      "source_file": "odoo_core/example/runbot_models.odoo.g.dart",
+      "source_location": null,
+      "_origin": "ast",
+      "id": "users_macbook_documents_proyectos_flutter_odoo_dart_odoo_core_example_runbot_models_build",
+      "community": 1,
+      "community_name": "Odoo Models & Repositories",
+      "norm_label": "build"
     },
     {
       "label": "odoo_core.dart",
@@ -934,8 +1066,8 @@
       "source_location": null,
       "_origin": "ast",
       "id": "dart_async",
-      "community": 3,
-      "community_name": "Core BaseModel & Annotations",
+      "community": 13,
+      "community_name": "Core Utilities & Helpers",
       "norm_label": "dart:async"
     },
     {
@@ -945,8 +1077,8 @@
       "source_location": null,
       "_origin": "ast",
       "id": "dart_convert",
-      "community": 0,
-      "community_name": "Generator Examples & Tests",
+      "community": 7,
+      "community_name": "Exception Handling & Errors",
       "norm_label": "dart:convert"
     },
     {
@@ -1341,8 +1473,8 @@
       "source_location": null,
       "_origin": "ast",
       "id": "t",
-      "community": 13,
-      "community_name": "Core Utilities & Helpers",
+      "community": 3,
+      "community_name": "Core BaseModel & Annotations",
       "norm_label": "t"
     },
     {
@@ -1352,8 +1484,8 @@
       "source_location": null,
       "_origin": "ast",
       "id": "odoo_core_lib_src_network_exceptions_odoo_exception",
-      "community": 3,
-      "community_name": "Core BaseModel & Annotations",
+      "community": 13,
+      "community_name": "Core Utilities & Helpers",
       "norm_label": "odoo_exception.dart"
     },
     {
@@ -1363,8 +1495,8 @@
       "source_location": null,
       "_origin": "ast",
       "id": "odoo_core_lib_src_network_exceptions_odoo_exception_odooexception",
-      "community": 3,
-      "community_name": "Core BaseModel & Annotations",
+      "community": 13,
+      "community_name": "Core Utilities & Helpers",
       "norm_label": "odooexception"
     },
     {
@@ -1374,8 +1506,8 @@
       "source_location": null,
       "_origin": "ast",
       "id": "exception",
-      "community": 3,
-      "community_name": "Core BaseModel & Annotations",
+      "community": 13,
+      "community_name": "Core Utilities & Helpers",
       "norm_label": "exception?"
     },
     {
@@ -1385,8 +1517,8 @@
       "source_location": null,
       "_origin": "ast",
       "id": "odoo_core_lib_src_network_exceptions_odoo_exception_odoosessionexpiredexception",
-      "community": 3,
-      "community_name": "Core BaseModel & Annotations",
+      "community": 13,
+      "community_name": "Core Utilities & Helpers",
       "norm_label": "odoosessionexpiredexception"
     },
     {
@@ -1396,8 +1528,8 @@
       "source_location": null,
       "_origin": "ast",
       "id": "odoo_core_lib_src_network_exceptions_odoo_exception_code",
-      "community": 3,
-      "community_name": "Core BaseModel & Annotations",
+      "community": 13,
+      "community_name": "Core Utilities & Helpers",
       "norm_label": "code"
     },
     {
@@ -1407,8 +1539,8 @@
       "source_location": null,
       "_origin": "ast",
       "id": "odoo_core_lib_src_network_exceptions_odoo_exception_message",
-      "community": 3,
-      "community_name": "Core BaseModel & Annotations",
+      "community": 13,
+      "community_name": "Core Utilities & Helpers",
       "norm_label": "message"
     },
     {
@@ -1418,20 +1550,9 @@
       "source_location": null,
       "_origin": "ast",
       "id": "odoo_core_lib_src_network_exceptions_odoo_exception_data",
-      "community": 3,
-      "community_name": "Core BaseModel & Annotations",
+      "community": 13,
+      "community_name": "Core Utilities & Helpers",
       "norm_label": "data"
-    },
-    {
-      "label": "Map",
-      "file_type": "code",
-      "source_file": null,
-      "source_location": null,
-      "_origin": "ast",
-      "id": "map",
-      "community": 3,
-      "community_name": "Core BaseModel & Annotations",
-      "norm_label": "map"
     },
     {
       "label": "isAuthError",
@@ -1440,8 +1561,8 @@
       "source_location": null,
       "_origin": "ast",
       "id": "odoo_core_lib_src_network_exceptions_odoo_exception_isautherror",
-      "community": 3,
-      "community_name": "Core BaseModel & Annotations",
+      "community": 13,
+      "community_name": "Core Utilities & Helpers",
       "norm_label": "isautherror"
     },
     {
@@ -1451,8 +1572,8 @@
       "source_location": null,
       "_origin": "ast",
       "id": "odoo_core_lib_src_network_exceptions_odoo_exception_accessdenied",
-      "community": 3,
-      "community_name": "Core BaseModel & Annotations",
+      "community": 13,
+      "community_name": "Core Utilities & Helpers",
       "norm_label": "accessdenied"
     },
     {
@@ -1462,8 +1583,8 @@
       "source_location": null,
       "_origin": "ast",
       "id": "odoo_core_lib_src_network_exceptions_odoo_exception_notfound",
-      "community": 3,
-      "community_name": "Core BaseModel & Annotations",
+      "community": 13,
+      "community_name": "Core Utilities & Helpers",
       "norm_label": "notfound"
     },
     {
@@ -1473,8 +1594,8 @@
       "source_location": null,
       "_origin": "ast",
       "id": "odoo_core_lib_src_network_exceptions_odoo_exception_servererror",
-      "community": 3,
-      "community_name": "Core BaseModel & Annotations",
+      "community": 13,
+      "community_name": "Core Utilities & Helpers",
       "norm_label": "servererror"
     },
     {
@@ -1484,8 +1605,8 @@
       "source_location": null,
       "_origin": "ast",
       "id": "odoo_core_lib_src_network_exceptions_odoo_exception_fromjson",
-      "community": 3,
-      "community_name": "Core BaseModel & Annotations",
+      "community": 13,
+      "community_name": "Core Utilities & Helpers",
       "norm_label": "fromjson"
     },
     {
@@ -1495,8 +1616,8 @@
       "source_location": null,
       "_origin": "ast",
       "id": "odoo_core_lib_src_network_exceptions_odoo_exception_tojson",
-      "community": 3,
-      "community_name": "Core BaseModel & Annotations",
+      "community": 13,
+      "community_name": "Core Utilities & Helpers",
       "norm_label": "tojson"
     },
     {
@@ -1506,8 +1627,8 @@
       "source_location": null,
       "_origin": "ast",
       "id": "odoo_core_lib_src_network_exceptions_odoo_exception_tostring",
-      "community": 3,
-      "community_name": "Core BaseModel & Annotations",
+      "community": 13,
+      "community_name": "Core Utilities & Helpers",
       "norm_label": "tostring"
     },
     {
@@ -1528,8 +1649,8 @@
       "source_location": null,
       "_origin": "ast",
       "id": "odoo_core_lib_src_network_model_base_model_odoobasemodel",
-      "community": 1,
-      "community_name": "Odoo Models & Repositories",
+      "community": 0,
+      "community_name": "Generator Examples & Tests",
       "norm_label": "odoobasemodel"
     },
     {
@@ -1704,8 +1825,8 @@
       "source_location": null,
       "_origin": "ast",
       "id": "odoo_core_lib_src_network_model_odoo_annotation_odoomodel",
-      "community": 1,
-      "community_name": "Odoo Models & Repositories",
+      "community": 0,
+      "community_name": "Generator Examples & Tests",
       "norm_label": "odoomodel"
     },
     {
@@ -1795,17 +1916,6 @@
       "community": 4,
       "community_name": "Source Generator Code Builder",
       "norm_label": "specfields"
-    },
-    {
-      "label": "List",
-      "file_type": "code",
-      "source_file": null,
-      "source_location": null,
-      "_origin": "ast",
-      "id": "list",
-      "community": 4,
-      "community_name": "Source Generator Code Builder",
-      "norm_label": "list"
     },
     {
       "label": "odoo_session.dart",
@@ -2386,8 +2496,8 @@
       "source_location": null,
       "_origin": "ast",
       "id": "odoo_core_lib_src_network_params_rpc_payload",
-      "community": 13,
-      "community_name": "Core Utilities & Helpers",
+      "community": 3,
+      "community_name": "Core BaseModel & Annotations",
       "norm_label": "rpc_payload.dart"
     },
     {
@@ -2397,8 +2507,8 @@
       "source_location": null,
       "_origin": "ast",
       "id": "odoo_core_lib_src_network_params_rpc_payload_rpcpayload",
-      "community": 13,
-      "community_name": "Core Utilities & Helpers",
+      "community": 3,
+      "community_name": "Core BaseModel & Annotations",
       "norm_label": "rpcpayload"
     },
     {
@@ -2408,8 +2518,8 @@
       "source_location": null,
       "_origin": "ast",
       "id": "odoo_core_lib_src_network_params_rpc_payload_emptybody",
-      "community": 13,
-      "community_name": "Core Utilities & Helpers",
+      "community": 3,
+      "community_name": "Core BaseModel & Annotations",
       "norm_label": "emptybody"
     },
     {
@@ -2419,8 +2529,8 @@
       "source_location": null,
       "_origin": "ast",
       "id": "odoo_core_lib_src_network_params_rpc_payload_id",
-      "community": 13,
-      "community_name": "Core Utilities & Helpers",
+      "community": 3,
+      "community_name": "Core BaseModel & Annotations",
       "norm_label": "id"
     },
     {
@@ -2430,8 +2540,8 @@
       "source_location": null,
       "_origin": "ast",
       "id": "odoo_core_lib_src_network_params_rpc_payload_jsonrpc",
-      "community": 13,
-      "community_name": "Core Utilities & Helpers",
+      "community": 3,
+      "community_name": "Core BaseModel & Annotations",
       "norm_label": "jsonrpc"
     },
     {
@@ -2441,8 +2551,8 @@
       "source_location": null,
       "_origin": "ast",
       "id": "odoo_core_lib_src_network_params_rpc_payload_method",
-      "community": 13,
-      "community_name": "Core Utilities & Helpers",
+      "community": 3,
+      "community_name": "Core BaseModel & Annotations",
       "norm_label": "method"
     },
     {
@@ -2452,8 +2562,8 @@
       "source_location": null,
       "_origin": "ast",
       "id": "odoo_core_lib_src_network_params_rpc_payload_params",
-      "community": 13,
-      "community_name": "Core Utilities & Helpers",
+      "community": 3,
+      "community_name": "Core BaseModel & Annotations",
       "norm_label": "params"
     },
     {
@@ -2463,8 +2573,8 @@
       "source_location": null,
       "_origin": "ast",
       "id": "odoo_core_lib_src_network_params_rpc_payload_from",
-      "community": 13,
-      "community_name": "Core Utilities & Helpers",
+      "community": 3,
+      "community_name": "Core BaseModel & Annotations",
       "norm_label": "from"
     },
     {
@@ -2474,8 +2584,8 @@
       "source_location": null,
       "_origin": "ast",
       "id": "odoo_core_lib_src_network_params_rpc_payload_fromjson",
-      "community": 13,
-      "community_name": "Core Utilities & Helpers",
+      "community": 3,
+      "community_name": "Core BaseModel & Annotations",
       "norm_label": "fromjson"
     },
     {
@@ -2485,8 +2595,8 @@
       "source_location": null,
       "_origin": "ast",
       "id": "odoo_core_lib_src_network_params_rpc_payload_tojson",
-      "community": 13,
-      "community_name": "Core Utilities & Helpers",
+      "community": 3,
+      "community_name": "Core BaseModel & Annotations",
       "norm_label": "tojson"
     },
     {
@@ -2892,8 +3002,8 @@
       "source_location": null,
       "_origin": "ast",
       "id": "odoo_core_test_odoo_core_test",
-      "community": 3,
-      "community_name": "Core BaseModel & Annotations",
+      "community": 13,
+      "community_name": "Core Utilities & Helpers",
       "norm_label": "odoo_core_test.dart"
     },
     {
@@ -2914,8 +3024,8 @@
       "source_location": null,
       "_origin": "ast",
       "id": "odoo_core_test_odoo_core_test_runboturl",
-      "community": 3,
-      "community_name": "Core BaseModel & Annotations",
+      "community": 13,
+      "community_name": "Core Utilities & Helpers",
       "norm_label": "_runboturl"
     },
     {
@@ -2925,8 +3035,8 @@
       "source_location": null,
       "_origin": "ast",
       "id": "odoo_core_test_odoo_core_test_runbotdb",
-      "community": 3,
-      "community_name": "Core BaseModel & Annotations",
+      "community": 13,
+      "community_name": "Core Utilities & Helpers",
       "norm_label": "_runbotdb"
     },
     {
@@ -2936,8 +3046,8 @@
       "source_location": null,
       "_origin": "ast",
       "id": "odoo_core_test_odoo_core_test_runbotuser",
-      "community": 3,
-      "community_name": "Core BaseModel & Annotations",
+      "community": 13,
+      "community_name": "Core Utilities & Helpers",
       "norm_label": "_runbotuser"
     },
     {
@@ -2947,8 +3057,8 @@
       "source_location": null,
       "_origin": "ast",
       "id": "odoo_core_test_odoo_core_test_runbotpass",
-      "community": 3,
-      "community_name": "Core BaseModel & Annotations",
+      "community": 13,
+      "community_name": "Core Utilities & Helpers",
       "norm_label": "_runbotpass"
     },
     {
@@ -2958,8 +3068,8 @@
       "source_location": null,
       "_origin": "ast",
       "id": "odoo_core_test_odoo_core_test_mockresponse",
-      "community": 3,
-      "community_name": "Core BaseModel & Annotations",
+      "community": 13,
+      "community_name": "Core Utilities & Helpers",
       "norm_label": "mockresponse"
     },
     {
@@ -2969,8 +3079,8 @@
       "source_location": null,
       "_origin": "ast",
       "id": "odoo_core_test_odoo_core_test_throwexception",
-      "community": 3,
-      "community_name": "Core BaseModel & Annotations",
+      "community": 13,
+      "community_name": "Core Utilities & Helpers",
       "norm_label": "throwexception"
     },
     {
@@ -2980,8 +3090,8 @@
       "source_location": null,
       "_origin": "ast",
       "id": "odoo_core_test_odoo_core_test_dio",
-      "community": 3,
-      "community_name": "Core BaseModel & Annotations",
+      "community": 13,
+      "community_name": "Core Utilities & Helpers",
       "norm_label": "dio"
     },
     {
@@ -2991,8 +3101,8 @@
       "source_location": null,
       "_origin": "ast",
       "id": "odoo_core_test_odoo_core_test_sessioncookie",
-      "community": 3,
-      "community_name": "Core BaseModel & Annotations",
+      "community": 13,
+      "community_name": "Core Utilities & Helpers",
       "norm_label": "sessioncookie"
     },
     {
@@ -3002,8 +3112,8 @@
       "source_location": null,
       "_origin": "ast",
       "id": "odoo_core_test_odoo_core_test_callkwraw",
-      "community": 3,
-      "community_name": "Core BaseModel & Annotations",
+      "community": 13,
+      "community_name": "Core Utilities & Helpers",
       "norm_label": "callkwraw"
     },
     {
@@ -3013,8 +3123,8 @@
       "source_location": null,
       "_origin": "ast",
       "id": "odoo_core_test_odoo_core_test_buildrunbotclient",
-      "community": 3,
-      "community_name": "Core BaseModel & Annotations",
+      "community": 13,
+      "community_name": "Core Utilities & Helpers",
       "norm_label": "_buildrunbotclient"
     },
     {
@@ -3024,8 +3134,8 @@
       "source_location": null,
       "_origin": "ast",
       "id": "odoo_core_test_odoo_core_test_main",
-      "community": 3,
-      "community_name": "Core BaseModel & Annotations",
+      "community": 13,
+      "community_name": "Core Utilities & Helpers",
       "norm_label": "main"
     },
     {
@@ -3035,8 +3145,8 @@
       "source_location": null,
       "_origin": "ast",
       "id": "package_test_test_dart",
-      "community": 0,
-      "community_name": "Generator Examples & Tests",
+      "community": 7,
+      "community_name": "Exception Handling & Errors",
       "norm_label": "package:test/test.dart"
     },
     {
@@ -3046,8 +3156,8 @@
       "source_location": null,
       "_origin": "ast",
       "id": "example_runbot_models_dart",
-      "community": 3,
-      "community_name": "Core BaseModel & Annotations",
+      "community": 13,
+      "community_name": "Core Utilities & Helpers",
       "norm_label": "../example/runbot_models.dart"
     },
     {
@@ -3057,8 +3167,8 @@
       "source_location": null,
       "_origin": "ast",
       "id": "stateerror",
-      "community": 3,
-      "community_name": "Core BaseModel & Annotations",
+      "community": 13,
+      "community_name": "Core Utilities & Helpers",
       "norm_label": "stateerror"
     },
     {
@@ -3079,8 +3189,8 @@
       "source_location": null,
       "_origin": "ast",
       "id": "odoo_generator_example_odoo_generator_example_category",
-      "community": 1,
-      "community_name": "Odoo Models & Repositories",
+      "community": 0,
+      "community_name": "Generator Examples & Tests",
       "norm_label": "category"
     },
     {
@@ -3090,8 +3200,8 @@
       "source_location": null,
       "_origin": "ast",
       "id": "odoo_generator_example_odoo_generator_example_tag",
-      "community": 1,
-      "community_name": "Odoo Models & Repositories",
+      "community": 0,
+      "community_name": "Generator Examples & Tests",
       "norm_label": "tag"
     },
     {
@@ -3101,8 +3211,8 @@
       "source_location": null,
       "_origin": "ast",
       "id": "odoo_generator_example_odoo_generator_example_product",
-      "community": 1,
-      "community_name": "Odoo Models & Repositories",
+      "community": 0,
+      "community_name": "Generator Examples & Tests",
       "norm_label": "product"
     },
     {
@@ -3112,8 +3222,8 @@
       "source_location": null,
       "_origin": "ast",
       "id": "odoo_generator_example_odoo_generator_example_productline",
-      "community": 1,
-      "community_name": "Odoo Models & Repositories",
+      "community": 0,
+      "community_name": "Generator Examples & Tests",
       "norm_label": "productline"
     },
     {
@@ -3123,8 +3233,8 @@
       "source_location": null,
       "_origin": "ast",
       "id": "odoo_generator_example_odoo_generator_example_order",
-      "community": 1,
-      "community_name": "Odoo Models & Repositories",
+      "community": 0,
+      "community_name": "Generator Examples & Tests",
       "norm_label": "order"
     },
     {
@@ -3480,6 +3590,17 @@
       "norm_label": "tojson"
     },
     {
+      "label": "buildSpecification",
+      "file_type": "code",
+      "source_file": "odoo_generator/example/odoo_generator_example.dart",
+      "source_location": null,
+      "_origin": "ast",
+      "id": "odoo_generator_example_odoo_generator_example_buildspecification",
+      "community": 0,
+      "community_name": "Generator Examples & Tests",
+      "norm_label": "buildspecification"
+    },
+    {
       "label": "factory",
       "file_type": "code",
       "source_file": "odoo_generator/example/odoo_generator_example.dart",
@@ -3541,8 +3662,8 @@
       "source_location": null,
       "_origin": "ast",
       "id": "odoo_generator_lib_src_odoo_generator_base_odoomodelgenerator",
-      "community": 6,
-      "community_name": "Realtime WebSocket Client",
+      "community": 0,
+      "community_name": "Generator Examples & Tests",
       "norm_label": "odoomodelgenerator"
     },
     {
@@ -3552,8 +3673,8 @@
       "source_location": null,
       "_origin": "ast",
       "id": "generatorforannotation",
-      "community": 6,
-      "community_name": "Realtime WebSocket Client",
+      "community": 0,
+      "community_name": "Generator Examples & Tests",
       "norm_label": "generatorforannotation"
     },
     {
@@ -3805,8 +3926,8 @@
       "source_location": null,
       "_origin": "ast",
       "id": "odoo_generator_test_odoo_generator_test",
-      "community": 0,
-      "community_name": "Generator Examples & Tests",
+      "community": 7,
+      "community_name": "Exception Handling & Errors",
       "norm_label": "odoo_generator_test.dart"
     },
     {
@@ -3816,8 +3937,8 @@
       "source_location": null,
       "_origin": "ast",
       "id": "odoo_generator_test_odoo_generator_test_main",
-      "community": 0,
-      "community_name": "Generator Examples & Tests",
+      "community": 7,
+      "community_name": "Exception Handling & Errors",
       "norm_label": "main"
     },
     {
@@ -3827,8 +3948,8 @@
       "source_location": null,
       "_origin": "ast",
       "id": "example_odoo_generator_example_dart",
-      "community": 0,
-      "community_name": "Generator Examples & Tests",
+      "community": 7,
+      "community_name": "Exception Handling & Errors",
       "norm_label": "../example/odoo_generator_example.dart"
     },
     {
@@ -3852,6 +3973,28 @@
       "community": 15,
       "community_name": "Generator Extension Helpers",
       "norm_label": "main"
+    },
+    {
+      "label": "changelog_and_graphify.md",
+      "file_type": "document",
+      "source_file": ".agents/rules/changelog_and_graphify.md",
+      "source_location": "L1",
+      "_origin": "ast",
+      "id": "agents_rules_changelog_and_graphify",
+      "community": 23,
+      "community_name": "changelog_and_graphify.md",
+      "norm_label": "changelog_and_graphify.md"
+    },
+    {
+      "label": "Registro de Cambios y Uso de Graphify (Obligatorio)",
+      "file_type": "document",
+      "source_file": ".agents/rules/changelog_and_graphify.md",
+      "source_location": "L6",
+      "_origin": "ast",
+      "id": "agents_rules_changelog_and_graphify_registro_de_cambios_y_uso_de_graphify_obligatorio",
+      "community": 23,
+      "community_name": "changelog_and_graphify.md",
+      "norm_label": "registro de cambios y uso de graphify (obligatorio)"
     },
     {
       "label": "graphify.md",
@@ -4547,10 +4690,21 @@
       "norm_label": "changelog.md"
     },
     {
-      "label": "2.2.0",
+      "label": "2.3.0",
       "file_type": "document",
       "source_file": "odoo_generator/CHANGELOG.md",
       "source_location": "L1",
+      "_origin": "ast",
+      "id": "odoo_generator_changelog_2_3_0",
+      "community": 19,
+      "community_name": "CHANGELOG.md",
+      "norm_label": "2.3.0"
+    },
+    {
+      "label": "2.2.0",
+      "file_type": "document",
+      "source_file": "odoo_generator/CHANGELOG.md",
+      "source_location": "L5",
       "_origin": "ast",
       "id": "odoo_generator_changelog_2_2_0",
       "community": 19,
@@ -4561,7 +4715,7 @@
       "label": "2.1.1",
       "file_type": "document",
       "source_file": "odoo_generator/CHANGELOG.md",
-      "source_location": "L5",
+      "source_location": "L9",
       "_origin": "ast",
       "id": "odoo_generator_changelog_2_1_1",
       "community": 19,
@@ -4572,7 +4726,7 @@
       "label": "2.1.0",
       "file_type": "document",
       "source_file": "odoo_generator/CHANGELOG.md",
-      "source_location": "L9",
+      "source_location": "L13",
       "_origin": "ast",
       "id": "odoo_generator_changelog_2_1_0",
       "community": 19,
@@ -4583,7 +4737,7 @@
       "label": "2.0.4",
       "file_type": "document",
       "source_file": "odoo_generator/CHANGELOG.md",
-      "source_location": "L15",
+      "source_location": "L19",
       "_origin": "ast",
       "id": "odoo_generator_changelog_2_0_4",
       "community": 19,
@@ -4594,7 +4748,7 @@
       "label": "2.0.3",
       "file_type": "document",
       "source_file": "odoo_generator/CHANGELOG.md",
-      "source_location": "L20",
+      "source_location": "L24",
       "_origin": "ast",
       "id": "odoo_generator_changelog_2_0_3",
       "community": 19,
@@ -4605,7 +4759,7 @@
       "label": "2.0.2",
       "file_type": "document",
       "source_file": "odoo_generator/CHANGELOG.md",
-      "source_location": "L24",
+      "source_location": "L28",
       "_origin": "ast",
       "id": "odoo_generator_changelog_2_0_2",
       "community": 19,
@@ -4616,7 +4770,7 @@
       "label": "2.0.1",
       "file_type": "document",
       "source_file": "odoo_generator/CHANGELOG.md",
-      "source_location": "L28",
+      "source_location": "L32",
       "_origin": "ast",
       "id": "odoo_generator_changelog_2_0_1",
       "community": 19,
@@ -4627,7 +4781,7 @@
       "label": "2.0.0",
       "file_type": "document",
       "source_file": "odoo_generator/CHANGELOG.md",
-      "source_location": "L33",
+      "source_location": "L37",
       "_origin": "ast",
       "id": "odoo_generator_changelog_2_0_0",
       "community": 19,
@@ -4811,21 +4965,54 @@
       "norm_label": "\ud83d\udcca 6. seleccion dinamica de campos (specification)"
     },
     {
-      "label": "Especificaci\u00f3n anidada (relaciones)",
+      "label": "\ud83d\udd39 Uso 1: Estilo Builder Fluido (`.addField()`, `.addOnly()`, `.addNested()`, `.build()`)",
       "file_type": "document",
       "source_file": "odoo_generator/README.md",
-      "source_location": "L193",
+      "source_location": "L179",
       "_origin": "ast",
-      "id": "odoo_generator_readme_especificaci\u00f3n_anidada_relaciones",
+      "id": "odoo_generator_readme_uso_1_estilo_builder_fluido_addfield_addonly_addnested_build",
       "community": 18,
       "community_name": "odoo_generator",
-      "norm_label": "especificacion anidada (relaciones)"
+      "norm_label": "\ud83d\udd39 uso 1: estilo builder fluido (`.addfield()`, `.addonly()`, `.addnested()`, `.build()`)"
+    },
+    {
+      "label": "\ud83d\udd39 Uso 2: Par\u00e1metros posicionales directos con `.build()`",
+      "file_type": "document",
+      "source_file": "odoo_generator/README.md",
+      "source_location": "L192",
+      "_origin": "ast",
+      "id": "odoo_generator_readme_uso_2_par\u00e1metros_posicionales_directos_con_build",
+      "community": 18,
+      "community_name": "odoo_generator",
+      "norm_label": "\ud83d\udd39 uso 2: parametros posicionales directos con `.build()`"
+    },
+    {
+      "label": "\ud83d\udd39 Uso 3: Especificaci\u00f3n anidada (Relaciones many2one / one2many)",
+      "file_type": "document",
+      "source_file": "odoo_generator/README.md",
+      "source_location": "L208",
+      "_origin": "ast",
+      "id": "odoo_generator_readme_uso_3_especificaci\u00f3n_anidada_relaciones_many2one_one2many",
+      "community": 18,
+      "community_name": "odoo_generator",
+      "norm_label": "\ud83d\udd39 uso 3: especificacion anidada (relaciones many2one / one2many)"
+    },
+    {
+      "label": "\ud83d\udd39 Uso 4: Exposici\u00f3n manual / est\u00e1tica dentro de tu clase modelo (opcional)",
+      "file_type": "document",
+      "source_file": "odoo_generator/README.md",
+      "source_location": "L238",
+      "_origin": "ast",
+      "id": "odoo_generator_readme_uso_4_exposici\u00f3n_manual_est\u00e1tica_dentro_de_tu_clase_modelo_opcional",
+      "community": 18,
+      "community_name": "odoo_generator",
+      "norm_label": "\ud83d\udd39 uso 4: exposicion manual / estatica dentro de tu clase modelo (opcional)"
     },
     {
       "label": "\ud83e\udde9 7. Modelo Complejo con Varios Tipos",
       "file_type": "document",
       "source_file": "odoo_generator/README.md",
-      "source_location": "L224",
+      "source_location": "L266",
       "_origin": "ast",
       "id": "odoo_generator_readme_7_modelo_complejo_con_varios_tipos",
       "community": 18,
@@ -4836,7 +5023,7 @@
       "label": "\ud83e\uddea 8. Testing de Repositorios Generados",
       "file_type": "document",
       "source_file": "odoo_generator/README.md",
-      "source_location": "L270",
+      "source_location": "L312",
       "_origin": "ast",
       "id": "odoo_generator_readme_8_testing_de_repositorios_generados",
       "community": 18,
@@ -4847,7 +5034,7 @@
       "label": "\ud83d\udd27 9. Comandos \u00datiles",
       "file_type": "document",
       "source_file": "odoo_generator/README.md",
-      "source_location": "L318",
+      "source_location": "L360",
       "_origin": "ast",
       "id": "odoo_generator_readme_9_comandos_\u00fatiles",
       "community": 18,
@@ -4858,7 +5045,7 @@
       "label": "\ud83d\udcc1 Estructura",
       "file_type": "document",
       "source_file": "odoo_generator/README.md",
-      "source_location": "L336",
+      "source_location": "L378",
       "_origin": "ast",
       "id": "odoo_generator_readme_estructura",
       "community": 18,
@@ -4869,7 +5056,7 @@
       "label": "\ud83d\udd16 Versiones",
       "file_type": "document",
       "source_file": "odoo_generator/README.md",
-      "source_location": "L348",
+      "source_location": "L390",
       "_origin": "ast",
       "id": "odoo_generator_readme_versiones",
       "community": 18,
@@ -5330,6 +5517,30 @@
       "target": "bool_get"
     },
     {
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "odoo_core/example/runbot_models.odoo.g.dart",
+      "source_location": null,
+      "weight": 1.0,
+      "context": "variable_type",
+      "_origin": "ast",
+      "source": "odoo_core_example_runbot_models",
+      "target": "list"
+    },
+    {
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "odoo_core/example/runbot_models.odoo.g.dart",
+      "source_location": null,
+      "weight": 1.0,
+      "context": "variable_type",
+      "_origin": "ast",
+      "source": "odoo_core_example_runbot_models",
+      "target": "map"
+    },
+    {
       "relation": "defines",
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
@@ -5505,7 +5716,62 @@
       "weight": 1.0,
       "_origin": "ast",
       "source": "odoo_core_example_runbot_models",
+      "target": "users_macbook_documents_proyectos_flutter_odoo_dart_odoo_core_example_runbot_models_addfield"
+    },
+    {
+      "relation": "defines",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "odoo_core/example/runbot_models.odoo.g.dart",
+      "source_location": null,
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "odoo_core_example_runbot_models",
+      "target": "users_macbook_documents_proyectos_flutter_odoo_dart_odoo_core_example_runbot_models_addnested"
+    },
+    {
+      "relation": "defines",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "odoo_core/example/runbot_models.odoo.g.dart",
+      "source_location": null,
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "odoo_core_example_runbot_models",
+      "target": "users_macbook_documents_proyectos_flutter_odoo_dart_odoo_core_example_runbot_models_addnestedmap"
+    },
+    {
+      "relation": "defines",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "odoo_core/example/runbot_models.odoo.g.dart",
+      "source_location": null,
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "odoo_core_example_runbot_models",
+      "target": "users_macbook_documents_proyectos_flutter_odoo_dart_odoo_core_example_runbot_models_addonly"
+    },
+    {
+      "relation": "defines",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "odoo_core/example/runbot_models.odoo.g.dart",
+      "source_location": null,
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "odoo_core_example_runbot_models",
       "target": "users_macbook_documents_proyectos_flutter_odoo_dart_odoo_core_example_runbot_models_base"
+    },
+    {
+      "relation": "defines",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "odoo_core/example/runbot_models.odoo.g.dart",
+      "source_location": null,
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "odoo_core_example_runbot_models",
+      "target": "users_macbook_documents_proyectos_flutter_odoo_dart_odoo_core_example_runbot_models_build"
     },
     {
       "relation": "defines",
@@ -5560,6 +5826,17 @@
       "weight": 1.0,
       "_origin": "ast",
       "source": "odoo_core_example_runbot_models",
+      "target": "users_macbook_documents_proyectos_flutter_odoo_dart_odoo_core_example_runbot_models_employeespecificationbuilder"
+    },
+    {
+      "relation": "defines",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "odoo_core/example/runbot_models.odoo.g.dart",
+      "source_location": null,
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "odoo_core_example_runbot_models",
       "target": "users_macbook_documents_proyectos_flutter_odoo_dart_odoo_core_example_runbot_models_fieldmapping"
     },
     {
@@ -5582,6 +5859,28 @@
       "weight": 1.0,
       "_origin": "ast",
       "source": "odoo_core_example_runbot_models",
+      "target": "users_macbook_documents_proyectos_flutter_odoo_dart_odoo_core_example_runbot_models_nested"
+    },
+    {
+      "relation": "defines",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "odoo_core/example/runbot_models.odoo.g.dart",
+      "source_location": null,
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "odoo_core_example_runbot_models",
+      "target": "users_macbook_documents_proyectos_flutter_odoo_dart_odoo_core_example_runbot_models_only"
+    },
+    {
+      "relation": "defines",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "odoo_core/example/runbot_models.odoo.g.dart",
+      "source_location": null,
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "odoo_core_example_runbot_models",
       "target": "users_macbook_documents_proyectos_flutter_odoo_dart_odoo_core_example_runbot_models_partnerfields"
     },
     {
@@ -5594,6 +5893,17 @@
       "_origin": "ast",
       "source": "odoo_core_example_runbot_models",
       "target": "users_macbook_documents_proyectos_flutter_odoo_dart_odoo_core_example_runbot_models_partnerrepository"
+    },
+    {
+      "relation": "defines",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "odoo_core/example/runbot_models.odoo.g.dart",
+      "source_location": null,
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "odoo_core_example_runbot_models",
+      "target": "users_macbook_documents_proyectos_flutter_odoo_dart_odoo_core_example_runbot_models_partnerspecificationbuilder"
     },
     {
       "relation": "defines",
@@ -5660,6 +5970,17 @@
       "_origin": "ast",
       "source": "odoo_core_example_runbot_models",
       "target": "users_macbook_documents_proyectos_flutter_odoo_dart_odoo_core_example_runbot_models_userrepository"
+    },
+    {
+      "relation": "defines",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "odoo_core/example/runbot_models.odoo.g.dart",
+      "source_location": null,
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "odoo_core_example_runbot_models",
+      "target": "users_macbook_documents_proyectos_flutter_odoo_dart_odoo_core_example_runbot_models_userspecificationbuilder"
     },
     {
       "relation": "mixes_in",
@@ -5873,6 +6194,66 @@
       "_origin": "ast",
       "source": "odoo_core_lib_src_network_model_base_model",
       "target": "static_const_map"
+    },
+    {
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "odoo_core/lib/src/network/model/odoo_annotation.dart",
+      "source_location": null,
+      "weight": 1.0,
+      "context": "variable_type",
+      "_origin": "ast",
+      "source": "odoo_core_lib_src_network_model_odoo_annotation",
+      "target": "list"
+    },
+    {
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "odoo_core/lib/src/network/model/odoo_session.dart",
+      "source_location": null,
+      "weight": 1.0,
+      "context": "variable_type",
+      "_origin": "ast",
+      "source": "odoo_core_lib_src_network_model_odoo_session",
+      "target": "list"
+    },
+    {
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "odoo_core/lib/src/network/responses/version_info_response.dart",
+      "source_location": null,
+      "weight": 1.0,
+      "context": "variable_type",
+      "_origin": "ast",
+      "source": "odoo_core_lib_src_network_responses_version_info_response",
+      "target": "list"
+    },
+    {
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "odoo_generator/example/odoo_generator_example.dart",
+      "source_location": null,
+      "weight": 1.0,
+      "context": "variable_type",
+      "_origin": "ast",
+      "source": "odoo_generator_example_odoo_generator_example",
+      "target": "list"
+    },
+    {
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "odoo_core/lib/src/network/exceptions/odoo_exception.dart",
+      "source_location": null,
+      "weight": 1.0,
+      "context": "variable_type",
+      "_origin": "ast",
+      "source": "odoo_core_lib_src_network_exceptions_odoo_exception",
+      "target": "map"
     },
     {
       "relation": "references",
@@ -6781,18 +7162,6 @@
       "target": "t"
     },
     {
-      "relation": "references",
-      "confidence": "EXTRACTED",
-      "confidence_score": 1.0,
-      "source_file": "odoo_core/lib/src/network/exceptions/odoo_exception.dart",
-      "source_location": null,
-      "weight": 1.0,
-      "context": "variable_type",
-      "_origin": "ast",
-      "source": "odoo_core_lib_src_network_exceptions_odoo_exception",
-      "target": "map"
-    },
-    {
       "relation": "defines",
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
@@ -7254,18 +7623,6 @@
       "target": "int"
     },
     {
-      "relation": "references",
-      "confidence": "EXTRACTED",
-      "confidence_score": 1.0,
-      "source_file": "odoo_core/lib/src/network/model/odoo_annotation.dart",
-      "source_location": null,
-      "weight": 1.0,
-      "context": "variable_type",
-      "_origin": "ast",
-      "source": "odoo_core_lib_src_network_model_odoo_annotation",
-      "target": "list"
-    },
-    {
       "relation": "defines",
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
@@ -7441,42 +7798,6 @@
       "_origin": "ast",
       "source": "odoo_generator_lib_src_odoo_generator_base_odoomodelgenerator",
       "target": "odoo_core_lib_src_network_model_odoo_annotation_odoomodel"
-    },
-    {
-      "relation": "references",
-      "confidence": "EXTRACTED",
-      "confidence_score": 1.0,
-      "source_file": "odoo_core/lib/src/network/model/odoo_session.dart",
-      "source_location": null,
-      "weight": 1.0,
-      "context": "variable_type",
-      "_origin": "ast",
-      "source": "odoo_core_lib_src_network_model_odoo_session",
-      "target": "list"
-    },
-    {
-      "relation": "references",
-      "confidence": "EXTRACTED",
-      "confidence_score": 1.0,
-      "source_file": "odoo_core/lib/src/network/responses/version_info_response.dart",
-      "source_location": null,
-      "weight": 1.0,
-      "context": "variable_type",
-      "_origin": "ast",
-      "source": "odoo_core_lib_src_network_responses_version_info_response",
-      "target": "list"
-    },
-    {
-      "relation": "references",
-      "confidence": "EXTRACTED",
-      "confidence_score": 1.0,
-      "source_file": "odoo_generator/example/odoo_generator_example.dart",
-      "source_location": null,
-      "weight": 1.0,
-      "context": "variable_type",
-      "_origin": "ast",
-      "source": "odoo_generator_example_odoo_generator_example",
-      "target": "list"
     },
     {
       "relation": "references",
@@ -8705,6 +9026,17 @@
       "weight": 1.0,
       "_origin": "ast",
       "source": "odoo_generator_example_odoo_generator_example",
+      "target": "odoo_generator_example_odoo_generator_example_buildspecification"
+    },
+    {
+      "relation": "defines",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "odoo_generator/example/odoo_generator_example.dart",
+      "source_location": null,
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "odoo_generator_example_odoo_generator_example",
       "target": "odoo_generator_example_odoo_generator_example_category"
     },
     {
@@ -9469,6 +9801,17 @@
     {
       "relation": "contains",
       "confidence": "EXTRACTED",
+      "source_file": ".agents/rules/changelog_and_graphify.md",
+      "source_location": "L6",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "agents_rules_changelog_and_graphify",
+      "target": "agents_rules_changelog_and_graphify_registro_de_cambios_y_uso_de_graphify_obligatorio",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
       "source_file": ".agents/rules/graphify.md",
       "source_location": "L6",
       "weight": 1.0,
@@ -10119,7 +10462,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "odoo_generator/CHANGELOG.md",
-      "source_location": "L33",
+      "source_location": "L37",
       "weight": 1.0,
       "_origin": "ast",
       "source": "odoo_generator_changelog",
@@ -10130,7 +10473,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "odoo_generator/CHANGELOG.md",
-      "source_location": "L28",
+      "source_location": "L32",
       "weight": 1.0,
       "_origin": "ast",
       "source": "odoo_generator_changelog",
@@ -10141,7 +10484,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "odoo_generator/CHANGELOG.md",
-      "source_location": "L24",
+      "source_location": "L28",
       "weight": 1.0,
       "_origin": "ast",
       "source": "odoo_generator_changelog",
@@ -10152,7 +10495,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "odoo_generator/CHANGELOG.md",
-      "source_location": "L20",
+      "source_location": "L24",
       "weight": 1.0,
       "_origin": "ast",
       "source": "odoo_generator_changelog",
@@ -10163,7 +10506,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "odoo_generator/CHANGELOG.md",
-      "source_location": "L15",
+      "source_location": "L19",
       "weight": 1.0,
       "_origin": "ast",
       "source": "odoo_generator_changelog",
@@ -10174,7 +10517,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "odoo_generator/CHANGELOG.md",
-      "source_location": "L9",
+      "source_location": "L13",
       "weight": 1.0,
       "_origin": "ast",
       "source": "odoo_generator_changelog",
@@ -10185,7 +10528,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "odoo_generator/CHANGELOG.md",
-      "source_location": "L5",
+      "source_location": "L9",
       "weight": 1.0,
       "_origin": "ast",
       "source": "odoo_generator_changelog",
@@ -10196,11 +10539,22 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "odoo_generator/CHANGELOG.md",
-      "source_location": "L1",
+      "source_location": "L5",
       "weight": 1.0,
       "_origin": "ast",
       "source": "odoo_generator_changelog",
       "target": "odoo_generator_changelog_2_2_0",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "odoo_generator/CHANGELOG.md",
+      "source_location": "L1",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "odoo_generator_changelog",
+      "target": "odoo_generator_changelog_2_3_0",
       "confidence_score": 1.0
     },
     {
@@ -10350,7 +10704,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "odoo_generator/README.md",
-      "source_location": "L224",
+      "source_location": "L266",
       "weight": 1.0,
       "_origin": "ast",
       "source": "odoo_generator_readme_odoo_generator",
@@ -10361,7 +10715,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "odoo_generator/README.md",
-      "source_location": "L270",
+      "source_location": "L312",
       "weight": 1.0,
       "_origin": "ast",
       "source": "odoo_generator_readme_odoo_generator",
@@ -10372,7 +10726,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "odoo_generator/README.md",
-      "source_location": "L318",
+      "source_location": "L360",
       "weight": 1.0,
       "_origin": "ast",
       "source": "odoo_generator_readme_odoo_generator",
@@ -10383,7 +10737,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "odoo_generator/README.md",
-      "source_location": "L336",
+      "source_location": "L378",
       "weight": 1.0,
       "_origin": "ast",
       "source": "odoo_generator_readme_odoo_generator",
@@ -10405,7 +10759,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "odoo_generator/README.md",
-      "source_location": "L348",
+      "source_location": "L390",
       "weight": 1.0,
       "_origin": "ast",
       "source": "odoo_generator_readme_odoo_generator",
@@ -10416,14 +10770,47 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "odoo_generator/README.md",
-      "source_location": "L193",
+      "source_location": "L179",
       "weight": 1.0,
       "_origin": "ast",
       "source": "odoo_generator_readme_6_selecci\u00f3n_din\u00e1mica_de_campos_specification",
-      "target": "odoo_generator_readme_especificaci\u00f3n_anidada_relaciones",
+      "target": "odoo_generator_readme_uso_1_estilo_builder_fluido_addfield_addonly_addnested_build",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "odoo_generator/README.md",
+      "source_location": "L192",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "odoo_generator_readme_6_selecci\u00f3n_din\u00e1mica_de_campos_specification",
+      "target": "odoo_generator_readme_uso_2_par\u00e1metros_posicionales_directos_con_build",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "odoo_generator/README.md",
+      "source_location": "L208",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "odoo_generator_readme_6_selecci\u00f3n_din\u00e1mica_de_campos_specification",
+      "target": "odoo_generator_readme_uso_3_especificaci\u00f3n_anidada_relaciones_many2one_one2many",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "odoo_generator/README.md",
+      "source_location": "L238",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "odoo_generator_readme_6_selecci\u00f3n_din\u00e1mica_de_campos_specification",
+      "target": "odoo_generator_readme_uso_4_exposici\u00f3n_manual_est\u00e1tica_dentro_de_tu_clase_modelo_opcional",
       "confidence_score": 1.0
     }
   ],
   "hyperedges": [],
-  "built_at_commit": "3e2f11e5dbbee2805d7686e748dd29af66e2175b"
+  "built_at_commit": "ca00ecaf594dfb34997fe38c0cb070f57098fb00"
 }
