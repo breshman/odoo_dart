@@ -1,19 +1,23 @@
-// ignore_for_file: avoid_print
 import 'dart:async';
+import 'dart:io';
 
 import 'package:dio/dio.dart';
-import 'package:test/test.dart';
 import 'package:odoo_core/odoo_core.dart';
+import 'package:test/test.dart';
 
 import '../example/runbot_models.dart';
 
 // ─────────────────────────────────────────────────────────────────────────────
-// RunBot config — URL de pruebas activa
+// RunBot config — URL de pruebas activa (ejecutar con ODOO_RUNBOT_TEST=true)
 // ─────────────────────────────────────────────────────────────────────────────
-const _runbotUrl = 'https://107897960-18-0-all.runbot213.odoo.com';
-const _runbotDb = '107897960-18-0-all';
-const _runbotUser = 'admin';
-const _runbotPass = 'admin';
+final _runbotUrl =
+    Platform.environment['ODOO_RUNBOT_URL'] ??
+    'https://129820524-saas-19-3-all.runbot302.odoo.com';
+final _runbotDb =
+    Platform.environment['ODOO_RUNBOT_DB'] ?? '129820524-saas-19-3-all';
+final _runbotUser = Platform.environment['ODOO_RUNBOT_USER'] ?? 'admin';
+final _runbotPass = Platform.environment['ODOO_RUNBOT_PASS'] ?? 'admin';
+final _runbotEnabled = Platform.environment['ODOO_RUNBOT_TEST'] == 'true';
 
 // ─────────────────────────────────────────────────────────────────────────────
 // Mock client — permite tests unitarios sin red
@@ -634,7 +638,12 @@ void main() {
   // ───────────────────────────────────────────────────────────────────────────
   // GRUPO 7 — Integración RunBot — Authenticación y sesión
   // ───────────────────────────────────────────────────────────────────────────
-  group('7. Integración RunBot — Sesión', () {
+  group(
+    '7. Integración RunBot — Sesión',
+    skip: !_runbotEnabled
+        ? 'RunBot no habilitado (activar con ODOO_RUNBOT_TEST=true)'
+        : null,
+    () {
     late OdooRpcService odoo;
     late OdooSession session;
 
@@ -702,7 +711,12 @@ void main() {
   // ───────────────────────────────────────────────────────────────────────────
   // GRUPO 8 — Integración RunBot — CRUD completo (res.partner)
   // ───────────────────────────────────────────────────────────────────────────
-  group('8. Integración RunBot — CRUD res.partner', () {
+  group(
+    '8. Integración RunBot — CRUD res.partner',
+    skip: !_runbotEnabled
+        ? 'RunBot no habilitado (activar con ODOO_RUNBOT_TEST=true)'
+        : null,
+    () {
     late OdooRpcService odoo;
     late PartnerRepository partnerRepo;
     late int testPartnerId;
@@ -782,6 +796,29 @@ void main() {
       expect(saved.first.phone, '555-9999');
     });
 
+    test('webCreate — creación Odoo 18+ con web_save y OdooCommand', () async {
+      final newPartner = await partnerRepo.webCreate(
+        values: {
+          'name': 'Odoo 18 WebCreate Contact',
+          'category_id': [OdooCommand.link(158)],
+        },
+      );
+      expect(newPartner.id, greaterThan(0));
+      expect(newPartner.name, 'Odoo 18 WebCreate Contact');
+
+      await partnerRepo.unlink([newPartner.id]);
+    });
+
+    test('write — actualiza relaciones x2many usando OdooCommand', () async {
+      final ok = await partnerRepo.write(
+        [testPartnerId],
+        {
+          'category_id': [OdooCommand.set([158])],
+        },
+      );
+      expect(ok, isTrue);
+    });
+
     test('callMethod — name_search retorna coincidencias', () async {
       final result = await partnerRepo.callMethod(
         method: 'name_search',
@@ -807,7 +844,12 @@ void main() {
   // ───────────────────────────────────────────────────────────────────────────
   // GRUPO 9 — Integración RunBot — Modelos adicionales
   // ───────────────────────────────────────────────────────────────────────────
-  group('9. Integración RunBot — res.users / hr.employee', () {
+  group(
+    '9. Integración RunBot — res.users / hr.employee',
+    skip: !_runbotEnabled
+        ? 'RunBot no habilitado (activar con ODOO_RUNBOT_TEST=true)'
+        : null,
+    () {
     late OdooRpcService odoo;
 
     setUpAll(() async {
@@ -844,7 +886,12 @@ void main() {
   // ───────────────────────────────────────────────────────────────────────────
   // GRUPO 10 — Integración RunBot — WebSocket
   // ───────────────────────────────────────────────────────────────────────────
-  group('10. Integración RunBot — WebSocket', () {
+  group(
+    '10. Integración RunBot — WebSocket',
+    skip: !_runbotEnabled
+        ? 'RunBot no habilitado (activar con ODOO_RUNBOT_TEST=true)'
+        : null,
+    () {
     late OdooRpcService odoo;
     late OdooSession session;
 
@@ -1002,6 +1049,181 @@ void main() {
         dio: Dio(BaseOptions(baseUrl: _runbotUrl)),
       );
       expect(() => client.connectRealtime(), throwsA(isA<StateError>()));
+    });
+  });
+
+  // ───────────────────────────────────────────────────────────────────────────
+  // GRUPO 12 — OdooCommand, Instancias Standalone & Persistencia de Sesión
+  // ───────────────────────────────────────────────────────────────────────────
+  group('12. OdooCommand, Multi-instancia & Session Storage', () {
+    test('OdooCommand genera tuplas ORM estándar de Odoo (estático e instancias)', () {
+      expect(OdooCommand.create({'name': 'Test'}), equals([0, 0, {'name': 'Test'}]));
+      expect(OdooCommand.update(10, {'name': 'Updated'}), equals([1, 10, {'name': 'Updated'}]));
+      expect(OdooCommand.delete(10), equals([2, 10, 0]));
+      expect(OdooCommand.unlink(10), equals([3, 10, 0]));
+      expect(OdooCommand.link(10), equals([4, 10, 0]));
+      expect(OdooCommand.clear(), equals([5, 0, 0]));
+      expect(OdooCommand.set([1, 2, 3]), equals([6, 0, [1, 2, 3]]));
+
+      // Test de instancias tipadas
+      final cmdCreate = OdooCommand.createRecord({'title': 'New'});
+      expect(cmdCreate.code, equals(0));
+      expect(cmdCreate.toList(), equals([0, 0, {'title': 'New'}]));
+      expect(cmdCreate.toJson(), equals([0, 0, {'title': 'New'}]));
+
+      final cmdLink = OdooCommand.linkRecord(42);
+      expect(cmdLink.code, equals(4));
+      expect(cmdLink.id, equals(42));
+      expect(cmdLink.toList(), equals([4, 42, 0]));
+
+      final cmdSet = OdooCommand.setRecords([10, 20]);
+      expect(cmdSet.code, equals(6));
+      expect(cmdSet.toList(), equals([6, 0, [10, 20]]));
+
+      expect(OdooCommand.linkRecord(42), equals(cmdLink));
+    });
+
+    test('OdooSession.serverVersionInt e isAtLeastV18 identifican versiones Odoo 18 y 19+', () {
+      const session18 = OdooSession(
+        id: 's1',
+        userId: 2,
+        partnerId: 3,
+        companyId: 1,
+        allowedCompanies: [],
+        userName: 'User 18',
+        userLogin: 'u18',
+        userLang: 'en_US',
+        userTz: 'UTC',
+        isSystem: true,
+        dbName: 'db18',
+        serverVersion: '18.0+e',
+      );
+      expect(session18.serverVersionInt, equals(18));
+      expect(session18.isAtLeastV18, isTrue);
+
+      const session19 = OdooSession(
+        id: 's2',
+        userId: 2,
+        partnerId: 3,
+        companyId: 1,
+        allowedCompanies: [],
+        userName: 'User 19',
+        userLogin: 'u19',
+        userLang: 'en_US',
+        userTz: 'UTC',
+        isSystem: true,
+        dbName: 'db19',
+        serverVersion: 'saas~19.3+e',
+      );
+      expect(session19.serverVersionInt, equals(19));
+      expect(session19.isAtLeastV18, isTrue);
+
+      const session17 = OdooSession(
+        id: 's3',
+        userId: 2,
+        partnerId: 3,
+        companyId: 1,
+        allowedCompanies: [],
+        userName: 'User 17',
+        userLogin: 'u17',
+        userLang: 'en_US',
+        userTz: 'UTC',
+        isSystem: true,
+        dbName: 'db17',
+        serverVersion: '17.0',
+      );
+      expect(session17.serverVersionInt, equals(17));
+      expect(session17.isAtLeastV18, isFalse);
+    });
+
+    test('OdooRepository.webCreate crea y retorna entidad usando web_save(ids: [])', () async {
+      final mock = MockOdooClient(
+        mockResponse: [
+          {
+            'id': 99,
+            'name': 'Created Via WebSave',
+            'display_name': 'Created Via WebSave',
+          }
+        ],
+      );
+      final repo = PartnerRepository(client: mock);
+      final partner = await repo.webCreate(
+        values: {
+          'name': 'Created Via WebSave',
+          'category_id': [OdooCommand.linkRecord(158)],
+        },
+      );
+      expect(partner.id, equals(99));
+      expect(partner.name, equals('Created Via WebSave'));
+    });
+
+    test('OdooRpcService.standalone crea instancias independientes', () {
+      final client1 = OdooRpcService.standalone(
+        dio: Dio(BaseOptions(baseUrl: 'https://tenant1.odoo.com')),
+      );
+      final client2 = OdooRpcService.standalone(
+        dio: Dio(BaseOptions(baseUrl: 'https://tenant2.odoo.com')),
+      );
+
+      expect(identical(client1, client2), isFalse);
+      expect(client1.activeRequestsCount, equals(0));
+      expect(client2.activeRequestsCount, equals(0));
+    });
+
+    test('InMemorySessionStore guarda, lee y elimina sesión correctamente', () async {
+      final store = InMemorySessionStore();
+      expect(await store.read(), isNull);
+
+      const session = OdooSession(
+        id: 'session-xyz',
+        userId: 2,
+        partnerId: 3,
+        companyId: 1,
+        allowedCompanies: [OdooCompany(id: 1, name: 'Main')],
+        userLogin: 'admin',
+        userName: 'Admin User',
+        userLang: 'es_ES',
+        userTz: 'Europe/Madrid',
+        isSystem: true,
+        dbName: 'testdb',
+        serverVersion: '18.0',
+      );
+
+      await store.save(session);
+      final loaded = await store.read();
+      expect(loaded, isNotNull);
+      expect(loaded!.id, equals('session-xyz'));
+      expect(loaded.userId, equals(2));
+
+      await store.clear();
+      expect(await store.read(), isNull);
+    });
+
+    test('OdooRpcService con InMemorySessionStore restaura sesión', () async {
+      final store = InMemorySessionStore();
+      const session = OdooSession(
+        id: 'persisted-session',
+        userId: 5,
+        partnerId: 6,
+        companyId: 1,
+        allowedCompanies: [OdooCompany(id: 1, name: 'Main')],
+        userLogin: 'demo',
+        userName: 'Demo User',
+        userLang: 'en_US',
+        userTz: 'UTC',
+        isSystem: false,
+        dbName: 'demodb',
+        serverVersion: '18.0',
+      );
+      await store.save(session);
+
+      final client = OdooRpcService.standalone(sessionStore: store);
+      expect(client.currentSession, isNull);
+
+      final restored = await client.restoreSession();
+      expect(restored, isTrue);
+      expect(client.currentSession, isNotNull);
+      expect(client.currentSession!.userLogin, equals('demo'));
     });
   });
 }

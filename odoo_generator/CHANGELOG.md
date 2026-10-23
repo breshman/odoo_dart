@@ -1,4 +1,12 @@
-## 2.3.0
+# Changelog
+
+## [2.4.0] - 2026-10-22
+### Changed
+* **Analyzer Migration:** Se reemplazó el argumento deprecado `withNullability: false` por una función interna `_cleanTypeName(dartType)` compatible con `analyzer ^9.0.0+`.
+* **Flow Control:** Se agregaron llaves a todas las sentencias condicionales `if` de una sola línea en `_generateFromJson` cumpliendo con la regla `curly_braces_in_flow_control_structures`.
+* **Example Cleanliness:** Se añadió la anotación `@override` a las sobreescrituras de `toJson()` en los modelos de ejemplo.
+
+## [2.3.0] - 2026-08-02
 
 - Feat: Se agregó la clase abstracta `SpecificationBuilder` y la función polimórfica `resolveOdooSpec` en `odoo_core`. `OdooRepository` (`searchFetch`, `read`, `webSave`) acepta instancias directas de `SpecificationBuilder` (o `Map<String, dynamic>`) como parámetro `specification`, convirtiéndolos automáticamente sin requerir `.build()` manual explícito.
 

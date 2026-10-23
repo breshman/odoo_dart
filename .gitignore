@@ -7,3 +7,12 @@
 pubspec.lock
 
 .vscode/
+
+# Graphify cache
+graphify-out/cache/
+
+# Dart doc generated output
+doc/api/
+
+# macOS
+.DS_Store

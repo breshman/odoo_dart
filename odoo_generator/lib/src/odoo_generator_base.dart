@@ -135,18 +135,27 @@ class OdooModelGenerator extends GeneratorForAnnotation<OdooModel> {
       final paramNames =
           constructor.formalParameters.map((p) => p.name).toSet();
 
-      if (paramNames.contains('id')) buf.writeln('    id: base.id,');
-      if (paramNames.contains('name')) buf.writeln('    name: base.name,');
-      if (paramNames.contains('displayName'))
+      if (paramNames.contains('id')) {
+        buf.writeln('    id: base.id,');
+      }
+      if (paramNames.contains('name')) {
+        buf.writeln('    name: base.name,');
+      }
+      if (paramNames.contains('displayName')) {
         buf.writeln('    displayName: base.displayName,');
-      if (paramNames.contains('createDate'))
+      }
+      if (paramNames.contains('createDate')) {
         buf.writeln('    createDate: base.createDate,');
-      if (paramNames.contains('writeDate'))
+      }
+      if (paramNames.contains('writeDate')) {
         buf.writeln('    writeDate: base.writeDate,');
-      if (paramNames.contains('createUid'))
+      }
+      if (paramNames.contains('createUid')) {
         buf.writeln('    createUid: base.createUid,');
-      if (paramNames.contains('writeUid'))
+      }
+      if (paramNames.contains('writeUid')) {
         buf.writeln('    writeUid: base.writeUid,');
+      }
     }
 
     for (final field in fields) {
@@ -390,7 +399,7 @@ class OdooModelGenerator extends GeneratorForAnnotation<OdooModel> {
       return OdooFieldType.selection;
     }
 
-    final typeName = field.type.getDisplayString(withNullability: false);
+    final typeName = _cleanTypeName(field.type);
     return switch (typeName) {
       'String' => OdooFieldType.string,
       'int' => OdooFieldType.integer,
@@ -402,6 +411,11 @@ class OdooModelGenerator extends GeneratorForAnnotation<OdooModel> {
     };
   }
 
+  String _cleanTypeName(DartType dartType) {
+    final str = dartType.getDisplayString();
+    return str.endsWith('?') ? str.substring(0, str.length - 1) : str;
+  }
+
   String _buildFromJsonExpression({
     required String jsonKey,
     required OdooFieldType fieldType,
@@ -409,7 +423,7 @@ class OdooModelGenerator extends GeneratorForAnnotation<OdooModel> {
   }) {
     final raw = "json['$jsonKey']";
     final isNullable = dartType.nullabilitySuffix == NullabilitySuffix.question;
-    final typeName = dartType.getDisplayString(withNullability: false);
+    final typeName = _cleanTypeName(dartType);
 
     return switch (fieldType) {
       OdooFieldType.string => isNullable
@@ -431,7 +445,7 @@ class OdooModelGenerator extends GeneratorForAnnotation<OdooModel> {
           ? "$raw == false || $raw == null ? null : DateTime.parse($raw as String)"
           : "DateTime.parse($raw as String)",
       OdooFieldType.many2one => () {
-          final typeName = dartType.getDisplayString(withNullability: false);
+          final typeName = _cleanTypeName(dartType);
           final isListType = typeName.startsWith('List');
 
           // Tipos primitivos conocidos
@@ -498,7 +512,7 @@ class OdooModelGenerator extends GeneratorForAnnotation<OdooModel> {
   }
 
   String _getListInnerType(DartType dartType) {
-    final typeName = dartType.getDisplayString(withNullability: false);
+    final typeName = _cleanTypeName(dartType);
     // typeName es algo como "List<Category>" o "List<dynamic>"
     final match = RegExp(r'List<(.+)>').firstMatch(typeName);
     return match?.group(1) ?? 'dynamic';
@@ -509,7 +523,7 @@ class OdooModelGenerator extends GeneratorForAnnotation<OdooModel> {
     required String accessor,
     required DartType dartType,
   }) {
-    final typeName = dartType.getDisplayString(withNullability: false);
+    final typeName = _cleanTypeName(dartType);
     final isListType = typeName.startsWith('List');
 
     return switch (fieldType) {

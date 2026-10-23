@@ -124,15 +124,38 @@ abstract class OdooRepository<T extends OdooBaseModel> {
   }) async {
     final effectiveSpec =
         resolveOdooSpec(specification, resolveOdooSpec(this.specification, {}));
+    final sanitizedValues = _normalizeValues(values);
     final result = await client.callKwRaw(
       model: modelName,
       method: 'web_save',
-      args: [ids, values],
+      args: [ids, sanitizedValues],
       kwargs: {'specification': effectiveSpec, 'context': context ?? {}},
     );
     return List<Map<String, dynamic>>.from(result as List)
         .map<T>(fromJson)
         .toList();
+  }
+
+  /// Crea un nuevo registro en Odoo 16/17/18+ usando `web_save` con lista de IDs vacía.
+  ///
+  /// A diferencia de [create], que solo retorna el ID entero, [webCreate] crea y
+  /// retorna directamente la entidad [T] completamente tipada con los campos
+  /// de la [specification] en una sola llamada de red (estándar moderno de Odoo).
+  Future<T> webCreate({
+    required Map<String, dynamic> values,
+    Map<String, dynamic>? context,
+    OdooSpec? specification,
+  }) async {
+    final records = await webSave(
+      values: values,
+      ids: const [],
+      context: context,
+      specification: specification,
+    );
+    if (records.isEmpty) {
+      throw StateError('web_save no retornó registros al crear en $modelName.');
+    }
+    return records.first;
   }
 
   /// Lee un conjunto de IDs y retorna los registros completos.
@@ -155,15 +178,16 @@ abstract class OdooRepository<T extends OdooBaseModel> {
         .toList();
   }
 
-  /// Crea un nuevo registro en Odoo a partir de valores puritos JSON o `toOdoo().
+  /// Crea un nuevo registro en Odoo a partir de valores puritos JSON o `toOdoo()`.
   Future<int> create(
     Map<String, dynamic> values, {
     Map<String, dynamic>? context,
   }) async {
+    final sanitizedValues = _normalizeValues(values);
     final result = await client.callKwRaw(
       model: modelName,
       method: 'create',
-      args: [values],
+      args: [sanitizedValues],
       kwargs: {'context': context ?? {}},
     );
     return (result as num).toInt();
@@ -176,10 +200,11 @@ abstract class OdooRepository<T extends OdooBaseModel> {
     Map<String, dynamic>? context,
   }) async {
     if (ids.isEmpty) return true;
+    final sanitizedValues = _normalizeValues(values);
     final result = await client.callKwRaw(
       model: modelName,
       method: 'write',
-      args: [ids, values],
+      args: [ids, sanitizedValues],
       kwargs: {'context': context ?? {}},
     );
     return result as bool;
@@ -261,11 +286,128 @@ abstract class OdooRepository<T extends OdooBaseModel> {
     );
   }
 
-  Future<RpcResponse<T>> callRpc<T>({
+  Future<RpcResponse<R>> callRpc<R>({
     required String path,
-    required T Function(Object? json) fromJsonT,
+    required R Function(Object? json) fromJsonT,
     Map<String, dynamic>? params,
   }) async {
-    return client.callRpc<T>(path: path, fromJsonT: fromJsonT, params: params);
+    return client.callRpc<R>(path: path, fromJsonT: fromJsonT, params: params);
   }
+
+  /// Normaliza mapas de valores convirtiendo instancias de [OdooCommand] a listas JSON tupla.
+  Map<String, dynamic> _normalizeValues(Map<String, dynamic> values) {
+    final normalized = <String, dynamic>{};
+    values.forEach((key, val) {
+      if (val is List) {
+        normalized[key] = val.map((item) {
+          if (item is OdooCommand) return item.toList();
+          return item;
+        }).toList();
+      } else if (val is OdooCommand) {
+        normalized[key] = [val.toList()];
+      } else {
+        normalized[key] = val;
+      }
+    });
+    return normalized;
+  }
+}
+
+/// Comandos ORM estándar de Odoo para manipulación de relaciones x2many (`One2many` y `Many2many`).
+///
+/// Equivalente estricto a `odoo.fields.Command` en Odoo 16, 17, 18 y 19+:
+/// - [create]: `(0, 0, values)` crea un nuevo registro relacionado y lo vincula.
+/// - [update]: `(1, id, values)` actualiza un registro relacionado existente.
+/// - [delete]: `(2, id, 0)` borra permanentemente el registro de la base de datos.
+/// - [unlink]: `(3, id, 0)` desvincula el registro sin borrarlo de la base de datos.
+/// - [link]: `(4, id, 0)` vincula un registro existente.
+/// - [clear]: `(5, 0, 0)` desvincula todos los registros relacionados.
+/// - [set]: `(6, 0, [ids])` reemplaza la lista completa de registros vinculados.
+class OdooCommand {
+  const OdooCommand(this.code, [this.id = 0, this.value = 0]);
+
+  /// Código numérico de comando Odoo (0 a 6).
+  final int code;
+
+  /// ID del registro objetivo (o 0 si aplica a nuevo/global).
+  final int id;
+
+  /// Carga de datos asociada (Map con valores, lista de IDs o 0).
+  final dynamic value;
+
+  // ── Códigos estándar de odoo.fields.Command ────────────────────────────
+  static const int createCode = 0;
+  static const int updateCode = 1;
+  static const int deleteCode = 2;
+  static const int unlinkCode = 3;
+  static const int linkCode = 4;
+  static const int clearCode = 5;
+  static const int setCode = 6;
+
+  // ── Métodos estáticos de conveniencia (retornan List<dynamic> directa) ──
+  /// (0, 0, values) — Crea un nuevo registro relacionado y lo vincula.
+  static List<dynamic> create(Map<String, dynamic> values) =>
+      [createCode, 0, values];
+
+  /// (1, id, values) — Actualiza un registro relacionado existente.
+  static List<dynamic> update(int id, Map<String, dynamic> values) =>
+      [updateCode, id, values];
+
+  /// (2, id, 0) — Elimina el registro de la base de datos y lo desvincula.
+  static List<dynamic> delete(int id) => [deleteCode, id, 0];
+
+  /// (3, id, 0) — Desvincula el registro sin eliminarlo de la base de datos.
+  static List<dynamic> unlink(int id) => [unlinkCode, id, 0];
+
+  /// (4, id, 0) — Vincula un registro ya existente.
+  static List<dynamic> link(int id) => [linkCode, id, 0];
+
+  /// (5, 0, 0) — Desvincula todos los registros de la relación.
+  static List<dynamic> clear() => [clearCode, 0, 0];
+
+  /// (6, 0, ids) — Reemplaza todos los registros vinculados por la lista de IDs especificada.
+  static List<dynamic> set(List<int> ids) => [setCode, 0, ids];
+
+  // ── Factory constructors para uso tipado como objeto OdooCommand ───────
+  factory OdooCommand.createRecord(Map<String, dynamic> values) =>
+      OdooCommand(createCode, 0, values);
+
+  factory OdooCommand.updateRecord(int id, Map<String, dynamic> values) =>
+      OdooCommand(updateCode, id, values);
+
+  factory OdooCommand.deleteRecord(int id) =>
+      OdooCommand(deleteCode, id, 0);
+
+  factory OdooCommand.unlinkRecord(int id) =>
+      OdooCommand(unlinkCode, id, 0);
+
+  factory OdooCommand.linkRecord(int id) =>
+      OdooCommand(linkCode, id, 0);
+
+  factory OdooCommand.clearRecords() =>
+      const OdooCommand(clearCode, 0, 0);
+
+  factory OdooCommand.setRecords(List<int> ids) =>
+      OdooCommand(setCode, 0, ids);
+
+  /// Convierte el comando a la tupla `[code, id, value]` esperada por el backend Odoo.
+  List<dynamic> toList() => [code, id, value];
+
+  /// Permite la serialización automática a JSON.
+  List<dynamic> toJson() => toList();
+
+  @override
+  String toString() => 'OdooCommand($code, $id, $value)';
+
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      other is OdooCommand &&
+          runtimeType == other.runtimeType &&
+          code == other.code &&
+          id == other.id &&
+          value == other.value;
+
+  @override
+  int get hashCode => Object.hash(code, id, value);
 }

@@ -7,6 +7,7 @@ import '../../odoo_base.dart';
 import '../exceptions/odoo_exception.dart';
 import '../odoo_cookie.dart';
 import '../model/odoo_session.dart';
+import '../model/odoo_session_store.dart';
 import '../params/odoo_rpc_params.dart';
 import '../params/rpc_payload.dart';
 import '../responses/rpc_response.dart';
@@ -31,25 +32,46 @@ import 'odoo_realtime_client.dart';
 /// OdooRpcService.reset();
 /// ```
 class OdooRpcService implements OdooClient {
-  factory OdooRpcService({Dio? dio}) {
-    _instance ??= OdooRpcService._internal(dio ?? Dio());
+  /// Crea o retorna la instancia singleton de [OdooRpcService].
+  factory OdooRpcService({Dio? dio, OdooSessionStore? sessionStore}) {
+    _instance ??=
+        OdooRpcService._internal(dio ?? Dio(), sessionStore: sessionStore);
     return _instance!;
   }
 
-  OdooRpcService._internal(this._dio) {
-    // Interceptor para emitir estados de carga al inRequestStream
+  /// Crea una instancia independiente (no singleton) de [OdooRpcService].
+  ///
+  /// Útil para entornos multi-tenant (múltiples bases de datos o servidores en paralelo)
+  /// y para testing unitario con inyección de dependencias limpia.
+  factory OdooRpcService.standalone({
+    Dio? dio,
+    OdooSessionStore? sessionStore,
+  }) {
+    return OdooRpcService._internal(dio ?? Dio(), sessionStore: sessionStore);
+  }
+
+  OdooRpcService._internal(this._dio, {OdooSessionStore? sessionStore})
+      : _sessionStore = sessionStore {
+    // Interceptor para emitir estados de carga al inRequestStream considerando peticiones concurrentes
     _dio.interceptors.add(
       InterceptorsWrapper(
         onRequest: (options, handler) {
+          _activeRequestsCount++;
           if (_inRequestStreamActive) _inRequestController.add(true);
           handler.next(options);
         },
         onResponse: (response, handler) {
-          if (_inRequestStreamActive) _inRequestController.add(false);
+          _activeRequestsCount = (_activeRequestsCount - 1).clamp(0, 999999);
+          if (_inRequestStreamActive) {
+            _inRequestController.add(_activeRequestsCount > 0);
+          }
           handler.next(response);
         },
         onError: (error, handler) {
-          if (_inRequestStreamActive) _inRequestController.add(false);
+          _activeRequestsCount = (_activeRequestsCount - 1).clamp(0, 999999);
+          if (_inRequestStreamActive) {
+            _inRequestController.add(_activeRequestsCount > 0);
+          }
           handler.next(error);
         },
       ),
@@ -58,6 +80,15 @@ class OdooRpcService implements OdooClient {
 
   static OdooRpcService? _instance;
   final Dio _dio;
+  OdooSessionStore? _sessionStore;
+  int _activeRequestsCount = 0;
+
+  /// Retorna o asigna el almacén de persistencia de sesiones.
+  OdooSessionStore? get sessionStore => _sessionStore;
+  set sessionStore(OdooSessionStore? store) => _sessionStore = store;
+
+  /// Retorna el número actual de peticiones HTTP en vuelo.
+  int get activeRequestsCount => _activeRequestsCount;
 
   /// Contexto dinámico para las llamadas RPC (idioma, zona horaria, etc).
   UserContext odooContext =
@@ -189,12 +220,31 @@ class OdooRpcService implements OdooClient {
       '/web/session/authenticate',
       data: payload,
     );
-    return _updateSessionFromResponse(response);
+    final session = await _updateSessionFromResponse(response);
+    if (_sessionStore != null) {
+      await _sessionStore!.save(session);
+    }
+    return session;
+  }
+
+  /// Intenta restaurar la sesión desde el [OdooSessionStore] configurado.
+  ///
+  /// Si existe una sesión persistida válida, actualiza [currentSession] y retorna `true`.
+  /// Si no existe o no hay un [sessionStore] asignado, retorna `false`.
+  Future<bool> restoreSession() async {
+    if (_sessionStore == null) return false;
+    final saved = await _sessionStore!.read();
+    if (saved != null && saved.isAuthenticated) {
+      _currentSession = saved;
+      return true;
+    }
+    return false;
   }
 
   /// Invalida la sesión actual en el servidor Odoo (logout).
   ///
-  /// Aunque falle la llamada al servidor, limpia [currentSession] localmente.
+  /// Aunque falle la llamada al servidor, limpia [currentSession] localmente
+  /// y borra los datos en [sessionStore] si está configurado.
   /// Combina con [reset] para una limpieza completa:
   /// ```dart
   /// await odooClient.destroySession();
@@ -221,6 +271,9 @@ class OdooRpcService implements OdooClient {
       // Si falla, se limpia igualmente de forma local
     } finally {
       _currentSession = null;
+      if (_sessionStore != null) {
+        await _sessionStore!.clear();
+      }
     }
   }
 
@@ -339,13 +392,15 @@ class OdooRpcService implements OdooClient {
 
   /// Llama a cualquier método de modelo Odoo vía RPC con deserialización tipada.
   ///
+  /// Llama a cualquier método de modelo Odoo vía RPC con deserialización tipada.
+  ///
   /// Retorna un [RpcResponse<T>] con el resultado o el error encapsulado.
   Future<RpcResponse<T>> callKw<T>({
     required String model,
     required String method,
+    required T Function(Object? json) fromJsonT,
     List<dynamic>? args,
     Map<String, dynamic>? kwargs,
-    required T Function(Object? json) fromJsonT,
   }) async {
     final finalKwargs = Map<String, dynamic>.from(kwargs ?? {});
     final contextMap = (finalKwargs['context'] as Map<String, dynamic>?) ?? {};
@@ -369,7 +424,7 @@ class OdooRpcService implements OdooClient {
       data: payload,
     );
     return RpcResponse<T>.fromJson(
-      response.data as Map<String, dynamic>,
+      response.data!,
       fromJsonT,
     );
   }
@@ -412,13 +467,13 @@ class OdooRpcService implements OdooClient {
   /// Llama a un endpoint RPC personalizado de Odoo.
   ///
   /// [path]: ruta del endpoint (e.g. `/web/session/authenticate`).
-  /// [params]: parámetros a enviar en la petición (opcional).
   /// [fromJsonT]: función para convertir el resultado JSON al tipo T.
+  /// [params]: parámetros a enviar en la petición (opcional).
   @override
   Future<RpcResponse<T>> callRpc<T>({
     required String path,
-    Map<String, dynamic>? params,
     required T Function(Object? json) fromJsonT,
+    Map<String, dynamic>? params,
   }) async {
     final payload = {
       'jsonrpc': '2.0',
@@ -427,7 +482,7 @@ class OdooRpcService implements OdooClient {
     };
     final response = await _dio.post<Map<String, dynamic>>(path, data: payload);
     return RpcResponse<T>.fromJson(
-      response.data as Map<String, dynamic>,
+      response.data!,
       fromJsonT,
     );
   }
@@ -444,7 +499,7 @@ class OdooRpcService implements OdooClient {
       data: payload.toJson(toJsonP),
     );
     return RpcResponse<T>.fromJson(
-      response.data as Map<String, dynamic>,
+      response.data!,
       fromJsonT,
     );
   }
@@ -468,7 +523,7 @@ class OdooRpcService implements OdooClient {
       return response.data;
     } on DioException catch (e) {
       if (e.response?.data is String) {
-        throw e.response!.data as String;
+        throw Exception(e.response!.data as String);
       }
       rethrow;
     }
@@ -481,8 +536,9 @@ class OdooRpcService implements OdooClient {
   Never _throwOdooError(Map<String, dynamic> error) {
     final code = error['code'] as int? ?? 0;
     if (code == 100) {
+      final data = error['data'] is Map ? error['data'] as Map : null;
       throw OdooSessionExpiredException(
-        message: (error['data']?['message'] as String?) ??
+        message: (data?['message'] as String?) ??
             (error['message'] as String?) ??
             'Session expired',
       );

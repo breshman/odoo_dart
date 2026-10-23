@@ -1,0 +1,242 @@
+{
+  "odoo_core/example/odoo_core_example.dart": {
+    "mtime": 1776662616.6014357,
+    "ast_hash": "ebb2d0cf984fb720211bd65fc6e0cce6",
+    "semantic_hash": "ebb2d0cf984fb720211bd65fc6e0cce6"
+  },
+  "odoo_core/example/odoo_realtime_example.dart": {
+    "mtime": 1775876798.9060175,
+    "ast_hash": "5e39b35cd5f8f932fe812572d86b893e",
+    "semantic_hash": "5e39b35cd5f8f932fe812572d86b893e"
+  },
+  "odoo_core/example/runbot_models.dart": {
+    "mtime": 1776287847.8506777,
+    "ast_hash": "4d3d81ef8d732713d25e34aa5b24e7da",
+    "semantic_hash": "4d3d81ef8d732713d25e34aa5b24e7da"
+  },
+  "odoo_core/example/runbot_models.odoo.g.dart": {
+    "mtime": 1785648762.6960082,
+    "ast_hash": "d038a707190a61e98efe5cfc851c622c",
+    "semantic_hash": ""
+  },
+  "odoo_core/lib/odoo_core.dart": {
+    "mtime": 1792718220.8684628,
+    "ast_hash": "c20c9cf31a4b8fca5e4fe659632beb0a",
+    "semantic_hash": ""
+  },
+  "odoo_core/lib/src/network/client/odoo_realtime_client.dart": {
+    "mtime": 1776663781.402952,
+    "ast_hash": "ba08d52e9c2709a07d45dea303747706",
+    "semantic_hash": "ba08d52e9c2709a07d45dea303747706"
+  },
+  "odoo_core/lib/src/network/client/odoo_rpc_service.dart": {
+    "mtime": 1792718697.030182,
+    "ast_hash": "855b54a751bae8ea20fc71b8b1d68f98",
+    "semantic_hash": ""
+  },
+  "odoo_core/lib/src/network/exceptions/odoo_exception.dart": {
+    "mtime": 1776283900.25582,
+    "ast_hash": "b845bd814165c842bd59595cd8ecb23f",
+    "semantic_hash": "b845bd814165c842bd59595cd8ecb23f"
+  },
+  "odoo_core/lib/src/network/model/base_model.dart": {
+    "mtime": 1776664071.481123,
+    "ast_hash": "3594f195b886cc0dc0168af90f07431f",
+    "semantic_hash": "3594f195b886cc0dc0168af90f07431f"
+  },
+  "odoo_core/lib/src/network/model/odoo_annotation.dart": {
+    "mtime": 1776110701.431001,
+    "ast_hash": "7d9a06182569a34d4da949e2b9652b6c",
+    "semantic_hash": "7d9a06182569a34d4da949e2b9652b6c"
+  },
+  "odoo_core/lib/src/network/model/odoo_session.dart": {
+    "mtime": 1792719590.9791188,
+    "ast_hash": "1f63ee9814907037799cd3ff48924297",
+    "semantic_hash": ""
+  },
+  "odoo_core/lib/src/network/odoo_cookie.dart": {
+    "mtime": 1776288417.092113,
+    "ast_hash": "4b1b1e17e1925d08166f5b72df370ee3",
+    "semantic_hash": "4b1b1e17e1925d08166f5b72df370ee3"
+  },
+  "odoo_core/lib/src/network/params/odoo_rpc_params.dart": {
+    "mtime": 1776663520.95682,
+    "ast_hash": "3219722ee2b2dd6e0aaea0e7ac1d9f64",
+    "semantic_hash": "3219722ee2b2dd6e0aaea0e7ac1d9f64"
+  },
+  "odoo_core/lib/src/network/params/rpc_payload.dart": {
+    "mtime": 1775855468.7229533,
+    "ast_hash": "7bc5c4aba727f4c80f3899d53e5d1577",
+    "semantic_hash": "7bc5c4aba727f4c80f3899d53e5d1577"
+  },
+  "odoo_core/lib/src/network/responses/rpc_response.dart": {
+    "mtime": 1776713719.87946,
+    "ast_hash": "0d06107f48050b02bc3fccd3e536e31c",
+    "semantic_hash": "0d06107f48050b02bc3fccd3e536e31c"
+  },
+  "odoo_core/lib/src/network/responses/version_info_response.dart": {
+    "mtime": 1775855468.7135477,
+    "ast_hash": "901b43dfd5c5ee7b619d0c091c3a9550",
+    "semantic_hash": "901b43dfd5c5ee7b619d0c091c3a9550"
+  },
+  "odoo_core/lib/src/odoo_base.dart": {
+    "mtime": 1792719573.7730563,
+    "ast_hash": "169a8cd3ee069526ec4d8a252ac92fb8",
+    "semantic_hash": ""
+  },
+  "odoo_core/test/odoo_core_test.dart": {
+    "mtime": 1792719693.8709853,
+    "ast_hash": "f635bdbabc095430fe91adcb7de94fae",
+    "semantic_hash": ""
+  },
+  "odoo_generator/example/odoo_generator_example.dart": {
+    "mtime": 1792718356.4737048,
+    "ast_hash": "e2a8016cf32976a1e187e3635dabcafc",
+    "semantic_hash": ""
+  },
+  "odoo_generator/lib/odoo_generator.dart": {
+    "mtime": 1775870592.0327973,
+    "ast_hash": "30e5eb2b492cd46dd63e30ef68552c84",
+    "semantic_hash": "30e5eb2b492cd46dd63e30ef68552c84"
+  },
+  "odoo_generator/lib/src/odoo_generator_base.dart": {
+    "mtime": 1792718340.10889,
+    "ast_hash": "2267f2722708371a9dd137eff6a0f6c6",
+    "semantic_hash": ""
+  },
+  "odoo_generator/test/data/output_order.json": {
+    "mtime": 1775837873.7261763,
+    "ast_hash": "a5815c190726f729405302dcfea5c956",
+    "semantic_hash": "a5815c190726f729405302dcfea5c956"
+  },
+  "odoo_generator/test/data/output_product_complete.json": {
+    "mtime": 1775837873.7263882,
+    "ast_hash": "23e819c2ac5a5abb51ed73082a06e0bf",
+    "semantic_hash": "23e819c2ac5a5abb51ed73082a06e0bf"
+  },
+  "odoo_generator/test/data/output_product_minimal.json": {
+    "mtime": 1775837873.7265897,
+    "ast_hash": "426b7dd1d6c348b0e927e2f356c025d4",
+    "semantic_hash": "426b7dd1d6c348b0e927e2f356c025d4"
+  },
+  "odoo_generator/test/data/test_category.json": {
+    "mtime": 1775837873.7267747,
+    "ast_hash": "3f2b4ee46cdcd57ab3422c2de68da558",
+    "semantic_hash": "3f2b4ee46cdcd57ab3422c2de68da558"
+  },
+  "odoo_generator/test/data/test_order.json": {
+    "mtime": 1775837873.7269633,
+    "ast_hash": "a5815c190726f729405302dcfea5c956",
+    "semantic_hash": "a5815c190726f729405302dcfea5c956"
+  },
+  "odoo_generator/test/data/test_product_complete.json": {
+    "mtime": 1775837873.7271454,
+    "ast_hash": "cc72b9107f8942647d26544ef1b937af",
+    "semantic_hash": "cc72b9107f8942647d26544ef1b937af"
+  },
+  "odoo_generator/test/data/test_product_line.json": {
+    "mtime": 1775837873.7273474,
+    "ast_hash": "0ece01836877da5885bbeebb8d049c8a",
+    "semantic_hash": "0ece01836877da5885bbeebb8d049c8a"
+  },
+  "odoo_generator/test/data/test_product_minimal.json": {
+    "mtime": 1775837873.7275374,
+    "ast_hash": "59c69cb6eda45c647ed5b90eca797885",
+    "semantic_hash": "59c69cb6eda45c647ed5b90eca797885"
+  },
+  "odoo_generator/test/data/test_tag1.json": {
+    "mtime": 1775837873.7277224,
+    "ast_hash": "90fbdbea1abeb0180cbb9b78d8910767",
+    "semantic_hash": "90fbdbea1abeb0180cbb9b78d8910767"
+  },
+  "odoo_generator/test/data/test_tag2.json": {
+    "mtime": 1775837873.727929,
+    "ast_hash": "553995e1f3fe5ef881c601cd9dc61c7a",
+    "semantic_hash": "553995e1f3fe5ef881c601cd9dc61c7a"
+  },
+  "odoo_generator/test/odoo_generator_test.dart": {
+    "mtime": 1785648787.2857466,
+    "ast_hash": "6ea6766a4f6935671c1dcd172dcdf004",
+    "semantic_hash": ""
+  },
+  "odoo_generator/test_analyzer.dart": {
+    "mtime": 1776197386.3786466,
+    "ast_hash": "d3b848e03b0db51cd0ae4c0c3350fe10",
+    "semantic_hash": "d3b848e03b0db51cd0ae4c0c3350fe10"
+  },
+  ".agents/rules/graphify.md": {
+    "mtime": 1785646155.2757084,
+    "ast_hash": "f1e53ecc9194573d3c28fc116c743a2e",
+    "semantic_hash": "f1e53ecc9194573d3c28fc116c743a2e"
+  },
+  ".agents/workflows/graphify.md": {
+    "mtime": 1785646155.2764103,
+    "ast_hash": "0bc020d491fca99550c1ea3de0a5f862",
+    "semantic_hash": "0bc020d491fca99550c1ea3de0a5f862"
+  },
+  "README.md": {
+    "mtime": 1784469466.617034,
+    "ast_hash": "419b6a3ece1fc27b6d61414b69b2dc56",
+    "semantic_hash": "419b6a3ece1fc27b6d61414b69b2dc56"
+  },
+  "odoo_core/CHANGELOG.md": {
+    "mtime": 1792719751.8150735,
+    "ast_hash": "bca545096d23fdd384206aea98a89fc2",
+    "semantic_hash": ""
+  },
+  "odoo_core/README.md": {
+    "mtime": 1776289298.8993876,
+    "ast_hash": "a13ff9b64bb5d11877e8700b6f3e8e94",
+    "semantic_hash": "a13ff9b64bb5d11877e8700b6f3e8e94"
+  },
+  "odoo_core/analysis_options.yaml": {
+    "mtime": 1792718663.4697561,
+    "ast_hash": "e2c75197056eba0bb4d1a81bd3f08300",
+    "semantic_hash": ""
+  },
+  "odoo_core/pubspec.yaml": {
+    "mtime": 1792718753.1444447,
+    "ast_hash": "1bb4414ee1f0e0f246d9b01c164c1f57",
+    "semantic_hash": ""
+  },
+  "odoo_generator/CHANGELOG.md": {
+    "mtime": 1792718740.2263787,
+    "ast_hash": "ee2a56fbc05ac59decb0a82c1154dcc0",
+    "semantic_hash": ""
+  },
+  "odoo_generator/PLAN_LIBRERIA.md": {
+    "mtime": 1775842247.094275,
+    "ast_hash": "6ae604bf0dfa62fe48d3cc1d59f71626",
+    "semantic_hash": "6ae604bf0dfa62fe48d3cc1d59f71626"
+  },
+  "odoo_generator/README.md": {
+    "mtime": 1785648149.7645295,
+    "ast_hash": "ef392d51fe8f7cbcbcc53f34cc99e2bc",
+    "semantic_hash": ""
+  },
+  "odoo_generator/analysis_options.yaml": {
+    "mtime": 1775837873.7232554,
+    "ast_hash": "4b0d64ad067e016bc28e60dfadff5e39",
+    "semantic_hash": "4b0d64ad067e016bc28e60dfadff5e39"
+  },
+  "odoo_generator/build.yaml": {
+    "mtime": 1775837873.723459,
+    "ast_hash": "1c8739e788e7f41ece5ae542fbc75ea2",
+    "semantic_hash": "1c8739e788e7f41ece5ae542fbc75ea2"
+  },
+  "odoo_generator/pubspec.yaml": {
+    "mtime": 1792718766.9860547,
+    "ast_hash": "db71f2bec4702fd707412790e9da14c7",
+    "semantic_hash": ""
+  },
+  ".agents/rules/changelog_and_graphify.md": {
+    "mtime": 1785647065.2409878,
+    "ast_hash": "5f90e54cf63c045c871279d3ac8459c2",
+    "semantic_hash": ""
+  },
+  "odoo_core/lib/src/network/model/odoo_session_store.dart": {
+    "mtime": 1792718210.4225094,
+    "ast_hash": "8217f4f74e783c2acbb0aef738439765",
+    "semantic_hash": ""
+  }
+}

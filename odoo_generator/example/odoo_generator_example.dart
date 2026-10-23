@@ -23,6 +23,7 @@ class Category extends OdooBaseModel with _$Category {
 
   factory Category.fromJson(Map<String, dynamic> json) =>
       _$CategoryFromJson(json);
+  @override
   Map<String, dynamic> toJson() => _$CategoryToJson(this);
 }
 
@@ -44,6 +45,7 @@ class Tag extends OdooBaseModel with _$Tag {
   });
 
   factory Tag.fromJson(Map<String, dynamic> json) => _$TagFromJson(json);
+  @override
   Map<String, dynamic> toJson() => _$TagToJson(this);
 }
 
@@ -96,6 +98,7 @@ class Product extends OdooBaseModel with _$Product {
 
   factory Product.fromJson(Map<String, dynamic> json) =>
       _$ProductFromJson(json);
+  @override
   Map<String, dynamic> toJson() => _$ProductToJson(this);
 
   static ProductSpecificationBuilder buildSpecification({
@@ -145,6 +148,7 @@ class ProductLine extends OdooBaseModel with _$ProductLine {
 
   factory ProductLine.fromJson(Map<String, dynamic> json) =>
       _$ProductLineFromJson(json);
+  @override
   Map<String, dynamic> toJson() => _$ProductLineToJson(this);
 }
 
@@ -179,6 +183,7 @@ class Order extends OdooBaseModel with _$Order {
   });
 
   factory Order.fromJson(Map<String, dynamic> json) => _$OrderFromJson(json);
+  @override
   Map<String, dynamic> toJson() => _$OrderToJson(this);
 }
 

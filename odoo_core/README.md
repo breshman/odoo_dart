@@ -11,12 +11,14 @@ El núcleo maestro de arquitectura para interactuar con Odoo desde Dart/Flutter.
 
 | Característica | Descripción |
 |---|---|
-| **`OdooSession`** | Sesión tipada e inmutable con `websocketWorkerVersion`, `serverVersionInt`, persistencia JSON y soporte Odoo 12–18+ |
+| **`OdooCommand`** | Comandos ORM estándar equivalentes a `odoo.fields.Command` en Odoo 16/17/18/19+ (`create`, `update`, `delete`, `unlink`, `link`, `clear`, `set`) para relaciones x2many |
+| **`OdooSession`** | Sesión tipada e inmutable con `websocketWorkerVersion`, `serverVersionInt`, `isAtLeastV18`, persistencia JSON y soporte Odoo 12–19+ |
+| **`OdooSessionStore`** | Abstracción de persistencia desacoplada de la UI (`InMemorySessionStore`, `SecureStorage`, etc.) con soporte `restoreSession()` |
 | **`OdooCookie`** | Parser RFC 6265 cross-platform (web + native) para cookies HTTP — sin dependencias de `dart:io` |
 | **`OdooException` semántica** | Subclases `OdooSessionExpiredException`, factories `accessDenied` / `notFound` / `serverError`, getter `isAuthError` |
-| **`OdooRpcService`** | Autenticación tipada, gestión de sesión, `inRequestStream` para loading global, `connectRealtime()` integrado |
+| **`OdooRpcService`** | Autenticación tipada, `standalone()` para multi-tenant, `inRequestStream` concurrente para loading global, `connectRealtime()` integrado |
 | **`OdooRealtimeClient`** | WebSocket nativo con `fromSession()` — conéctate en una línea después de autenticar |
-| **`OdooRepository<T>`** | CRUD completo + `searchCount()` + `callMethod()` sin romper encapsulación |
+| **`OdooRepository<T>`** | CRUD completo + `webCreate()` nativo Odoo 18+ + `searchCount()` + `callMethod()` sin romper encapsulación |
 | **Anotaciones + Generador** | `@OdooModel` / `@OdooField` con conversión automática camelCase → snake_case |
 | **Selección dinámica** | Enums tipados + `buildSpecification(only:, nested:)` para controlar exactamente qué campos trae Odoo |
 | **Agnóstico al UI** | Compatible con cualquier gestor de estado (Riverpod, Bloc, GetX, Provider) |

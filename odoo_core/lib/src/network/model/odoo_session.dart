@@ -117,16 +117,18 @@ class OdooSession {
 
   // ── Getters ────────────────────────────────────────────────
 
-  /// Versión mayor del servidor Odoo como entero. Útil para lógica condicional:
-  /// ```dart
-  /// final imageField = session.serverVersionInt >= 13 ? 'image_128' : 'image_small';
-  /// ```
-  // int get serverVersionInt {
-  //   final sanitized = serverVersion.length == 1
-  //       ? serverVersion
-  //       : serverVersion.substring(serverVersion.length - 2);
-  //   return int.tryParse(sanitized) ?? -1;
-  // }
+  /// Versión mayor del servidor Odoo como entero (e.g. 16, 17, 18, 19).
+  /// Soporta tanto versiones numéricas estándar ("18.0", "17.0+e") como versiones saas ("saas~19", "saas~18.2").
+  int get serverVersionInt {
+    final match = RegExp(r'(\d+)').firstMatch(serverVersion);
+    if (match != null) {
+      return int.tryParse(match.group(1)!) ?? -1;
+    }
+    return -1;
+  }
+
+  /// Retorna `true` si el servidor Odoo es versión 18 o superior (incluyendo saas~18 y saas~19).
+  bool get isAtLeastV18 => serverVersionInt >= 18;
 
   /// `true` si la sesión tiene un `userId` válido (> 0).
   ///
@@ -202,7 +204,7 @@ class OdooSession {
       dbName: info['db'] as String? ?? '',
       serverVersion: versionInfo[0].toString(),
       websocketWorkerVersion:
-          info['websocket_worker_version']?.toString() ?? '',
+          info['websocket_worker_version']?.toString() ?? '1',
       csrfToken: info['csrf_token'] as String? ?? '',
     );
   }

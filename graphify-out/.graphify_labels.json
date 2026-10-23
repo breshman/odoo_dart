@@ -23,5 +23,7 @@
   "21": "graphify.md",
   "22": "graphify.md",
   "23": "changelog_and_graphify.md",
-  "24": "odoo_exception.dart"
+  "24": "odoo_exception.dart",
+  "25": "odoo_rpc_params.dart",
+  "26": "OdooClient"
 }

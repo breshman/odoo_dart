@@ -2,6 +2,24 @@
 
 All notable changes to the `odoo_core` project will be documented in this file.
 
+## [2.4.0] - 2026-10-22
+### Added
+* **`OdooCommand`:** Clase con comandos ORM de Odoo para relaciones `One2many` y `Many2many` (`create`, `update`, `delete`, `unlink`, `link`, `clear`, `set`). Compatible con `odoo.fields.Command` en Odoo 16, 17, 18 y 19+. Soporta tanto llamadas estáticas directas que retornan `List<dynamic>` como instancias tipadas (`OdooCommand.linkRecord`, `setRecords`, etc.) serializables a JSON tupla.
+* **`OdooRepository.webCreate()`:** Método de creación estándar para Odoo 16/17/18+ usando `web_save` con lista de IDs vacía (`[]`), retornando la entidad tipada completa con los campos de la `specification` en una sola petición.
+* **Normalización automática de valores:** `OdooRepository` (`create`, `write`, `webSave`, `webCreate`) normaliza automáticamente cualquier instancia de `OdooCommand` dentro de los diccionarios de valores.
+* **`OdooSession.serverVersionInt` & `isAtLeastV18`:** Getters con parser regex robusto que extraen la versión mayor tanto de cadenas estándar (`18.0+e`) como saas (`saas~19.3+e`).
+* **`OdooSessionStore` & `InMemorySessionStore`:** Abstracción limpia desacoplada de la UI/framework para persistencia y lectura de sesiones activas (`save`, `read`, `clear`).
+* **`OdooRpcService.standalone()`:** Constructor factoría que permite crear instancias independientes aisladas (no singleton) para escenarios multi-tenant o testing con inyección de dependencias.
+* **`OdooRpcService.restoreSession()`:** Método para restaurar una sesión activa previamente guardada en el `OdooSessionStore`.
+
+### Changed
+* **`OdooRpcService.inRequestStream`:** Mejorado con un contador de peticiones en vuelo (`_activeRequestsCount`) para evitar que peticiones concurrentes apaguen prematuramente el indicador de carga global.
+* **`OdooRepository.callRpc`:** Renombrado el parámetro de tipo genérico a `R` para evitar shadowing de `T` de la clase contenedora.
+* **Pruebas de Integración RunBot:** Aisladas mediante la bandera `_runbotEnabled` (`ODOO_RUNBOT_TEST`) y actualizadas a la instancia de prueba activa Odoo 19 (`saas~19.3+e`), validando exitosamente operaciones CRUD, `OdooCommand` y `webCreate`.
+
+### Fixed
+* **`OdooSession.fromSessionInfo`:** Se corrigió el valor por defecto de `websocket_worker_version` a `'1'` cuando no viene en el payload del servidor.
+
 ## [2.3.0] - 2026-08-02
 ### Added
 * **`SpecificationBuilder`:** Clase abstracta base implementada por todos los builders generados (`${ClassName}SpecificationBuilder`).

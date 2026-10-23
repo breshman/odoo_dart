@@ -87,8 +87,8 @@
       "source_location": null,
       "_origin": "ast",
       "id": "string",
-      "community": 13,
-      "community_name": "Core Utilities & Helpers",
+      "community": 9,
+      "community_name": "Type Resolver & Analyzer Helpers",
       "norm_label": "string?"
     },
     {
@@ -263,8 +263,8 @@
       "source_location": null,
       "_origin": "ast",
       "id": "odoo_core_example_runbot_models_partner",
-      "community": 11,
-      "community_name": "OdooModel",
+      "community": 1,
+      "community_name": "Odoo Models & Repositories",
       "norm_label": "partner"
     },
     {
@@ -274,8 +274,8 @@
       "source_location": null,
       "_origin": "ast",
       "id": "odoo_core_example_runbot_models_user",
-      "community": 11,
-      "community_name": "OdooModel",
+      "community": 1,
+      "community_name": "Odoo Models & Repositories",
       "norm_label": "user"
     },
     {
@@ -285,8 +285,8 @@
       "source_location": null,
       "_origin": "ast",
       "id": "odoo_core_example_runbot_models_employee",
-      "community": 11,
-      "community_name": "OdooModel",
+      "community": 1,
+      "community_name": "Odoo Models & Repositories",
       "norm_label": "employee"
     },
     {
@@ -351,8 +351,8 @@
       "source_location": null,
       "_origin": "ast",
       "id": "bool_get",
-      "community": 24,
-      "community_name": "odoo_exception.dart",
+      "community": 13,
+      "community_name": "Core Utilities & Helpers",
       "norm_label": "bool get"
     },
     {
@@ -439,8 +439,8 @@
       "source_location": null,
       "_origin": "ast",
       "id": "users_macbook_documents_proyectos_flutter_odoo_dart_odoo_core_example_runbot_models_partnerrepository",
-      "community": 11,
-      "community_name": "OdooModel",
+      "community": 1,
+      "community_name": "Odoo Models & Repositories",
       "norm_label": "partnerrepository"
     },
     {
@@ -472,8 +472,8 @@
       "source_location": null,
       "_origin": "ast",
       "id": "users_macbook_documents_proyectos_flutter_odoo_dart_odoo_core_example_runbot_models_userrepository",
-      "community": 11,
-      "community_name": "OdooModel",
+      "community": 1,
+      "community_name": "Odoo Models & Repositories",
       "norm_label": "userrepository"
     },
     {
@@ -505,8 +505,8 @@
       "source_location": null,
       "_origin": "ast",
       "id": "users_macbook_documents_proyectos_flutter_odoo_dart_odoo_core_example_runbot_models_employeerepository",
-      "community": 11,
-      "community_name": "OdooModel",
+      "community": 1,
+      "community_name": "Odoo Models & Repositories",
       "norm_label": "employeerepository"
     },
     {
@@ -615,8 +615,8 @@
       "source_location": null,
       "_origin": "ast",
       "id": "map",
-      "community": 24,
-      "community_name": "odoo_exception.dart",
+      "community": 13,
+      "community_name": "Core Utilities & Helpers",
       "norm_label": "map"
     },
     {
@@ -827,6 +827,17 @@
       "community": 12,
       "community_name": "Base RPC Service Helpers",
       "norm_label": "src/network/model/odoo_session.dart"
+    },
+    {
+      "label": "src/network/model/odoo_session_store.dart",
+      "file_type": "code",
+      "source_file": null,
+      "source_location": null,
+      "_origin": "ast",
+      "id": "src_network_model_odoo_session_store_dart",
+      "community": 12,
+      "community_name": "Base RPC Service Helpers",
+      "norm_label": "src/network/model/odoo_session_store.dart"
     },
     {
       "label": "src/network/odoo_cookie.dart",
@@ -1066,8 +1077,8 @@
       "source_location": null,
       "_origin": "ast",
       "id": "dart_async",
-      "community": 13,
-      "community_name": "Core Utilities & Helpers",
+      "community": 9,
+      "community_name": "Type Resolver & Analyzer Helpers",
       "norm_label": "dart:async"
     },
     {
@@ -1143,8 +1154,8 @@
       "source_location": null,
       "_origin": "ast",
       "id": "odoo_core_lib_src_network_client_odoo_rpc_service_odoorpcservice",
-      "community": 8,
-      "community_name": "Cookie & Header Interceptors",
+      "community": 26,
+      "community_name": "OdooClient",
       "norm_label": "odoorpcservice"
     },
     {
@@ -1190,6 +1201,50 @@
       "community": 2,
       "community_name": "Network RPC Service & Dio Client",
       "norm_label": "dio"
+    },
+    {
+      "label": "_sessionStore",
+      "file_type": "code",
+      "source_file": "odoo_core/lib/src/network/client/odoo_rpc_service.dart",
+      "source_location": null,
+      "_origin": "ast",
+      "id": "odoo_core_lib_src_network_client_odoo_rpc_service_sessionstore",
+      "community": 2,
+      "community_name": "Network RPC Service & Dio Client",
+      "norm_label": "_sessionstore"
+    },
+    {
+      "label": "_activeRequestsCount",
+      "file_type": "code",
+      "source_file": "odoo_core/lib/src/network/client/odoo_rpc_service.dart",
+      "source_location": null,
+      "_origin": "ast",
+      "id": "odoo_core_lib_src_network_client_odoo_rpc_service_activerequestscount",
+      "community": 2,
+      "community_name": "Network RPC Service & Dio Client",
+      "norm_label": "_activerequestscount"
+    },
+    {
+      "label": "OdooSessionStore? get",
+      "file_type": "code",
+      "source_file": null,
+      "source_location": null,
+      "_origin": "ast",
+      "id": "odoosessionstore_get",
+      "community": 2,
+      "community_name": "Network RPC Service & Dio Client",
+      "norm_label": "odoosessionstore? get"
+    },
+    {
+      "label": "int get",
+      "file_type": "code",
+      "source_file": null,
+      "source_location": null,
+      "_origin": "ast",
+      "id": "int_get",
+      "community": 5,
+      "community_name": "Session Management & Storage",
+      "norm_label": "int get"
     },
     {
       "label": "odooContext",
@@ -1258,6 +1313,17 @@
       "norm_label": "streamcontroller"
     },
     {
+      "label": "standalone",
+      "file_type": "code",
+      "source_file": "odoo_core/lib/src/network/client/odoo_rpc_service.dart",
+      "source_location": null,
+      "_origin": "ast",
+      "id": "odoo_core_lib_src_network_client_odoo_rpc_service_standalone",
+      "community": 2,
+      "community_name": "Network RPC Service & Dio Client",
+      "norm_label": "standalone"
+    },
+    {
       "label": "updateOdooContext",
       "file_type": "code",
       "source_file": "odoo_core/lib/src/network/client/odoo_rpc_service.dart",
@@ -1311,6 +1377,17 @@
       "community": 2,
       "community_name": "Network RPC Service & Dio Client",
       "norm_label": "authenticate"
+    },
+    {
+      "label": "restoreSession",
+      "file_type": "code",
+      "source_file": "odoo_core/lib/src/network/client/odoo_rpc_service.dart",
+      "source_location": null,
+      "_origin": "ast",
+      "id": "odoo_core_lib_src_network_client_odoo_rpc_service_restoresession",
+      "community": 2,
+      "community_name": "Network RPC Service & Dio Client",
+      "norm_label": "restoresession"
     },
     {
       "label": "destroySession",
@@ -1418,9 +1495,20 @@
       "source_location": null,
       "_origin": "ast",
       "id": "exceptions_odoo_exception_dart",
-      "community": 13,
-      "community_name": "Core Utilities & Helpers",
+      "community": 11,
+      "community_name": "OdooModel",
       "norm_label": "../exceptions/odoo_exception.dart"
+    },
+    {
+      "label": "../model/odoo_session_store.dart",
+      "file_type": "code",
+      "source_file": null,
+      "source_location": null,
+      "_origin": "ast",
+      "id": "model_odoo_session_store_dart",
+      "community": 2,
+      "community_name": "Network RPC Service & Dio Client",
+      "norm_label": "../model/odoo_session_store.dart"
     },
     {
       "label": "../params/odoo_rpc_params.dart",
@@ -1473,8 +1561,8 @@
       "source_location": null,
       "_origin": "ast",
       "id": "t",
-      "community": 13,
-      "community_name": "Core Utilities & Helpers",
+      "community": 11,
+      "community_name": "OdooModel",
       "norm_label": "t"
     },
     {
@@ -1484,8 +1572,8 @@
       "source_location": null,
       "_origin": "ast",
       "id": "odoo_core_lib_src_network_exceptions_odoo_exception",
-      "community": 24,
-      "community_name": "odoo_exception.dart",
+      "community": 13,
+      "community_name": "Core Utilities & Helpers",
       "norm_label": "odoo_exception.dart"
     },
     {
@@ -1495,8 +1583,8 @@
       "source_location": null,
       "_origin": "ast",
       "id": "odoo_core_lib_src_network_exceptions_odoo_exception_odooexception",
-      "community": 13,
-      "community_name": "Core Utilities & Helpers",
+      "community": 9,
+      "community_name": "Type Resolver & Analyzer Helpers",
       "norm_label": "odooexception"
     },
     {
@@ -1506,8 +1594,8 @@
       "source_location": null,
       "_origin": "ast",
       "id": "exception",
-      "community": 13,
-      "community_name": "Core Utilities & Helpers",
+      "community": 9,
+      "community_name": "Type Resolver & Analyzer Helpers",
       "norm_label": "exception?"
     },
     {
@@ -1517,8 +1605,8 @@
       "source_location": null,
       "_origin": "ast",
       "id": "odoo_core_lib_src_network_exceptions_odoo_exception_odoosessionexpiredexception",
-      "community": 13,
-      "community_name": "Core Utilities & Helpers",
+      "community": 9,
+      "community_name": "Type Resolver & Analyzer Helpers",
       "norm_label": "odoosessionexpiredexception"
     },
     {
@@ -1528,8 +1616,8 @@
       "source_location": null,
       "_origin": "ast",
       "id": "odoo_core_lib_src_network_exceptions_odoo_exception_code",
-      "community": 24,
-      "community_name": "odoo_exception.dart",
+      "community": 13,
+      "community_name": "Core Utilities & Helpers",
       "norm_label": "code"
     },
     {
@@ -1539,8 +1627,8 @@
       "source_location": null,
       "_origin": "ast",
       "id": "odoo_core_lib_src_network_exceptions_odoo_exception_message",
-      "community": 24,
-      "community_name": "odoo_exception.dart",
+      "community": 13,
+      "community_name": "Core Utilities & Helpers",
       "norm_label": "message"
     },
     {
@@ -1550,8 +1638,8 @@
       "source_location": null,
       "_origin": "ast",
       "id": "odoo_core_lib_src_network_exceptions_odoo_exception_data",
-      "community": 24,
-      "community_name": "odoo_exception.dart",
+      "community": 13,
+      "community_name": "Core Utilities & Helpers",
       "norm_label": "data"
     },
     {
@@ -1561,8 +1649,8 @@
       "source_location": null,
       "_origin": "ast",
       "id": "odoo_core_lib_src_network_exceptions_odoo_exception_isautherror",
-      "community": 24,
-      "community_name": "odoo_exception.dart",
+      "community": 13,
+      "community_name": "Core Utilities & Helpers",
       "norm_label": "isautherror"
     },
     {
@@ -1572,8 +1660,8 @@
       "source_location": null,
       "_origin": "ast",
       "id": "odoo_core_lib_src_network_exceptions_odoo_exception_accessdenied",
-      "community": 24,
-      "community_name": "odoo_exception.dart",
+      "community": 13,
+      "community_name": "Core Utilities & Helpers",
       "norm_label": "accessdenied"
     },
     {
@@ -1583,8 +1671,8 @@
       "source_location": null,
       "_origin": "ast",
       "id": "odoo_core_lib_src_network_exceptions_odoo_exception_notfound",
-      "community": 24,
-      "community_name": "odoo_exception.dart",
+      "community": 13,
+      "community_name": "Core Utilities & Helpers",
       "norm_label": "notfound"
     },
     {
@@ -1594,8 +1682,8 @@
       "source_location": null,
       "_origin": "ast",
       "id": "odoo_core_lib_src_network_exceptions_odoo_exception_servererror",
-      "community": 24,
-      "community_name": "odoo_exception.dart",
+      "community": 13,
+      "community_name": "Core Utilities & Helpers",
       "norm_label": "servererror"
     },
     {
@@ -1605,8 +1693,8 @@
       "source_location": null,
       "_origin": "ast",
       "id": "odoo_core_lib_src_network_exceptions_odoo_exception_fromjson",
-      "community": 24,
-      "community_name": "odoo_exception.dart",
+      "community": 13,
+      "community_name": "Core Utilities & Helpers",
       "norm_label": "fromjson"
     },
     {
@@ -1616,8 +1704,8 @@
       "source_location": null,
       "_origin": "ast",
       "id": "odoo_core_lib_src_network_exceptions_odoo_exception_tojson",
-      "community": 24,
-      "community_name": "odoo_exception.dart",
+      "community": 13,
+      "community_name": "Core Utilities & Helpers",
       "norm_label": "tojson"
     },
     {
@@ -1627,8 +1715,8 @@
       "source_location": null,
       "_origin": "ast",
       "id": "odoo_core_lib_src_network_exceptions_odoo_exception_tostring",
-      "community": 24,
-      "community_name": "odoo_exception.dart",
+      "community": 13,
+      "community_name": "Core Utilities & Helpers",
       "norm_label": "tostring"
     },
     {
@@ -1649,8 +1737,8 @@
       "source_location": null,
       "_origin": "ast",
       "id": "odoo_core_lib_src_network_model_base_model_odoobasemodel",
-      "community": 11,
-      "community_name": "OdooModel",
+      "community": 0,
+      "community_name": "Generator Examples & Tests",
       "norm_label": "odoobasemodel"
     },
     {
@@ -1825,8 +1913,8 @@
       "source_location": null,
       "_origin": "ast",
       "id": "odoo_core_lib_src_network_model_odoo_annotation_odoomodel",
-      "community": 11,
-      "community_name": "OdooModel",
+      "community": 0,
+      "community_name": "Generator Examples & Tests",
       "norm_label": "odoomodel"
     },
     {
@@ -1946,8 +2034,8 @@
       "source_location": null,
       "_origin": "ast",
       "id": "odoo_core_lib_src_network_model_odoo_session_odoosession",
-      "community": 5,
-      "community_name": "Session Management & Storage",
+      "community": 24,
+      "community_name": "odoo_exception.dart",
       "norm_label": "odoosession"
     },
     {
@@ -1993,17 +2081,6 @@
       "community": 5,
       "community_name": "Session Management & Storage",
       "norm_label": "hashcode"
-    },
-    {
-      "label": "int get",
-      "file_type": "code",
-      "source_file": null,
-      "source_location": null,
-      "_origin": "ast",
-      "id": "int_get",
-      "community": 5,
-      "community_name": "Session Management & Storage",
-      "norm_label": "int get"
     },
     {
       "label": "userId",
@@ -2149,6 +2226,17 @@
       "norm_label": "csrftoken"
     },
     {
+      "label": "isAtLeastV18",
+      "file_type": "code",
+      "source_file": "odoo_core/lib/src/network/model/odoo_session.dart",
+      "source_location": null,
+      "_origin": "ast",
+      "id": "odoo_core_lib_src_network_model_odoo_session_isatleastv18",
+      "community": 5,
+      "community_name": "Session Management & Storage",
+      "norm_label": "isatleastv18"
+    },
+    {
       "label": "isAuthenticated",
       "file_type": "code",
       "source_file": "odoo_core/lib/src/network/model/odoo_session.dart",
@@ -2235,6 +2323,94 @@
       "community": 5,
       "community_name": "Session Management & Storage",
       "norm_label": "updatecsrftoken"
+    },
+    {
+      "label": "odoo_session_store.dart",
+      "file_type": "code",
+      "source_file": "odoo_core/lib/src/network/model/odoo_session_store.dart",
+      "source_location": null,
+      "_origin": "ast",
+      "id": "odoo_core_lib_src_network_model_odoo_session_store",
+      "community": 24,
+      "community_name": "odoo_exception.dart",
+      "norm_label": "odoo_session_store.dart"
+    },
+    {
+      "label": "OdooSessionStore",
+      "file_type": "code",
+      "source_file": "odoo_core/lib/src/network/model/odoo_session_store.dart",
+      "source_location": null,
+      "_origin": "ast",
+      "id": "odoo_core_lib_src_network_model_odoo_session_store_odoosessionstore",
+      "community": 24,
+      "community_name": "odoo_exception.dart",
+      "norm_label": "odoosessionstore"
+    },
+    {
+      "label": "InMemorySessionStore",
+      "file_type": "code",
+      "source_file": "odoo_core/lib/src/network/model/odoo_session_store.dart",
+      "source_location": null,
+      "_origin": "ast",
+      "id": "odoo_core_lib_src_network_model_odoo_session_store_inmemorysessionstore",
+      "community": 24,
+      "community_name": "odoo_exception.dart",
+      "norm_label": "inmemorysessionstore"
+    },
+    {
+      "label": "_session",
+      "file_type": "code",
+      "source_file": "odoo_core/lib/src/network/model/odoo_session_store.dart",
+      "source_location": null,
+      "_origin": "ast",
+      "id": "odoo_core_lib_src_network_model_odoo_session_store_session",
+      "community": 24,
+      "community_name": "odoo_exception.dart",
+      "norm_label": "_session"
+    },
+    {
+      "label": "save",
+      "file_type": "code",
+      "source_file": "odoo_core/lib/src/network/model/odoo_session_store.dart",
+      "source_location": null,
+      "_origin": "ast",
+      "id": "odoo_core_lib_src_network_model_odoo_session_store_save",
+      "community": 24,
+      "community_name": "odoo_exception.dart",
+      "norm_label": "save"
+    },
+    {
+      "label": "read",
+      "file_type": "code",
+      "source_file": "odoo_core/lib/src/network/model/odoo_session_store.dart",
+      "source_location": null,
+      "_origin": "ast",
+      "id": "odoo_core_lib_src_network_model_odoo_session_store_read",
+      "community": 24,
+      "community_name": "odoo_exception.dart",
+      "norm_label": "read"
+    },
+    {
+      "label": "clear",
+      "file_type": "code",
+      "source_file": "odoo_core/lib/src/network/model/odoo_session_store.dart",
+      "source_location": null,
+      "_origin": "ast",
+      "id": "odoo_core_lib_src_network_model_odoo_session_store_clear",
+      "community": 24,
+      "community_name": "odoo_exception.dart",
+      "norm_label": "clear"
+    },
+    {
+      "label": "odoo_session.dart",
+      "file_type": "code",
+      "source_file": null,
+      "source_location": null,
+      "_origin": "ast",
+      "id": "odoo_session_dart",
+      "community": 24,
+      "community_name": "odoo_exception.dart",
+      "norm_label": "odoo_session.dart"
     },
     {
       "label": "odoo_cookie.dart",
@@ -2430,8 +2606,8 @@
       "source_location": null,
       "_origin": "ast",
       "id": "odoo_core_lib_src_network_params_odoo_rpc_params",
-      "community": 2,
-      "community_name": "Network RPC Service & Dio Client",
+      "community": 25,
+      "community_name": "odoo_rpc_params.dart",
       "norm_label": "odoo_rpc_params.dart"
     },
     {
@@ -2441,8 +2617,8 @@
       "source_location": null,
       "_origin": "ast",
       "id": "odoo_core_lib_src_network_params_odoo_rpc_params_usercontext",
-      "community": 2,
-      "community_name": "Network RPC Service & Dio Client",
+      "community": 25,
+      "community_name": "odoo_rpc_params.dart",
       "norm_label": "usercontext"
     },
     {
@@ -2452,8 +2628,8 @@
       "source_location": null,
       "_origin": "ast",
       "id": "odoo_core_lib_src_network_params_odoo_rpc_params_lang",
-      "community": 2,
-      "community_name": "Network RPC Service & Dio Client",
+      "community": 25,
+      "community_name": "odoo_rpc_params.dart",
       "norm_label": "lang"
     },
     {
@@ -2463,8 +2639,8 @@
       "source_location": null,
       "_origin": "ast",
       "id": "odoo_core_lib_src_network_params_odoo_rpc_params_tz",
-      "community": 2,
-      "community_name": "Network RPC Service & Dio Client",
+      "community": 25,
+      "community_name": "odoo_rpc_params.dart",
       "norm_label": "tz"
     },
     {
@@ -2474,8 +2650,8 @@
       "source_location": null,
       "_origin": "ast",
       "id": "odoo_core_lib_src_network_params_odoo_rpc_params_uid",
-      "community": 2,
-      "community_name": "Network RPC Service & Dio Client",
+      "community": 25,
+      "community_name": "odoo_rpc_params.dart",
       "norm_label": "uid"
     },
     {
@@ -2485,8 +2661,8 @@
       "source_location": null,
       "_origin": "ast",
       "id": "odoo_core_lib_src_network_params_odoo_rpc_params_tojson",
-      "community": 2,
-      "community_name": "Network RPC Service & Dio Client",
+      "community": 25,
+      "community_name": "odoo_rpc_params.dart",
       "norm_label": "tojson"
     },
     {
@@ -2496,8 +2672,8 @@
       "source_location": null,
       "_origin": "ast",
       "id": "odoo_core_lib_src_network_params_rpc_payload",
-      "community": 13,
-      "community_name": "Core Utilities & Helpers",
+      "community": 11,
+      "community_name": "OdooModel",
       "norm_label": "rpc_payload.dart"
     },
     {
@@ -2507,8 +2683,8 @@
       "source_location": null,
       "_origin": "ast",
       "id": "odoo_core_lib_src_network_params_rpc_payload_rpcpayload",
-      "community": 13,
-      "community_name": "Core Utilities & Helpers",
+      "community": 11,
+      "community_name": "OdooModel",
       "norm_label": "rpcpayload"
     },
     {
@@ -2518,8 +2694,8 @@
       "source_location": null,
       "_origin": "ast",
       "id": "odoo_core_lib_src_network_params_rpc_payload_emptybody",
-      "community": 13,
-      "community_name": "Core Utilities & Helpers",
+      "community": 11,
+      "community_name": "OdooModel",
       "norm_label": "emptybody"
     },
     {
@@ -2529,8 +2705,8 @@
       "source_location": null,
       "_origin": "ast",
       "id": "odoo_core_lib_src_network_params_rpc_payload_id",
-      "community": 13,
-      "community_name": "Core Utilities & Helpers",
+      "community": 11,
+      "community_name": "OdooModel",
       "norm_label": "id"
     },
     {
@@ -2540,8 +2716,8 @@
       "source_location": null,
       "_origin": "ast",
       "id": "odoo_core_lib_src_network_params_rpc_payload_jsonrpc",
-      "community": 13,
-      "community_name": "Core Utilities & Helpers",
+      "community": 11,
+      "community_name": "OdooModel",
       "norm_label": "jsonrpc"
     },
     {
@@ -2551,8 +2727,8 @@
       "source_location": null,
       "_origin": "ast",
       "id": "odoo_core_lib_src_network_params_rpc_payload_method",
-      "community": 13,
-      "community_name": "Core Utilities & Helpers",
+      "community": 11,
+      "community_name": "OdooModel",
       "norm_label": "method"
     },
     {
@@ -2562,8 +2738,8 @@
       "source_location": null,
       "_origin": "ast",
       "id": "odoo_core_lib_src_network_params_rpc_payload_params",
-      "community": 13,
-      "community_name": "Core Utilities & Helpers",
+      "community": 11,
+      "community_name": "OdooModel",
       "norm_label": "params"
     },
     {
@@ -2573,8 +2749,8 @@
       "source_location": null,
       "_origin": "ast",
       "id": "odoo_core_lib_src_network_params_rpc_payload_from",
-      "community": 13,
-      "community_name": "Core Utilities & Helpers",
+      "community": 11,
+      "community_name": "OdooModel",
       "norm_label": "from"
     },
     {
@@ -2584,8 +2760,8 @@
       "source_location": null,
       "_origin": "ast",
       "id": "odoo_core_lib_src_network_params_rpc_payload_fromjson",
-      "community": 13,
-      "community_name": "Core Utilities & Helpers",
+      "community": 11,
+      "community_name": "OdooModel",
       "norm_label": "fromjson"
     },
     {
@@ -2595,8 +2771,8 @@
       "source_location": null,
       "_origin": "ast",
       "id": "odoo_core_lib_src_network_params_rpc_payload_tojson",
-      "community": 13,
-      "community_name": "Core Utilities & Helpers",
+      "community": 11,
+      "community_name": "OdooModel",
       "norm_label": "tojson"
     },
     {
@@ -2606,8 +2782,8 @@
       "source_location": null,
       "_origin": "ast",
       "id": "odoo_core_lib_src_network_responses_rpc_response",
-      "community": 13,
-      "community_name": "Core Utilities & Helpers",
+      "community": 11,
+      "community_name": "OdooModel",
       "norm_label": "rpc_response.dart"
     },
     {
@@ -2617,8 +2793,8 @@
       "source_location": null,
       "_origin": "ast",
       "id": "odoo_core_lib_src_network_responses_rpc_response_rpcresponse",
-      "community": 13,
-      "community_name": "Core Utilities & Helpers",
+      "community": 11,
+      "community_name": "OdooModel",
       "norm_label": "rpcresponse"
     },
     {
@@ -2628,8 +2804,8 @@
       "source_location": null,
       "_origin": "ast",
       "id": "odoo_core_lib_src_network_responses_rpc_response_jsonrpc",
-      "community": 13,
-      "community_name": "Core Utilities & Helpers",
+      "community": 11,
+      "community_name": "OdooModel",
       "norm_label": "jsonrpc"
     },
     {
@@ -2639,8 +2815,8 @@
       "source_location": null,
       "_origin": "ast",
       "id": "odoo_core_lib_src_network_responses_rpc_response_id",
-      "community": 13,
-      "community_name": "Core Utilities & Helpers",
+      "community": 11,
+      "community_name": "OdooModel",
       "norm_label": "id"
     },
     {
@@ -2650,8 +2826,8 @@
       "source_location": null,
       "_origin": "ast",
       "id": "odoo_core_lib_src_network_responses_rpc_response_result",
-      "community": 13,
-      "community_name": "Core Utilities & Helpers",
+      "community": 11,
+      "community_name": "OdooModel",
       "norm_label": "result"
     },
     {
@@ -2661,8 +2837,8 @@
       "source_location": null,
       "_origin": "ast",
       "id": "odoo_core_lib_src_network_responses_rpc_response_error",
-      "community": 13,
-      "community_name": "Core Utilities & Helpers",
+      "community": 11,
+      "community_name": "OdooModel",
       "norm_label": "error"
     },
     {
@@ -2672,8 +2848,8 @@
       "source_location": null,
       "_origin": "ast",
       "id": "odoo_core_lib_src_network_responses_rpc_response_fromjson",
-      "community": 13,
-      "community_name": "Core Utilities & Helpers",
+      "community": 11,
+      "community_name": "OdooModel",
       "norm_label": "fromjson"
     },
     {
@@ -2683,8 +2859,8 @@
       "source_location": null,
       "_origin": "ast",
       "id": "odoo_core_lib_src_network_responses_rpc_response_tojson",
-      "community": 13,
-      "community_name": "Core Utilities & Helpers",
+      "community": 11,
+      "community_name": "OdooModel",
       "norm_label": "tojson"
     },
     {
@@ -2804,8 +2980,8 @@
       "source_location": null,
       "_origin": "ast",
       "id": "odoo_core_lib_src_odoo_base_odooclient",
-      "community": 8,
-      "community_name": "Cookie & Header Interceptors",
+      "community": 26,
+      "community_name": "OdooClient",
       "norm_label": "odooclient"
     },
     {
@@ -2815,9 +2991,20 @@
       "source_location": null,
       "_origin": "ast",
       "id": "odoo_core_lib_src_odoo_base_odoorepository",
-      "community": 11,
-      "community_name": "OdooModel",
+      "community": 1,
+      "community_name": "Odoo Models & Repositories",
       "norm_label": "odoorepository"
+    },
+    {
+      "label": "OdooCommand",
+      "file_type": "code",
+      "source_file": "odoo_core/lib/src/odoo_base.dart",
+      "source_location": null,
+      "_origin": "ast",
+      "id": "odoo_core_lib_src_odoo_base_odoocommand",
+      "community": 8,
+      "community_name": "Cookie & Header Interceptors",
+      "norm_label": "odoocommand"
     },
     {
       "label": "OdooDomain",
@@ -2908,6 +3095,149 @@
       "norm_label": "specification"
     },
     {
+      "label": "code",
+      "file_type": "code",
+      "source_file": "odoo_core/lib/src/odoo_base.dart",
+      "source_location": null,
+      "_origin": "ast",
+      "id": "odoo_core_lib_src_odoo_base_code",
+      "community": 8,
+      "community_name": "Cookie & Header Interceptors",
+      "norm_label": "code"
+    },
+    {
+      "label": "id",
+      "file_type": "code",
+      "source_file": "odoo_core/lib/src/odoo_base.dart",
+      "source_location": null,
+      "_origin": "ast",
+      "id": "odoo_core_lib_src_odoo_base_id",
+      "community": 8,
+      "community_name": "Cookie & Header Interceptors",
+      "norm_label": "id"
+    },
+    {
+      "label": "value",
+      "file_type": "code",
+      "source_file": "odoo_core/lib/src/odoo_base.dart",
+      "source_location": null,
+      "_origin": "ast",
+      "id": "odoo_core_lib_src_odoo_base_value",
+      "community": 8,
+      "community_name": "Cookie & Header Interceptors",
+      "norm_label": "value"
+    },
+    {
+      "label": "createCode",
+      "file_type": "code",
+      "source_file": "odoo_core/lib/src/odoo_base.dart",
+      "source_location": null,
+      "_origin": "ast",
+      "id": "odoo_core_lib_src_odoo_base_createcode",
+      "community": 8,
+      "community_name": "Cookie & Header Interceptors",
+      "norm_label": "createcode"
+    },
+    {
+      "label": "static const int",
+      "file_type": "code",
+      "source_file": null,
+      "source_location": null,
+      "_origin": "ast",
+      "id": "static_const_int",
+      "community": 8,
+      "community_name": "Cookie & Header Interceptors",
+      "norm_label": "static const int"
+    },
+    {
+      "label": "updateCode",
+      "file_type": "code",
+      "source_file": "odoo_core/lib/src/odoo_base.dart",
+      "source_location": null,
+      "_origin": "ast",
+      "id": "odoo_core_lib_src_odoo_base_updatecode",
+      "community": 8,
+      "community_name": "Cookie & Header Interceptors",
+      "norm_label": "updatecode"
+    },
+    {
+      "label": "deleteCode",
+      "file_type": "code",
+      "source_file": "odoo_core/lib/src/odoo_base.dart",
+      "source_location": null,
+      "_origin": "ast",
+      "id": "odoo_core_lib_src_odoo_base_deletecode",
+      "community": 8,
+      "community_name": "Cookie & Header Interceptors",
+      "norm_label": "deletecode"
+    },
+    {
+      "label": "unlinkCode",
+      "file_type": "code",
+      "source_file": "odoo_core/lib/src/odoo_base.dart",
+      "source_location": null,
+      "_origin": "ast",
+      "id": "odoo_core_lib_src_odoo_base_unlinkcode",
+      "community": 8,
+      "community_name": "Cookie & Header Interceptors",
+      "norm_label": "unlinkcode"
+    },
+    {
+      "label": "linkCode",
+      "file_type": "code",
+      "source_file": "odoo_core/lib/src/odoo_base.dart",
+      "source_location": null,
+      "_origin": "ast",
+      "id": "odoo_core_lib_src_odoo_base_linkcode",
+      "community": 8,
+      "community_name": "Cookie & Header Interceptors",
+      "norm_label": "linkcode"
+    },
+    {
+      "label": "clearCode",
+      "file_type": "code",
+      "source_file": "odoo_core/lib/src/odoo_base.dart",
+      "source_location": null,
+      "_origin": "ast",
+      "id": "odoo_core_lib_src_odoo_base_clearcode",
+      "community": 8,
+      "community_name": "Cookie & Header Interceptors",
+      "norm_label": "clearcode"
+    },
+    {
+      "label": "setCode",
+      "file_type": "code",
+      "source_file": "odoo_core/lib/src/odoo_base.dart",
+      "source_location": null,
+      "_origin": "ast",
+      "id": "odoo_core_lib_src_odoo_base_setcode",
+      "community": 8,
+      "community_name": "Cookie & Header Interceptors",
+      "norm_label": "setcode"
+    },
+    {
+      "label": "operator",
+      "file_type": "code",
+      "source_file": "odoo_core/lib/src/odoo_base.dart",
+      "source_location": null,
+      "_origin": "ast",
+      "id": "odoo_core_lib_src_odoo_base_operator",
+      "community": 8,
+      "community_name": "Cookie & Header Interceptors",
+      "norm_label": "operator"
+    },
+    {
+      "label": "hashCode",
+      "file_type": "code",
+      "source_file": "odoo_core/lib/src/odoo_base.dart",
+      "source_location": null,
+      "_origin": "ast",
+      "id": "odoo_core_lib_src_odoo_base_hashcode",
+      "community": 8,
+      "community_name": "Cookie & Header Interceptors",
+      "norm_label": "hashcode"
+    },
+    {
       "label": "build",
       "file_type": "code",
       "source_file": "odoo_core/lib/src/odoo_base.dart",
@@ -2961,6 +3291,17 @@
       "community": 8,
       "community_name": "Cookie & Header Interceptors",
       "norm_label": "websave"
+    },
+    {
+      "label": "webCreate",
+      "file_type": "code",
+      "source_file": "odoo_core/lib/src/odoo_base.dart",
+      "source_location": null,
+      "_origin": "ast",
+      "id": "odoo_core_lib_src_odoo_base_webcreate",
+      "community": 8,
+      "community_name": "Cookie & Header Interceptors",
+      "norm_label": "webcreate"
     },
     {
       "label": "read",
@@ -3029,6 +3370,171 @@
       "norm_label": "callmethod"
     },
     {
+      "label": "_normalizeValues",
+      "file_type": "code",
+      "source_file": "odoo_core/lib/src/odoo_base.dart",
+      "source_location": null,
+      "_origin": "ast",
+      "id": "odoo_core_lib_src_odoo_base_normalizevalues",
+      "community": 8,
+      "community_name": "Cookie & Header Interceptors",
+      "norm_label": "_normalizevalues"
+    },
+    {
+      "label": "update",
+      "file_type": "code",
+      "source_file": "odoo_core/lib/src/odoo_base.dart",
+      "source_location": null,
+      "_origin": "ast",
+      "id": "odoo_core_lib_src_odoo_base_update",
+      "community": 8,
+      "community_name": "Cookie & Header Interceptors",
+      "norm_label": "update"
+    },
+    {
+      "label": "delete",
+      "file_type": "code",
+      "source_file": "odoo_core/lib/src/odoo_base.dart",
+      "source_location": null,
+      "_origin": "ast",
+      "id": "odoo_core_lib_src_odoo_base_delete",
+      "community": 8,
+      "community_name": "Cookie & Header Interceptors",
+      "norm_label": "delete"
+    },
+    {
+      "label": "link",
+      "file_type": "code",
+      "source_file": "odoo_core/lib/src/odoo_base.dart",
+      "source_location": null,
+      "_origin": "ast",
+      "id": "odoo_core_lib_src_odoo_base_link",
+      "community": 8,
+      "community_name": "Cookie & Header Interceptors",
+      "norm_label": "link"
+    },
+    {
+      "label": "clear",
+      "file_type": "code",
+      "source_file": "odoo_core/lib/src/odoo_base.dart",
+      "source_location": null,
+      "_origin": "ast",
+      "id": "odoo_core_lib_src_odoo_base_clear",
+      "community": 8,
+      "community_name": "Cookie & Header Interceptors",
+      "norm_label": "clear"
+    },
+    {
+      "label": "createRecord",
+      "file_type": "code",
+      "source_file": "odoo_core/lib/src/odoo_base.dart",
+      "source_location": null,
+      "_origin": "ast",
+      "id": "odoo_core_lib_src_odoo_base_createrecord",
+      "community": 8,
+      "community_name": "Cookie & Header Interceptors",
+      "norm_label": "createrecord"
+    },
+    {
+      "label": "updateRecord",
+      "file_type": "code",
+      "source_file": "odoo_core/lib/src/odoo_base.dart",
+      "source_location": null,
+      "_origin": "ast",
+      "id": "odoo_core_lib_src_odoo_base_updaterecord",
+      "community": 8,
+      "community_name": "Cookie & Header Interceptors",
+      "norm_label": "updaterecord"
+    },
+    {
+      "label": "deleteRecord",
+      "file_type": "code",
+      "source_file": "odoo_core/lib/src/odoo_base.dart",
+      "source_location": null,
+      "_origin": "ast",
+      "id": "odoo_core_lib_src_odoo_base_deleterecord",
+      "community": 8,
+      "community_name": "Cookie & Header Interceptors",
+      "norm_label": "deleterecord"
+    },
+    {
+      "label": "unlinkRecord",
+      "file_type": "code",
+      "source_file": "odoo_core/lib/src/odoo_base.dart",
+      "source_location": null,
+      "_origin": "ast",
+      "id": "odoo_core_lib_src_odoo_base_unlinkrecord",
+      "community": 8,
+      "community_name": "Cookie & Header Interceptors",
+      "norm_label": "unlinkrecord"
+    },
+    {
+      "label": "linkRecord",
+      "file_type": "code",
+      "source_file": "odoo_core/lib/src/odoo_base.dart",
+      "source_location": null,
+      "_origin": "ast",
+      "id": "odoo_core_lib_src_odoo_base_linkrecord",
+      "community": 8,
+      "community_name": "Cookie & Header Interceptors",
+      "norm_label": "linkrecord"
+    },
+    {
+      "label": "clearRecords",
+      "file_type": "code",
+      "source_file": "odoo_core/lib/src/odoo_base.dart",
+      "source_location": null,
+      "_origin": "ast",
+      "id": "odoo_core_lib_src_odoo_base_clearrecords",
+      "community": 8,
+      "community_name": "Cookie & Header Interceptors",
+      "norm_label": "clearrecords"
+    },
+    {
+      "label": "setRecords",
+      "file_type": "code",
+      "source_file": "odoo_core/lib/src/odoo_base.dart",
+      "source_location": null,
+      "_origin": "ast",
+      "id": "odoo_core_lib_src_odoo_base_setrecords",
+      "community": 8,
+      "community_name": "Cookie & Header Interceptors",
+      "norm_label": "setrecords"
+    },
+    {
+      "label": "toList",
+      "file_type": "code",
+      "source_file": "odoo_core/lib/src/odoo_base.dart",
+      "source_location": null,
+      "_origin": "ast",
+      "id": "odoo_core_lib_src_odoo_base_tolist",
+      "community": 8,
+      "community_name": "Cookie & Header Interceptors",
+      "norm_label": "tolist"
+    },
+    {
+      "label": "toJson",
+      "file_type": "code",
+      "source_file": "odoo_core/lib/src/odoo_base.dart",
+      "source_location": null,
+      "_origin": "ast",
+      "id": "odoo_core_lib_src_odoo_base_tojson",
+      "community": 8,
+      "community_name": "Cookie & Header Interceptors",
+      "norm_label": "tojson"
+    },
+    {
+      "label": "toString",
+      "file_type": "code",
+      "source_file": "odoo_core/lib/src/odoo_base.dart",
+      "source_location": null,
+      "_origin": "ast",
+      "id": "odoo_core_lib_src_odoo_base_tostring",
+      "community": 8,
+      "community_name": "Cookie & Header Interceptors",
+      "norm_label": "tostring"
+    },
+    {
       "label": "../odoo_core.dart",
       "file_type": "code",
       "source_file": null,
@@ -3040,14 +3546,25 @@
       "norm_label": "../odoo_core.dart"
     },
     {
+      "label": "R",
+      "file_type": "code",
+      "source_file": null,
+      "source_location": null,
+      "_origin": "ast",
+      "id": "r",
+      "community": 8,
+      "community_name": "Cookie & Header Interceptors",
+      "norm_label": "r"
+    },
+    {
       "label": "odoo_core_test.dart",
       "file_type": "code",
       "source_file": "odoo_core/test/odoo_core_test.dart",
       "source_location": null,
       "_origin": "ast",
       "id": "odoo_core_test_odoo_core_test",
-      "community": 13,
-      "community_name": "Core Utilities & Helpers",
+      "community": 9,
+      "community_name": "Type Resolver & Analyzer Helpers",
       "norm_label": "odoo_core_test.dart"
     },
     {
@@ -3057,8 +3574,8 @@
       "source_location": null,
       "_origin": "ast",
       "id": "odoo_core_test_odoo_core_test_mockodooclient",
-      "community": 8,
-      "community_name": "Cookie & Header Interceptors",
+      "community": 26,
+      "community_name": "OdooClient",
       "norm_label": "mockodooclient"
     },
     {
@@ -3068,8 +3585,8 @@
       "source_location": null,
       "_origin": "ast",
       "id": "odoo_core_test_odoo_core_test_runboturl",
-      "community": 13,
-      "community_name": "Core Utilities & Helpers",
+      "community": 9,
+      "community_name": "Type Resolver & Analyzer Helpers",
       "norm_label": "_runboturl"
     },
     {
@@ -3079,8 +3596,8 @@
       "source_location": null,
       "_origin": "ast",
       "id": "odoo_core_test_odoo_core_test_runbotdb",
-      "community": 13,
-      "community_name": "Core Utilities & Helpers",
+      "community": 9,
+      "community_name": "Type Resolver & Analyzer Helpers",
       "norm_label": "_runbotdb"
     },
     {
@@ -3090,8 +3607,8 @@
       "source_location": null,
       "_origin": "ast",
       "id": "odoo_core_test_odoo_core_test_runbotuser",
-      "community": 13,
-      "community_name": "Core Utilities & Helpers",
+      "community": 9,
+      "community_name": "Type Resolver & Analyzer Helpers",
       "norm_label": "_runbotuser"
     },
     {
@@ -3101,9 +3618,20 @@
       "source_location": null,
       "_origin": "ast",
       "id": "odoo_core_test_odoo_core_test_runbotpass",
-      "community": 13,
-      "community_name": "Core Utilities & Helpers",
+      "community": 9,
+      "community_name": "Type Resolver & Analyzer Helpers",
       "norm_label": "_runbotpass"
+    },
+    {
+      "label": "_runbotEnabled",
+      "file_type": "code",
+      "source_file": "odoo_core/test/odoo_core_test.dart",
+      "source_location": null,
+      "_origin": "ast",
+      "id": "odoo_core_test_odoo_core_test_runbotenabled",
+      "community": 9,
+      "community_name": "Type Resolver & Analyzer Helpers",
+      "norm_label": "_runbotenabled"
     },
     {
       "label": "mockResponse",
@@ -3112,8 +3640,8 @@
       "source_location": null,
       "_origin": "ast",
       "id": "odoo_core_test_odoo_core_test_mockresponse",
-      "community": 13,
-      "community_name": "Core Utilities & Helpers",
+      "community": 9,
+      "community_name": "Type Resolver & Analyzer Helpers",
       "norm_label": "mockresponse"
     },
     {
@@ -3123,8 +3651,8 @@
       "source_location": null,
       "_origin": "ast",
       "id": "odoo_core_test_odoo_core_test_throwexception",
-      "community": 13,
-      "community_name": "Core Utilities & Helpers",
+      "community": 9,
+      "community_name": "Type Resolver & Analyzer Helpers",
       "norm_label": "throwexception"
     },
     {
@@ -3134,8 +3662,8 @@
       "source_location": null,
       "_origin": "ast",
       "id": "odoo_core_test_odoo_core_test_dio",
-      "community": 13,
-      "community_name": "Core Utilities & Helpers",
+      "community": 9,
+      "community_name": "Type Resolver & Analyzer Helpers",
       "norm_label": "dio"
     },
     {
@@ -3145,8 +3673,8 @@
       "source_location": null,
       "_origin": "ast",
       "id": "odoo_core_test_odoo_core_test_sessioncookie",
-      "community": 13,
-      "community_name": "Core Utilities & Helpers",
+      "community": 9,
+      "community_name": "Type Resolver & Analyzer Helpers",
       "norm_label": "sessioncookie"
     },
     {
@@ -3156,8 +3684,8 @@
       "source_location": null,
       "_origin": "ast",
       "id": "odoo_core_test_odoo_core_test_callkwraw",
-      "community": 13,
-      "community_name": "Core Utilities & Helpers",
+      "community": 9,
+      "community_name": "Type Resolver & Analyzer Helpers",
       "norm_label": "callkwraw"
     },
     {
@@ -3167,8 +3695,8 @@
       "source_location": null,
       "_origin": "ast",
       "id": "odoo_core_test_odoo_core_test_buildrunbotclient",
-      "community": 13,
-      "community_name": "Core Utilities & Helpers",
+      "community": 9,
+      "community_name": "Type Resolver & Analyzer Helpers",
       "norm_label": "_buildrunbotclient"
     },
     {
@@ -3178,8 +3706,8 @@
       "source_location": null,
       "_origin": "ast",
       "id": "odoo_core_test_odoo_core_test_main",
-      "community": 13,
-      "community_name": "Core Utilities & Helpers",
+      "community": 9,
+      "community_name": "Type Resolver & Analyzer Helpers",
       "norm_label": "main"
     },
     {
@@ -3200,8 +3728,8 @@
       "source_location": null,
       "_origin": "ast",
       "id": "example_runbot_models_dart",
-      "community": 13,
-      "community_name": "Core Utilities & Helpers",
+      "community": 9,
+      "community_name": "Type Resolver & Analyzer Helpers",
       "norm_label": "../example/runbot_models.dart"
     },
     {
@@ -3211,8 +3739,8 @@
       "source_location": null,
       "_origin": "ast",
       "id": "stateerror",
-      "community": 13,
-      "community_name": "Core Utilities & Helpers",
+      "community": 9,
+      "community_name": "Type Resolver & Analyzer Helpers",
       "norm_label": "stateerror"
     },
     {
@@ -3233,8 +3761,8 @@
       "source_location": null,
       "_origin": "ast",
       "id": "odoo_generator_example_odoo_generator_example_category",
-      "community": 11,
-      "community_name": "OdooModel",
+      "community": 0,
+      "community_name": "Generator Examples & Tests",
       "norm_label": "category"
     },
     {
@@ -3244,8 +3772,8 @@
       "source_location": null,
       "_origin": "ast",
       "id": "odoo_generator_example_odoo_generator_example_tag",
-      "community": 11,
-      "community_name": "OdooModel",
+      "community": 0,
+      "community_name": "Generator Examples & Tests",
       "norm_label": "tag"
     },
     {
@@ -3255,8 +3783,8 @@
       "source_location": null,
       "_origin": "ast",
       "id": "odoo_generator_example_odoo_generator_example_product",
-      "community": 11,
-      "community_name": "OdooModel",
+      "community": 0,
+      "community_name": "Generator Examples & Tests",
       "norm_label": "product"
     },
     {
@@ -3266,8 +3794,8 @@
       "source_location": null,
       "_origin": "ast",
       "id": "odoo_generator_example_odoo_generator_example_productline",
-      "community": 11,
-      "community_name": "OdooModel",
+      "community": 0,
+      "community_name": "Generator Examples & Tests",
       "norm_label": "productline"
     },
     {
@@ -3277,8 +3805,8 @@
       "source_location": null,
       "_origin": "ast",
       "id": "odoo_generator_example_odoo_generator_example_order",
-      "community": 11,
-      "community_name": "OdooModel",
+      "community": 0,
+      "community_name": "Generator Examples & Tests",
       "norm_label": "order"
     },
     {
@@ -3706,8 +4234,8 @@
       "source_location": null,
       "_origin": "ast",
       "id": "odoo_generator_lib_src_odoo_generator_base_odoomodelgenerator",
-      "community": 6,
-      "community_name": "Realtime WebSocket Client",
+      "community": 0,
+      "community_name": "Generator Examples & Tests",
       "norm_label": "odoomodelgenerator"
     },
     {
@@ -3717,8 +4245,8 @@
       "source_location": null,
       "_origin": "ast",
       "id": "generatorforannotation",
-      "community": 6,
-      "community_name": "Realtime WebSocket Client",
+      "community": 0,
+      "community_name": "Generator Examples & Tests",
       "norm_label": "generatorforannotation"
     },
     {
@@ -3863,6 +4391,17 @@
       "community": 6,
       "community_name": "Realtime WebSocket Client",
       "norm_label": "_resolvetype"
+    },
+    {
+      "label": "_cleanTypeName",
+      "file_type": "code",
+      "source_file": "odoo_generator/lib/src/odoo_generator_base.dart",
+      "source_location": null,
+      "_origin": "ast",
+      "id": "odoo_generator_lib_src_odoo_generator_base_cleantypename",
+      "community": 6,
+      "community_name": "Realtime WebSocket Client",
+      "norm_label": "_cleantypename"
     },
     {
       "label": "_buildFromJsonExpression",
@@ -4140,15 +4679,15 @@
       "norm_label": "changelog"
     },
     {
-      "label": "[2.3.0] - 2026-08-02",
+      "label": "[2.4.0] - 2026-10-22",
       "file_type": "document",
       "source_file": "odoo_core/CHANGELOG.md",
       "source_location": "L5",
       "_origin": "ast",
-      "id": "odoo_core_changelog_2_3_0_2026_08_02",
+      "id": "odoo_core_changelog_2_4_0_2026_10_22",
       "community": 17,
       "community_name": "Changelog",
-      "norm_label": "[2.3.0] - 2026-08-02"
+      "norm_label": "[2.4.0] - 2026-10-22"
     },
     {
       "label": "Added",
@@ -4162,10 +4701,54 @@
       "norm_label": "added"
     },
     {
+      "label": "Changed",
+      "file_type": "document",
+      "source_file": "odoo_core/CHANGELOG.md",
+      "source_location": "L15",
+      "_origin": "ast",
+      "id": "odoo_core_changelog_changed",
+      "community": 17,
+      "community_name": "Changelog",
+      "norm_label": "changed"
+    },
+    {
+      "label": "Fixed",
+      "file_type": "document",
+      "source_file": "odoo_core/CHANGELOG.md",
+      "source_location": "L20",
+      "_origin": "ast",
+      "id": "odoo_core_changelog_fixed",
+      "community": 17,
+      "community_name": "Changelog",
+      "norm_label": "fixed"
+    },
+    {
+      "label": "[2.3.0] - 2026-08-02",
+      "file_type": "document",
+      "source_file": "odoo_core/CHANGELOG.md",
+      "source_location": "L23",
+      "_origin": "ast",
+      "id": "odoo_core_changelog_2_3_0_2026_08_02",
+      "community": 17,
+      "community_name": "Changelog",
+      "norm_label": "[2.3.0] - 2026-08-02"
+    },
+    {
+      "label": "Added",
+      "file_type": "document",
+      "source_file": "odoo_core/CHANGELOG.md",
+      "source_location": "L24",
+      "_origin": "ast",
+      "id": "odoo_core_changelog_added_24",
+      "community": 17,
+      "community_name": "Changelog",
+      "norm_label": "added"
+    },
+    {
       "label": "[2.2.0] - 2026-04-15",
       "file_type": "document",
       "source_file": "odoo_core/CHANGELOG.md",
-      "source_location": "L10",
+      "source_location": "L28",
       "_origin": "ast",
       "id": "odoo_core_changelog_2_2_0_2026_04_15",
       "community": 17,
@@ -4176,9 +4759,9 @@
       "label": "Added",
       "file_type": "document",
       "source_file": "odoo_core/CHANGELOG.md",
-      "source_location": "L11",
+      "source_location": "L29",
       "_origin": "ast",
-      "id": "odoo_core_changelog_added_11",
+      "id": "odoo_core_changelog_added_29",
       "community": 17,
       "community_name": "Changelog",
       "norm_label": "added"
@@ -4187,9 +4770,9 @@
       "label": "Changed",
       "file_type": "document",
       "source_file": "odoo_core/CHANGELOG.md",
-      "source_location": "L27",
+      "source_location": "L45",
       "_origin": "ast",
-      "id": "odoo_core_changelog_changed",
+      "id": "odoo_core_changelog_changed_45",
       "community": 17,
       "community_name": "Changelog",
       "norm_label": "changed"
@@ -4198,7 +4781,7 @@
       "label": "[2.1.1] - 2026-04-13",
       "file_type": "document",
       "source_file": "odoo_core/CHANGELOG.md",
-      "source_location": "L30",
+      "source_location": "L48",
       "_origin": "ast",
       "id": "odoo_core_changelog_2_1_1_2026_04_13",
       "community": 17,
@@ -4209,9 +4792,9 @@
       "label": "Changed",
       "file_type": "document",
       "source_file": "odoo_core/CHANGELOG.md",
-      "source_location": "L31",
+      "source_location": "L49",
       "_origin": "ast",
-      "id": "odoo_core_changelog_changed_31",
+      "id": "odoo_core_changelog_changed_49",
       "community": 17,
       "community_name": "Changelog",
       "norm_label": "changed"
@@ -4220,7 +4803,7 @@
       "label": "[2.1.0] - 2026-04-13",
       "file_type": "document",
       "source_file": "odoo_core/CHANGELOG.md",
-      "source_location": "L34",
+      "source_location": "L52",
       "_origin": "ast",
       "id": "odoo_core_changelog_2_1_0_2026_04_13",
       "community": 17,
@@ -4231,100 +4814,12 @@
       "label": "Added",
       "file_type": "document",
       "source_file": "odoo_core/CHANGELOG.md",
-      "source_location": "L35",
+      "source_location": "L53",
       "_origin": "ast",
-      "id": "odoo_core_changelog_added_35",
+      "id": "odoo_core_changelog_added_53",
       "community": 17,
       "community_name": "Changelog",
       "norm_label": "added"
-    },
-    {
-      "label": "Changed",
-      "file_type": "document",
-      "source_file": "odoo_core/CHANGELOG.md",
-      "source_location": "L38",
-      "_origin": "ast",
-      "id": "odoo_core_changelog_changed_38",
-      "community": 17,
-      "community_name": "Changelog",
-      "norm_label": "changed"
-    },
-    {
-      "label": "[2.0.4] - 2026-04-11",
-      "file_type": "document",
-      "source_file": "odoo_core/CHANGELOG.md",
-      "source_location": "L41",
-      "_origin": "ast",
-      "id": "odoo_core_changelog_2_0_4_2026_04_11",
-      "community": 17,
-      "community_name": "Changelog",
-      "norm_label": "[2.0.4] - 2026-04-11"
-    },
-    {
-      "label": "Added",
-      "file_type": "document",
-      "source_file": "odoo_core/CHANGELOG.md",
-      "source_location": "L42",
-      "_origin": "ast",
-      "id": "odoo_core_changelog_added_42",
-      "community": 17,
-      "community_name": "Changelog",
-      "norm_label": "added"
-    },
-    {
-      "label": "Changed",
-      "file_type": "document",
-      "source_file": "odoo_core/CHANGELOG.md",
-      "source_location": "L44",
-      "_origin": "ast",
-      "id": "odoo_core_changelog_changed_44",
-      "community": 17,
-      "community_name": "Changelog",
-      "norm_label": "changed"
-    },
-    {
-      "label": "[2.0.3] - 2026-04-11",
-      "file_type": "document",
-      "source_file": "odoo_core/CHANGELOG.md",
-      "source_location": "L48",
-      "_origin": "ast",
-      "id": "odoo_core_changelog_2_0_3_2026_04_11",
-      "community": 17,
-      "community_name": "Changelog",
-      "norm_label": "[2.0.3] - 2026-04-11"
-    },
-    {
-      "label": "Added",
-      "file_type": "document",
-      "source_file": "odoo_core/CHANGELOG.md",
-      "source_location": "L49",
-      "_origin": "ast",
-      "id": "odoo_core_changelog_added_49",
-      "community": 17,
-      "community_name": "Changelog",
-      "norm_label": "added"
-    },
-    {
-      "label": "Fixed",
-      "file_type": "document",
-      "source_file": "odoo_core/CHANGELOG.md",
-      "source_location": "L51",
-      "_origin": "ast",
-      "id": "odoo_core_changelog_fixed",
-      "community": 17,
-      "community_name": "Changelog",
-      "norm_label": "fixed"
-    },
-    {
-      "label": "[2.0.2] - 2026-04-11",
-      "file_type": "document",
-      "source_file": "odoo_core/CHANGELOG.md",
-      "source_location": "L55",
-      "_origin": "ast",
-      "id": "odoo_core_changelog_2_0_2_2026_04_11",
-      "community": 17,
-      "community_name": "Changelog",
-      "norm_label": "[2.0.2] - 2026-04-11"
     },
     {
       "label": "Changed",
@@ -4338,10 +4833,98 @@
       "norm_label": "changed"
     },
     {
-      "label": "[2.0.1] - 2026-04-11",
+      "label": "[2.0.4] - 2026-04-11",
       "file_type": "document",
       "source_file": "odoo_core/CHANGELOG.md",
       "source_location": "L59",
+      "_origin": "ast",
+      "id": "odoo_core_changelog_2_0_4_2026_04_11",
+      "community": 17,
+      "community_name": "Changelog",
+      "norm_label": "[2.0.4] - 2026-04-11"
+    },
+    {
+      "label": "Added",
+      "file_type": "document",
+      "source_file": "odoo_core/CHANGELOG.md",
+      "source_location": "L60",
+      "_origin": "ast",
+      "id": "odoo_core_changelog_added_60",
+      "community": 17,
+      "community_name": "Changelog",
+      "norm_label": "added"
+    },
+    {
+      "label": "Changed",
+      "file_type": "document",
+      "source_file": "odoo_core/CHANGELOG.md",
+      "source_location": "L62",
+      "_origin": "ast",
+      "id": "odoo_core_changelog_changed_62",
+      "community": 17,
+      "community_name": "Changelog",
+      "norm_label": "changed"
+    },
+    {
+      "label": "[2.0.3] - 2026-04-11",
+      "file_type": "document",
+      "source_file": "odoo_core/CHANGELOG.md",
+      "source_location": "L66",
+      "_origin": "ast",
+      "id": "odoo_core_changelog_2_0_3_2026_04_11",
+      "community": 17,
+      "community_name": "Changelog",
+      "norm_label": "[2.0.3] - 2026-04-11"
+    },
+    {
+      "label": "Added",
+      "file_type": "document",
+      "source_file": "odoo_core/CHANGELOG.md",
+      "source_location": "L67",
+      "_origin": "ast",
+      "id": "odoo_core_changelog_added_67",
+      "community": 17,
+      "community_name": "Changelog",
+      "norm_label": "added"
+    },
+    {
+      "label": "Fixed",
+      "file_type": "document",
+      "source_file": "odoo_core/CHANGELOG.md",
+      "source_location": "L69",
+      "_origin": "ast",
+      "id": "odoo_core_changelog_fixed_69",
+      "community": 17,
+      "community_name": "Changelog",
+      "norm_label": "fixed"
+    },
+    {
+      "label": "[2.0.2] - 2026-04-11",
+      "file_type": "document",
+      "source_file": "odoo_core/CHANGELOG.md",
+      "source_location": "L73",
+      "_origin": "ast",
+      "id": "odoo_core_changelog_2_0_2_2026_04_11",
+      "community": 17,
+      "community_name": "Changelog",
+      "norm_label": "[2.0.2] - 2026-04-11"
+    },
+    {
+      "label": "Changed",
+      "file_type": "document",
+      "source_file": "odoo_core/CHANGELOG.md",
+      "source_location": "L74",
+      "_origin": "ast",
+      "id": "odoo_core_changelog_changed_74",
+      "community": 17,
+      "community_name": "Changelog",
+      "norm_label": "changed"
+    },
+    {
+      "label": "[2.0.1] - 2026-04-11",
+      "file_type": "document",
+      "source_file": "odoo_core/CHANGELOG.md",
+      "source_location": "L77",
       "_origin": "ast",
       "id": "odoo_core_changelog_2_0_1_2026_04_11",
       "community": 17,
@@ -4352,9 +4935,9 @@
       "label": "Changed",
       "file_type": "document",
       "source_file": "odoo_core/CHANGELOG.md",
-      "source_location": "L60",
+      "source_location": "L78",
       "_origin": "ast",
-      "id": "odoo_core_changelog_changed_60",
+      "id": "odoo_core_changelog_changed_78",
       "community": 17,
       "community_name": "Changelog",
       "norm_label": "changed"
@@ -4363,7 +4946,7 @@
       "label": "[2.0.0] - 2026-04-10",
       "file_type": "document",
       "source_file": "odoo_core/CHANGELOG.md",
-      "source_location": "L63",
+      "source_location": "L81",
       "_origin": "ast",
       "id": "odoo_core_changelog_2_0_0_2026_04_10",
       "community": 17,
@@ -4374,9 +4957,9 @@
       "label": "Added",
       "file_type": "document",
       "source_file": "odoo_core/CHANGELOG.md",
-      "source_location": "L64",
+      "source_location": "L82",
       "_origin": "ast",
-      "id": "odoo_core_changelog_added_64",
+      "id": "odoo_core_changelog_added_82",
       "community": 17,
       "community_name": "Changelog",
       "norm_label": "added"
@@ -4385,9 +4968,9 @@
       "label": "Changed",
       "file_type": "document",
       "source_file": "odoo_core/CHANGELOG.md",
-      "source_location": "L72",
+      "source_location": "L90",
       "_origin": "ast",
-      "id": "odoo_core_changelog_changed_72",
+      "id": "odoo_core_changelog_changed_90",
       "community": 17,
       "community_name": "Changelog",
       "norm_label": "changed"
@@ -4396,7 +4979,7 @@
       "label": "Removed",
       "file_type": "document",
       "source_file": "odoo_core/CHANGELOG.md",
-      "source_location": "L77",
+      "source_location": "L95",
       "_origin": "ast",
       "id": "odoo_core_changelog_removed",
       "community": 17,
@@ -4440,7 +5023,7 @@
       "label": "\ud83d\udce6 Instalaci\u00f3n",
       "file_type": "document",
       "source_file": "odoo_core/README.md",
-      "source_location": "L26",
+      "source_location": "L28",
       "_origin": "ast",
       "id": "odoo_core_readme_instalaci\u00f3n",
       "community": 16,
@@ -4451,7 +5034,7 @@
       "label": "\ud83d\udee0\ufe0f 1. Inicializaci\u00f3n del Cliente",
       "file_type": "document",
       "source_file": "odoo_core/README.md",
-      "source_location": "L38",
+      "source_location": "L40",
       "_origin": "ast",
       "id": "odoo_core_readme_1_inicializaci\u00f3n_del_cliente",
       "community": 16,
@@ -4462,7 +5045,7 @@
       "label": "\ud83c\udf6a 2. OdooCookie \u2014 Parser RFC 6265",
       "file_type": "document",
       "source_file": "odoo_core/README.md",
-      "source_location": "L70",
+      "source_location": "L72",
       "_origin": "ast",
       "id": "odoo_core_readme_2_odoocookie_parser_rfc_6265",
       "community": 16,
@@ -4473,7 +5056,7 @@
       "label": "\u00bfPor qu\u00e9 no usar `dart:io Cookie`?",
       "file_type": "document",
       "source_file": "odoo_core/README.md",
-      "source_location": "L74",
+      "source_location": "L76",
       "_origin": "ast",
       "id": "odoo_core_readme_por_qu\u00e9_no_usar_dart_io_cookie",
       "community": 16,
@@ -4484,7 +5067,7 @@
       "label": "Casos de uso",
       "file_type": "document",
       "source_file": "odoo_core/README.md",
-      "source_location": "L78",
+      "source_location": "L80",
       "_origin": "ast",
       "id": "odoo_core_readme_casos_de_uso",
       "community": 16,
@@ -4495,7 +5078,7 @@
       "label": "Extraer `session_id` autom\u00e1ticamente de una respuesta Dio",
       "file_type": "document",
       "source_file": "odoo_core/README.md",
-      "source_location": "L80",
+      "source_location": "L82",
       "_origin": "ast",
       "id": "odoo_core_readme_extraer_session_id_autom\u00e1ticamente_de_una_respuesta_dio",
       "community": 16,
@@ -4506,7 +5089,7 @@
       "label": "Parsear un header `Set-Cookie` completo",
       "file_type": "document",
       "source_file": "odoo_core/README.md",
-      "source_location": "L95",
+      "source_location": "L97",
       "_origin": "ast",
       "id": "odoo_core_readme_parsear_un_header_set_cookie_completo",
       "community": 16,
@@ -4517,7 +5100,7 @@
       "label": "Crear una cookie para enviarla en la cabecera `Cookie`",
       "file_type": "document",
       "source_file": "odoo_core/README.md",
-      "source_location": "L108",
+      "source_location": "L110",
       "_origin": "ast",
       "id": "odoo_core_readme_crear_una_cookie_para_enviarla_en_la_cabecera_cookie",
       "community": 16,
@@ -4528,7 +5111,7 @@
       "label": "Parsear m\u00faltiples `Set-Cookie` headers",
       "file_type": "document",
       "source_file": "odoo_core/README.md",
-      "source_location": "L118",
+      "source_location": "L120",
       "_origin": "ast",
       "id": "odoo_core_readme_parsear_m\u00faltiples_set_cookie_headers",
       "community": 16,
@@ -4539,7 +5122,7 @@
       "label": "Uso junto a `OdooRealtimeClient`",
       "file_type": "document",
       "source_file": "odoo_core/README.md",
-      "source_location": "L141",
+      "source_location": "L143",
       "_origin": "ast",
       "id": "odoo_core_readme_uso_junto_a_odoorealtimeclient",
       "community": 16,
@@ -4550,7 +5133,7 @@
       "label": "Manejo de cookies malformadas",
       "file_type": "document",
       "source_file": "odoo_core/README.md",
-      "source_location": "L155",
+      "source_location": "L157",
       "_origin": "ast",
       "id": "odoo_core_readme_manejo_de_cookies_malformadas",
       "community": 16,
@@ -4561,7 +5144,7 @@
       "label": "API completa",
       "file_type": "document",
       "source_file": "odoo_core/README.md",
-      "source_location": "L169",
+      "source_location": "L171",
       "_origin": "ast",
       "id": "odoo_core_readme_api_completa",
       "community": 16,
@@ -4572,7 +5155,7 @@
       "label": "\ud83d\udd10 3. Autenticaci\u00f3n con `OdooSession`",
       "file_type": "document",
       "source_file": "odoo_core/README.md",
-      "source_location": "L188",
+      "source_location": "L190",
       "_origin": "ast",
       "id": "odoo_core_readme_3_autenticaci\u00f3n_con_odoosession",
       "community": 16,
@@ -4583,7 +5166,7 @@
       "label": "Autenticaci\u00f3n b\u00e1sica",
       "file_type": "document",
       "source_file": "odoo_core/README.md",
-      "source_location": "L190",
+      "source_location": "L192",
       "_origin": "ast",
       "id": "odoo_core_readme_autenticaci\u00f3n_b\u00e1sica",
       "community": 16,
@@ -4594,7 +5177,7 @@
       "label": "Persistir y restaurar sesi\u00f3n",
       "file_type": "document",
       "source_file": "odoo_core/README.md",
-      "source_location": "L215",
+      "source_location": "L217",
       "_origin": "ast",
       "id": "odoo_core_readme_persistir_y_restaurar_sesi\u00f3n",
       "community": 16,
@@ -4605,7 +5188,7 @@
       "label": "Verificar sesi\u00f3n activa al arrancar",
       "file_type": "document",
       "source_file": "odoo_core/README.md",
-      "source_location": "L231",
+      "source_location": "L233",
       "_origin": "ast",
       "id": "odoo_core_readme_verificar_sesi\u00f3n_activa_al_arrancar",
       "community": 16,
@@ -4616,7 +5199,7 @@
       "label": "Cerrar sesi\u00f3n",
       "file_type": "document",
       "source_file": "odoo_core/README.md",
-      "source_location": "L242",
+      "source_location": "L244",
       "_origin": "ast",
       "id": "odoo_core_readme_cerrar_sesi\u00f3n",
       "community": 16,
@@ -4627,7 +5210,7 @@
       "label": "\u23f3 4. Indicador de Carga Global (`inRequestStream`)",
       "file_type": "document",
       "source_file": "odoo_core/README.md",
-      "source_location": "L254",
+      "source_location": "L256",
       "_origin": "ast",
       "id": "odoo_core_readme_4_indicador_de_carga_global_inrequeststream",
       "community": 16,
@@ -4638,7 +5221,7 @@
       "label": "\ud83c\udfd7\ufe0f 5. Definici\u00f3n de Modelos con Anotaciones",
       "file_type": "document",
       "source_file": "odoo_core/README.md",
-      "source_location": "L270",
+      "source_location": "L272",
       "_origin": "ast",
       "id": "odoo_core_readme_5_definici\u00f3n_de_modelos_con_anotaciones",
       "community": 16,
@@ -4649,7 +5232,7 @@
       "label": "\ud83d\udd0d 6. Consultas y CRUD",
       "file_type": "document",
       "source_file": "odoo_core/README.md",
-      "source_location": "L305",
+      "source_location": "L307",
       "_origin": "ast",
       "id": "odoo_core_readme_6_consultas_y_crud",
       "community": 16,
@@ -4660,7 +5243,7 @@
       "label": "\u2699\ufe0f 7. Llamar M\u00e9todos de Negocio (`callMethod`)",
       "file_type": "document",
       "source_file": "odoo_core/README.md",
-      "source_location": "L346",
+      "source_location": "L348",
       "_origin": "ast",
       "id": "odoo_core_readme_7_llamar_m\u00e9todos_de_negocio_callmethod",
       "community": 16,
@@ -4671,7 +5254,7 @@
       "label": "\ud83d\udcca 8. Selecci\u00f3n Din\u00e1mica de Campos (Specification)",
       "file_type": "document",
       "source_file": "odoo_core/README.md",
-      "source_location": "L371",
+      "source_location": "L373",
       "_origin": "ast",
       "id": "odoo_core_readme_8_selecci\u00f3n_din\u00e1mica_de_campos_specification",
       "community": 16,
@@ -4682,7 +5265,7 @@
       "label": "\ud83d\udce1 9. Realtime con WebSockets",
       "file_type": "document",
       "source_file": "odoo_core/README.md",
-      "source_location": "L394",
+      "source_location": "L396",
       "_origin": "ast",
       "id": "odoo_core_readme_9_realtime_con_websockets",
       "community": 16,
@@ -4693,7 +5276,7 @@
       "label": "Conexi\u00f3n manual (sin `OdooRpcService`)",
       "file_type": "document",
       "source_file": "odoo_core/README.md",
-      "source_location": "L434",
+      "source_location": "L436",
       "_origin": "ast",
       "id": "odoo_core_readme_conexi\u00f3n_manual_sin_odoorpcservice",
       "community": 16,
@@ -4704,7 +5287,7 @@
       "label": "\ud83d\udea8 10. Manejo de Excepciones",
       "file_type": "document",
       "source_file": "odoo_core/README.md",
-      "source_location": "L449",
+      "source_location": "L451",
       "_origin": "ast",
       "id": "odoo_core_readme_10_manejo_de_excepciones",
       "community": 16,
@@ -4715,7 +5298,7 @@
       "label": "\ud83e\uddea 11. Testing con Mocks",
       "file_type": "document",
       "source_file": "odoo_core/README.md",
-      "source_location": "L472",
+      "source_location": "L474",
       "_origin": "ast",
       "id": "odoo_core_readme_11_testing_con_mocks",
       "community": 16,
@@ -4726,7 +5309,7 @@
       "label": "\ud83c\udfaf Buenas Pr\u00e1cticas",
       "file_type": "document",
       "source_file": "odoo_core/README.md",
-      "source_location": "L518",
+      "source_location": "L520",
       "_origin": "ast",
       "id": "odoo_core_readme_buenas_pr\u00e1cticas",
       "community": 16,
@@ -4737,7 +5320,7 @@
       "label": "\ud83d\udcc1 Estructura del Paquete",
       "file_type": "document",
       "source_file": "odoo_core/README.md",
-      "source_location": "L530",
+      "source_location": "L532",
       "_origin": "ast",
       "id": "odoo_core_readme_estructura_del_paquete",
       "community": 16,
@@ -4756,21 +5339,54 @@
       "norm_label": "changelog.md"
     },
     {
-      "label": "2.3.0",
+      "label": "Changelog",
       "file_type": "document",
       "source_file": "odoo_generator/CHANGELOG.md",
       "source_location": "L1",
       "_origin": "ast",
-      "id": "odoo_generator_changelog_2_3_0",
+      "id": "odoo_generator_changelog_changelog",
       "community": 19,
       "community_name": "CHANGELOG.md",
-      "norm_label": "2.3.0"
+      "norm_label": "changelog"
+    },
+    {
+      "label": "[2.4.0] - 2026-10-22",
+      "file_type": "document",
+      "source_file": "odoo_generator/CHANGELOG.md",
+      "source_location": "L3",
+      "_origin": "ast",
+      "id": "odoo_generator_changelog_2_4_0_2026_10_22",
+      "community": 19,
+      "community_name": "CHANGELOG.md",
+      "norm_label": "[2.4.0] - 2026-10-22"
+    },
+    {
+      "label": "Changed",
+      "file_type": "document",
+      "source_file": "odoo_generator/CHANGELOG.md",
+      "source_location": "L4",
+      "_origin": "ast",
+      "id": "odoo_generator_changelog_changed",
+      "community": 19,
+      "community_name": "CHANGELOG.md",
+      "norm_label": "changed"
+    },
+    {
+      "label": "[2.3.0] - 2026-08-02",
+      "file_type": "document",
+      "source_file": "odoo_generator/CHANGELOG.md",
+      "source_location": "L9",
+      "_origin": "ast",
+      "id": "odoo_generator_changelog_2_3_0_2026_08_02",
+      "community": 19,
+      "community_name": "CHANGELOG.md",
+      "norm_label": "[2.3.0] - 2026-08-02"
     },
     {
       "label": "2.2.0",
       "file_type": "document",
       "source_file": "odoo_generator/CHANGELOG.md",
-      "source_location": "L5",
+      "source_location": "L13",
       "_origin": "ast",
       "id": "odoo_generator_changelog_2_2_0",
       "community": 19,
@@ -4781,7 +5397,7 @@
       "label": "2.1.1",
       "file_type": "document",
       "source_file": "odoo_generator/CHANGELOG.md",
-      "source_location": "L9",
+      "source_location": "L17",
       "_origin": "ast",
       "id": "odoo_generator_changelog_2_1_1",
       "community": 19,
@@ -4792,7 +5408,7 @@
       "label": "2.1.0",
       "file_type": "document",
       "source_file": "odoo_generator/CHANGELOG.md",
-      "source_location": "L13",
+      "source_location": "L21",
       "_origin": "ast",
       "id": "odoo_generator_changelog_2_1_0",
       "community": 19,
@@ -4803,7 +5419,7 @@
       "label": "2.0.4",
       "file_type": "document",
       "source_file": "odoo_generator/CHANGELOG.md",
-      "source_location": "L19",
+      "source_location": "L27",
       "_origin": "ast",
       "id": "odoo_generator_changelog_2_0_4",
       "community": 19,
@@ -4814,7 +5430,7 @@
       "label": "2.0.3",
       "file_type": "document",
       "source_file": "odoo_generator/CHANGELOG.md",
-      "source_location": "L24",
+      "source_location": "L32",
       "_origin": "ast",
       "id": "odoo_generator_changelog_2_0_3",
       "community": 19,
@@ -4825,7 +5441,7 @@
       "label": "2.0.2",
       "file_type": "document",
       "source_file": "odoo_generator/CHANGELOG.md",
-      "source_location": "L28",
+      "source_location": "L36",
       "_origin": "ast",
       "id": "odoo_generator_changelog_2_0_2",
       "community": 19,
@@ -4836,7 +5452,7 @@
       "label": "2.0.1",
       "file_type": "document",
       "source_file": "odoo_generator/CHANGELOG.md",
-      "source_location": "L32",
+      "source_location": "L40",
       "_origin": "ast",
       "id": "odoo_generator_changelog_2_0_1",
       "community": 19,
@@ -4847,7 +5463,7 @@
       "label": "2.0.0",
       "file_type": "document",
       "source_file": "odoo_generator/CHANGELOG.md",
-      "source_location": "L37",
+      "source_location": "L45",
       "_origin": "ast",
       "id": "odoo_generator_changelog_2_0_0",
       "community": 19,
@@ -5558,6 +6174,17 @@
       "_origin": "ast",
       "source": "odoo_core_example_odoo_realtime_example",
       "target": "package_odoo_core_src_network_client_odoo_rpc_service_dart"
+    },
+    {
+      "relation": "imports",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "odoo_core/test/odoo_core_test.dart",
+      "source_location": null,
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "odoo_core_test_odoo_core_test",
+      "target": "dart_io"
     },
     {
       "relation": "imports",
@@ -6463,6 +7090,17 @@
       "weight": 1.0,
       "_origin": "ast",
       "source": "odoo_core_lib_odoo_core",
+      "target": "src_network_model_odoo_session_store_dart"
+    },
+    {
+      "relation": "exports",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "odoo_core/lib/odoo_core.dart",
+      "source_location": null,
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "odoo_core_lib_odoo_core",
       "target": "src_network_odoo_cookie_dart"
     },
     {
@@ -6843,6 +7481,29 @@
       "target": "exceptions_odoo_exception_dart"
     },
     {
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "odoo_core/lib/src/network/client/odoo_rpc_service.dart",
+      "source_location": null,
+      "weight": 1.0,
+      "context": "variable_type",
+      "_origin": "ast",
+      "source": "odoo_core_lib_src_network_client_odoo_rpc_service",
+      "target": "int_get"
+    },
+    {
+      "relation": "imports",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "odoo_core/lib/src/network/client/odoo_rpc_service.dart",
+      "source_location": null,
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "odoo_core_lib_src_network_client_odoo_rpc_service",
+      "target": "model_odoo_session_store_dart"
+    },
+    {
       "relation": "imports",
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
@@ -6852,6 +7513,17 @@
       "_origin": "ast",
       "source": "odoo_core_lib_src_network_client_odoo_rpc_service",
       "target": "odoo_base_dart"
+    },
+    {
+      "relation": "defines",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "odoo_core/lib/src/network/client/odoo_rpc_service.dart",
+      "source_location": null,
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "odoo_core_lib_src_network_client_odoo_rpc_service",
+      "target": "odoo_core_lib_src_network_client_odoo_rpc_service_activerequestscount"
     },
     {
       "relation": "defines",
@@ -7038,7 +7710,40 @@
       "weight": 1.0,
       "_origin": "ast",
       "source": "odoo_core_lib_src_network_client_odoo_rpc_service",
+      "target": "odoo_core_lib_src_network_client_odoo_rpc_service_restoresession"
+    },
+    {
+      "relation": "defines",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "odoo_core/lib/src/network/client/odoo_rpc_service.dart",
+      "source_location": null,
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "odoo_core_lib_src_network_client_odoo_rpc_service",
+      "target": "odoo_core_lib_src_network_client_odoo_rpc_service_sessionstore"
+    },
+    {
+      "relation": "defines",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "odoo_core/lib/src/network/client/odoo_rpc_service.dart",
+      "source_location": null,
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "odoo_core_lib_src_network_client_odoo_rpc_service",
       "target": "odoo_core_lib_src_network_client_odoo_rpc_service_setbaseurl"
+    },
+    {
+      "relation": "defines",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "odoo_core/lib/src/network/client/odoo_rpc_service.dart",
+      "source_location": null,
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "odoo_core_lib_src_network_client_odoo_rpc_service",
+      "target": "odoo_core_lib_src_network_client_odoo_rpc_service_standalone"
     },
     {
       "relation": "defines",
@@ -7095,6 +7800,18 @@
       "context": "variable_type",
       "_origin": "ast",
       "source": "odoo_core_lib_src_network_client_odoo_rpc_service",
+      "target": "odoo_core_lib_src_network_model_odoo_session_store_odoosessionstore"
+    },
+    {
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "odoo_core/lib/src/network/client/odoo_rpc_service.dart",
+      "source_location": null,
+      "weight": 1.0,
+      "context": "variable_type",
+      "_origin": "ast",
+      "source": "odoo_core_lib_src_network_client_odoo_rpc_service",
       "target": "odoo_core_lib_src_network_params_odoo_rpc_params_usercontext"
     },
     {
@@ -7119,6 +7836,18 @@
       "_origin": "ast",
       "source": "odoo_core_lib_src_network_client_odoo_rpc_service",
       "target": "odoosession_get"
+    },
+    {
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "odoo_core/lib/src/network/client/odoo_rpc_service.dart",
+      "source_location": null,
+      "weight": 1.0,
+      "context": "variable_type",
+      "_origin": "ast",
+      "source": "odoo_core_lib_src_network_client_odoo_rpc_service",
+      "target": "odoosessionstore_get"
     },
     {
       "relation": "imports",
@@ -7199,6 +7928,30 @@
       "_origin": "ast",
       "source": "odoo_core_lib_src_network_client_odoo_rpc_service_odoorpcservice",
       "target": "odoo_core_lib_src_odoo_base_odooclient"
+    },
+    {
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "odoo_core/lib/src/network/model/odoo_session.dart",
+      "source_location": null,
+      "weight": 1.0,
+      "context": "variable_type",
+      "_origin": "ast",
+      "source": "odoo_core_lib_src_network_model_odoo_session",
+      "target": "int_get"
+    },
+    {
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "odoo_core/lib/src/odoo_base.dart",
+      "source_location": null,
+      "weight": 1.0,
+      "context": "variable_type",
+      "_origin": "ast",
+      "source": "odoo_core_lib_src_odoo_base",
+      "target": "int_get"
     },
     {
       "relation": "imports",
@@ -7910,18 +8663,6 @@
       "target": "odoo_core_lib_src_network_model_odoo_annotation_odoomodel"
     },
     {
-      "relation": "references",
-      "confidence": "EXTRACTED",
-      "confidence_score": 1.0,
-      "source_file": "odoo_core/lib/src/network/model/odoo_session.dart",
-      "source_location": null,
-      "weight": 1.0,
-      "context": "variable_type",
-      "_origin": "ast",
-      "source": "odoo_core_lib_src_network_model_odoo_session",
-      "target": "int_get"
-    },
-    {
       "relation": "defines",
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
@@ -8019,6 +8760,17 @@
       "_origin": "ast",
       "source": "odoo_core_lib_src_network_model_odoo_session",
       "target": "odoo_core_lib_src_network_model_odoo_session_id"
+    },
+    {
+      "relation": "defines",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "odoo_core/lib/src/network/model/odoo_session.dart",
+      "source_location": null,
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "odoo_core_lib_src_network_model_odoo_session",
+      "target": "odoo_core_lib_src_network_model_odoo_session_isatleastv18"
     },
     {
       "relation": "defines",
@@ -8217,6 +8969,106 @@
       "_origin": "ast",
       "source": "odoo_core_lib_src_network_model_odoo_session",
       "target": "odoo_core_lib_src_network_model_odoo_session_websocketworkerversion"
+    },
+    {
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "odoo_core/lib/src/network/model/odoo_session_store.dart",
+      "source_location": null,
+      "weight": 1.0,
+      "context": "variable_type",
+      "_origin": "ast",
+      "source": "odoo_core_lib_src_network_model_odoo_session_store",
+      "target": "odoo_core_lib_src_network_model_odoo_session_odoosession"
+    },
+    {
+      "relation": "defines",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "odoo_core/lib/src/network/model/odoo_session_store.dart",
+      "source_location": null,
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "odoo_core_lib_src_network_model_odoo_session_store",
+      "target": "odoo_core_lib_src_network_model_odoo_session_store_clear"
+    },
+    {
+      "relation": "defines",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "odoo_core/lib/src/network/model/odoo_session_store.dart",
+      "source_location": null,
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "odoo_core_lib_src_network_model_odoo_session_store",
+      "target": "odoo_core_lib_src_network_model_odoo_session_store_inmemorysessionstore"
+    },
+    {
+      "relation": "defines",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "odoo_core/lib/src/network/model/odoo_session_store.dart",
+      "source_location": null,
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "odoo_core_lib_src_network_model_odoo_session_store",
+      "target": "odoo_core_lib_src_network_model_odoo_session_store_odoosessionstore"
+    },
+    {
+      "relation": "defines",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "odoo_core/lib/src/network/model/odoo_session_store.dart",
+      "source_location": null,
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "odoo_core_lib_src_network_model_odoo_session_store",
+      "target": "odoo_core_lib_src_network_model_odoo_session_store_read"
+    },
+    {
+      "relation": "defines",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "odoo_core/lib/src/network/model/odoo_session_store.dart",
+      "source_location": null,
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "odoo_core_lib_src_network_model_odoo_session_store",
+      "target": "odoo_core_lib_src_network_model_odoo_session_store_save"
+    },
+    {
+      "relation": "defines",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "odoo_core/lib/src/network/model/odoo_session_store.dart",
+      "source_location": null,
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "odoo_core_lib_src_network_model_odoo_session_store",
+      "target": "odoo_core_lib_src_network_model_odoo_session_store_session"
+    },
+    {
+      "relation": "imports",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "odoo_core/lib/src/network/model/odoo_session_store.dart",
+      "source_location": null,
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "odoo_core_lib_src_network_model_odoo_session_store",
+      "target": "odoo_session_dart"
+    },
+    {
+      "relation": "implements",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "odoo_core/lib/src/network/model/odoo_session_store.dart",
+      "source_location": null,
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "odoo_core_lib_src_network_model_odoo_session_store_inmemorysessionstore",
+      "target": "odoo_core_lib_src_network_model_odoo_session_store_odoosessionstore"
     },
     {
       "relation": "defines",
@@ -8756,7 +9608,51 @@
       "weight": 1.0,
       "_origin": "ast",
       "source": "odoo_core_lib_src_odoo_base",
+      "target": "odoo_core_lib_src_odoo_base_clear"
+    },
+    {
+      "relation": "defines",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "odoo_core/lib/src/odoo_base.dart",
+      "source_location": null,
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "odoo_core_lib_src_odoo_base",
+      "target": "odoo_core_lib_src_odoo_base_clearcode"
+    },
+    {
+      "relation": "defines",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "odoo_core/lib/src/odoo_base.dart",
+      "source_location": null,
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "odoo_core_lib_src_odoo_base",
+      "target": "odoo_core_lib_src_odoo_base_clearrecords"
+    },
+    {
+      "relation": "defines",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "odoo_core/lib/src/odoo_base.dart",
+      "source_location": null,
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "odoo_core_lib_src_odoo_base",
       "target": "odoo_core_lib_src_odoo_base_client"
+    },
+    {
+      "relation": "defines",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "odoo_core/lib/src/odoo_base.dart",
+      "source_location": null,
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "odoo_core_lib_src_odoo_base",
+      "target": "odoo_core_lib_src_odoo_base_code"
     },
     {
       "relation": "defines",
@@ -8778,7 +9674,117 @@
       "weight": 1.0,
       "_origin": "ast",
       "source": "odoo_core_lib_src_odoo_base",
+      "target": "odoo_core_lib_src_odoo_base_createcode"
+    },
+    {
+      "relation": "defines",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "odoo_core/lib/src/odoo_base.dart",
+      "source_location": null,
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "odoo_core_lib_src_odoo_base",
+      "target": "odoo_core_lib_src_odoo_base_createrecord"
+    },
+    {
+      "relation": "defines",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "odoo_core/lib/src/odoo_base.dart",
+      "source_location": null,
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "odoo_core_lib_src_odoo_base",
       "target": "odoo_core_lib_src_odoo_base_defaultspec"
+    },
+    {
+      "relation": "defines",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "odoo_core/lib/src/odoo_base.dart",
+      "source_location": null,
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "odoo_core_lib_src_odoo_base",
+      "target": "odoo_core_lib_src_odoo_base_delete"
+    },
+    {
+      "relation": "defines",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "odoo_core/lib/src/odoo_base.dart",
+      "source_location": null,
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "odoo_core_lib_src_odoo_base",
+      "target": "odoo_core_lib_src_odoo_base_deletecode"
+    },
+    {
+      "relation": "defines",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "odoo_core/lib/src/odoo_base.dart",
+      "source_location": null,
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "odoo_core_lib_src_odoo_base",
+      "target": "odoo_core_lib_src_odoo_base_deleterecord"
+    },
+    {
+      "relation": "defines",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "odoo_core/lib/src/odoo_base.dart",
+      "source_location": null,
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "odoo_core_lib_src_odoo_base",
+      "target": "odoo_core_lib_src_odoo_base_hashcode"
+    },
+    {
+      "relation": "defines",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "odoo_core/lib/src/odoo_base.dart",
+      "source_location": null,
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "odoo_core_lib_src_odoo_base",
+      "target": "odoo_core_lib_src_odoo_base_id"
+    },
+    {
+      "relation": "defines",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "odoo_core/lib/src/odoo_base.dart",
+      "source_location": null,
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "odoo_core_lib_src_odoo_base",
+      "target": "odoo_core_lib_src_odoo_base_link"
+    },
+    {
+      "relation": "defines",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "odoo_core/lib/src/odoo_base.dart",
+      "source_location": null,
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "odoo_core_lib_src_odoo_base",
+      "target": "odoo_core_lib_src_odoo_base_linkcode"
+    },
+    {
+      "relation": "defines",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "odoo_core/lib/src/odoo_base.dart",
+      "source_location": null,
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "odoo_core_lib_src_odoo_base",
+      "target": "odoo_core_lib_src_odoo_base_linkrecord"
     },
     {
       "relation": "defines",
@@ -8792,6 +9798,17 @@
       "target": "odoo_core_lib_src_odoo_base_modelname"
     },
     {
+      "relation": "defines",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "odoo_core/lib/src/odoo_base.dart",
+      "source_location": null,
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "odoo_core_lib_src_odoo_base",
+      "target": "odoo_core_lib_src_odoo_base_normalizevalues"
+    },
+    {
       "relation": "references",
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
@@ -8802,6 +9819,17 @@
       "context": "variable_type",
       "source": "odoo_core_lib_src_odoo_base",
       "target": "odoo_core_lib_src_odoo_base_odooclient"
+    },
+    {
+      "relation": "defines",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "odoo_core/lib/src/odoo_base.dart",
+      "source_location": null,
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "odoo_core_lib_src_odoo_base",
+      "target": "odoo_core_lib_src_odoo_base_odoocommand"
     },
     {
       "relation": "defines",
@@ -8836,6 +9864,17 @@
       "context": "variable_type",
       "source": "odoo_core_lib_src_odoo_base",
       "target": "odoo_core_lib_src_odoo_base_odoospec"
+    },
+    {
+      "relation": "defines",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "odoo_core/lib/src/odoo_base.dart",
+      "source_location": null,
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "odoo_core_lib_src_odoo_base",
+      "target": "odoo_core_lib_src_odoo_base_operator"
     },
     {
       "relation": "defines",
@@ -8890,6 +9929,28 @@
       "weight": 1.0,
       "_origin": "ast",
       "source": "odoo_core_lib_src_odoo_base",
+      "target": "odoo_core_lib_src_odoo_base_setcode"
+    },
+    {
+      "relation": "defines",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "odoo_core/lib/src/odoo_base.dart",
+      "source_location": null,
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "odoo_core_lib_src_odoo_base",
+      "target": "odoo_core_lib_src_odoo_base_setrecords"
+    },
+    {
+      "relation": "defines",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "odoo_core/lib/src/odoo_base.dart",
+      "source_location": null,
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "odoo_core_lib_src_odoo_base",
       "target": "odoo_core_lib_src_odoo_base_specification"
     },
     {
@@ -8912,7 +9973,117 @@
       "weight": 1.0,
       "_origin": "ast",
       "source": "odoo_core_lib_src_odoo_base",
+      "target": "odoo_core_lib_src_odoo_base_tojson"
+    },
+    {
+      "relation": "defines",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "odoo_core/lib/src/odoo_base.dart",
+      "source_location": null,
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "odoo_core_lib_src_odoo_base",
+      "target": "odoo_core_lib_src_odoo_base_tolist"
+    },
+    {
+      "relation": "defines",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "odoo_core/lib/src/odoo_base.dart",
+      "source_location": null,
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "odoo_core_lib_src_odoo_base",
+      "target": "odoo_core_lib_src_odoo_base_tostring"
+    },
+    {
+      "relation": "defines",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "odoo_core/lib/src/odoo_base.dart",
+      "source_location": null,
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "odoo_core_lib_src_odoo_base",
       "target": "odoo_core_lib_src_odoo_base_unlink"
+    },
+    {
+      "relation": "defines",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "odoo_core/lib/src/odoo_base.dart",
+      "source_location": null,
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "odoo_core_lib_src_odoo_base",
+      "target": "odoo_core_lib_src_odoo_base_unlinkcode"
+    },
+    {
+      "relation": "defines",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "odoo_core/lib/src/odoo_base.dart",
+      "source_location": null,
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "odoo_core_lib_src_odoo_base",
+      "target": "odoo_core_lib_src_odoo_base_unlinkrecord"
+    },
+    {
+      "relation": "defines",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "odoo_core/lib/src/odoo_base.dart",
+      "source_location": null,
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "odoo_core_lib_src_odoo_base",
+      "target": "odoo_core_lib_src_odoo_base_update"
+    },
+    {
+      "relation": "defines",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "odoo_core/lib/src/odoo_base.dart",
+      "source_location": null,
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "odoo_core_lib_src_odoo_base",
+      "target": "odoo_core_lib_src_odoo_base_updatecode"
+    },
+    {
+      "relation": "defines",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "odoo_core/lib/src/odoo_base.dart",
+      "source_location": null,
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "odoo_core_lib_src_odoo_base",
+      "target": "odoo_core_lib_src_odoo_base_updaterecord"
+    },
+    {
+      "relation": "defines",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "odoo_core/lib/src/odoo_base.dart",
+      "source_location": null,
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "odoo_core_lib_src_odoo_base",
+      "target": "odoo_core_lib_src_odoo_base_value"
+    },
+    {
+      "relation": "defines",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "odoo_core/lib/src/odoo_base.dart",
+      "source_location": null,
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "odoo_core_lib_src_odoo_base",
+      "target": "odoo_core_lib_src_odoo_base_webcreate"
     },
     {
       "relation": "defines",
@@ -8943,10 +10114,34 @@
       "source_file": "odoo_core/lib/src/odoo_base.dart",
       "source_location": null,
       "weight": 1.0,
+      "context": "type_lookup",
+      "_origin": "ast",
+      "source": "odoo_core_lib_src_odoo_base",
+      "target": "r"
+    },
+    {
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "odoo_core/lib/src/odoo_base.dart",
+      "source_location": null,
+      "weight": 1.0,
       "context": "variable_type",
       "_origin": "ast",
       "source": "odoo_core_lib_src_odoo_base",
       "target": "return"
+    },
+    {
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "odoo_core/lib/src/odoo_base.dart",
+      "source_location": null,
+      "weight": 1.0,
+      "context": "variable_type",
+      "_origin": "ast",
+      "source": "odoo_core_lib_src_odoo_base",
+      "target": "static_const_int"
     },
     {
       "relation": "references",
@@ -9070,6 +10265,17 @@
       "_origin": "ast",
       "source": "odoo_core_test_odoo_core_test",
       "target": "odoo_core_test_odoo_core_test_runbotdb"
+    },
+    {
+      "relation": "defines",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "odoo_core/test/odoo_core_test.dart",
+      "source_location": null,
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "odoo_core_test_odoo_core_test",
+      "target": "odoo_core_test_odoo_core_test_runbotenabled"
     },
     {
       "relation": "defines",
@@ -9710,6 +10916,17 @@
       "weight": 1.0,
       "_origin": "ast",
       "source": "odoo_generator_lib_src_odoo_generator_base",
+      "target": "odoo_generator_lib_src_odoo_generator_base_cleantypename"
+    },
+    {
+      "relation": "defines",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "odoo_generator/lib/src/odoo_generator_base.dart",
+      "source_location": null,
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "odoo_generator_lib_src_odoo_generator_base",
       "target": "odoo_generator_lib_src_odoo_generator_base_extendsodoobasemodel"
     },
     {
@@ -10057,7 +11274,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "odoo_core/CHANGELOG.md",
-      "source_location": "L63",
+      "source_location": "L81",
       "weight": 1.0,
       "_origin": "ast",
       "source": "odoo_core_changelog_changelog",
@@ -10068,7 +11285,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "odoo_core/CHANGELOG.md",
-      "source_location": "L59",
+      "source_location": "L77",
       "weight": 1.0,
       "_origin": "ast",
       "source": "odoo_core_changelog_changelog",
@@ -10079,7 +11296,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "odoo_core/CHANGELOG.md",
-      "source_location": "L55",
+      "source_location": "L73",
       "weight": 1.0,
       "_origin": "ast",
       "source": "odoo_core_changelog_changelog",
@@ -10090,7 +11307,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "odoo_core/CHANGELOG.md",
-      "source_location": "L48",
+      "source_location": "L66",
       "weight": 1.0,
       "_origin": "ast",
       "source": "odoo_core_changelog_changelog",
@@ -10101,7 +11318,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "odoo_core/CHANGELOG.md",
-      "source_location": "L41",
+      "source_location": "L59",
       "weight": 1.0,
       "_origin": "ast",
       "source": "odoo_core_changelog_changelog",
@@ -10112,7 +11329,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "odoo_core/CHANGELOG.md",
-      "source_location": "L34",
+      "source_location": "L52",
       "weight": 1.0,
       "_origin": "ast",
       "source": "odoo_core_changelog_changelog",
@@ -10123,7 +11340,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "odoo_core/CHANGELOG.md",
-      "source_location": "L30",
+      "source_location": "L48",
       "weight": 1.0,
       "_origin": "ast",
       "source": "odoo_core_changelog_changelog",
@@ -10134,7 +11351,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "odoo_core/CHANGELOG.md",
-      "source_location": "L10",
+      "source_location": "L28",
       "weight": 1.0,
       "_origin": "ast",
       "source": "odoo_core_changelog_changelog",
@@ -10145,7 +11362,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "odoo_core/CHANGELOG.md",
-      "source_location": "L5",
+      "source_location": "L23",
       "weight": 1.0,
       "_origin": "ast",
       "source": "odoo_core_changelog_changelog",
@@ -10156,10 +11373,21 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "odoo_core/CHANGELOG.md",
+      "source_location": "L5",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "odoo_core_changelog_changelog",
+      "target": "odoo_core_changelog_2_4_0_2026_10_22",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "odoo_core/CHANGELOG.md",
       "source_location": "L6",
       "weight": 1.0,
       "_origin": "ast",
-      "source": "odoo_core_changelog_2_3_0_2026_08_02",
+      "source": "odoo_core_changelog_2_4_0_2026_10_22",
       "target": "odoo_core_changelog_added",
       "confidence_score": 1.0
     },
@@ -10167,21 +11395,10 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "odoo_core/CHANGELOG.md",
-      "source_location": "L11",
+      "source_location": "L15",
       "weight": 1.0,
       "_origin": "ast",
-      "source": "odoo_core_changelog_2_2_0_2026_04_15",
-      "target": "odoo_core_changelog_added_11",
-      "confidence_score": 1.0
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "odoo_core/CHANGELOG.md",
-      "source_location": "L27",
-      "weight": 1.0,
-      "_origin": "ast",
-      "source": "odoo_core_changelog_2_2_0_2026_04_15",
+      "source": "odoo_core_changelog_2_4_0_2026_10_22",
       "target": "odoo_core_changelog_changed",
       "confidence_score": 1.0
     },
@@ -10189,55 +11406,44 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "odoo_core/CHANGELOG.md",
-      "source_location": "L31",
+      "source_location": "L20",
       "weight": 1.0,
       "_origin": "ast",
-      "source": "odoo_core_changelog_2_1_1_2026_04_13",
-      "target": "odoo_core_changelog_changed_31",
+      "source": "odoo_core_changelog_2_4_0_2026_10_22",
+      "target": "odoo_core_changelog_fixed",
       "confidence_score": 1.0
     },
     {
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "odoo_core/CHANGELOG.md",
-      "source_location": "L35",
+      "source_location": "L24",
       "weight": 1.0,
       "_origin": "ast",
-      "source": "odoo_core_changelog_2_1_0_2026_04_13",
-      "target": "odoo_core_changelog_added_35",
+      "source": "odoo_core_changelog_2_3_0_2026_08_02",
+      "target": "odoo_core_changelog_added_24",
       "confidence_score": 1.0
     },
     {
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "odoo_core/CHANGELOG.md",
-      "source_location": "L38",
+      "source_location": "L29",
       "weight": 1.0,
       "_origin": "ast",
-      "source": "odoo_core_changelog_2_1_0_2026_04_13",
-      "target": "odoo_core_changelog_changed_38",
+      "source": "odoo_core_changelog_2_2_0_2026_04_15",
+      "target": "odoo_core_changelog_added_29",
       "confidence_score": 1.0
     },
     {
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "odoo_core/CHANGELOG.md",
-      "source_location": "L42",
+      "source_location": "L45",
       "weight": 1.0,
       "_origin": "ast",
-      "source": "odoo_core_changelog_2_0_4_2026_04_11",
-      "target": "odoo_core_changelog_added_42",
-      "confidence_score": 1.0
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "odoo_core/CHANGELOG.md",
-      "source_location": "L44",
-      "weight": 1.0,
-      "_origin": "ast",
-      "source": "odoo_core_changelog_2_0_4_2026_04_11",
-      "target": "odoo_core_changelog_changed_44",
+      "source": "odoo_core_changelog_2_2_0_2026_04_15",
+      "target": "odoo_core_changelog_changed_45",
       "confidence_score": 1.0
     },
     {
@@ -10247,19 +11453,19 @@
       "source_location": "L49",
       "weight": 1.0,
       "_origin": "ast",
-      "source": "odoo_core_changelog_2_0_3_2026_04_11",
-      "target": "odoo_core_changelog_added_49",
+      "source": "odoo_core_changelog_2_1_1_2026_04_13",
+      "target": "odoo_core_changelog_changed_49",
       "confidence_score": 1.0
     },
     {
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "odoo_core/CHANGELOG.md",
-      "source_location": "L51",
+      "source_location": "L53",
       "weight": 1.0,
       "_origin": "ast",
-      "source": "odoo_core_changelog_2_0_3_2026_04_11",
-      "target": "odoo_core_changelog_fixed",
+      "source": "odoo_core_changelog_2_1_0_2026_04_13",
+      "target": "odoo_core_changelog_added_53",
       "confidence_score": 1.0
     },
     {
@@ -10269,7 +11475,7 @@
       "source_location": "L56",
       "weight": 1.0,
       "_origin": "ast",
-      "source": "odoo_core_changelog_2_0_2_2026_04_11",
+      "source": "odoo_core_changelog_2_1_0_2026_04_13",
       "target": "odoo_core_changelog_changed_56",
       "confidence_score": 1.0
     },
@@ -10280,37 +11486,92 @@
       "source_location": "L60",
       "weight": 1.0,
       "_origin": "ast",
+      "source": "odoo_core_changelog_2_0_4_2026_04_11",
+      "target": "odoo_core_changelog_added_60",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "odoo_core/CHANGELOG.md",
+      "source_location": "L62",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "odoo_core_changelog_2_0_4_2026_04_11",
+      "target": "odoo_core_changelog_changed_62",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "odoo_core/CHANGELOG.md",
+      "source_location": "L67",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "odoo_core_changelog_2_0_3_2026_04_11",
+      "target": "odoo_core_changelog_added_67",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "odoo_core/CHANGELOG.md",
+      "source_location": "L69",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "odoo_core_changelog_2_0_3_2026_04_11",
+      "target": "odoo_core_changelog_fixed_69",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "odoo_core/CHANGELOG.md",
+      "source_location": "L74",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "odoo_core_changelog_2_0_2_2026_04_11",
+      "target": "odoo_core_changelog_changed_74",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "odoo_core/CHANGELOG.md",
+      "source_location": "L78",
+      "weight": 1.0,
+      "_origin": "ast",
       "source": "odoo_core_changelog_2_0_1_2026_04_11",
-      "target": "odoo_core_changelog_changed_60",
+      "target": "odoo_core_changelog_changed_78",
       "confidence_score": 1.0
     },
     {
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "odoo_core/CHANGELOG.md",
-      "source_location": "L64",
+      "source_location": "L82",
       "weight": 1.0,
       "_origin": "ast",
       "source": "odoo_core_changelog_2_0_0_2026_04_10",
-      "target": "odoo_core_changelog_added_64",
+      "target": "odoo_core_changelog_added_82",
       "confidence_score": 1.0
     },
     {
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "odoo_core/CHANGELOG.md",
-      "source_location": "L72",
+      "source_location": "L90",
       "weight": 1.0,
       "_origin": "ast",
       "source": "odoo_core_changelog_2_0_0_2026_04_10",
-      "target": "odoo_core_changelog_changed_72",
+      "target": "odoo_core_changelog_changed_90",
       "confidence_score": 1.0
     },
     {
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "odoo_core/CHANGELOG.md",
-      "source_location": "L77",
+      "source_location": "L95",
       "weight": 1.0,
       "_origin": "ast",
       "source": "odoo_core_changelog_2_0_0_2026_04_10",
@@ -10332,7 +11593,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "odoo_core/README.md",
-      "source_location": "L449",
+      "source_location": "L451",
       "weight": 1.0,
       "_origin": "ast",
       "source": "odoo_core_readme_odoo_core",
@@ -10343,7 +11604,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "odoo_core/README.md",
-      "source_location": "L472",
+      "source_location": "L474",
       "weight": 1.0,
       "_origin": "ast",
       "source": "odoo_core_readme_odoo_core",
@@ -10354,7 +11615,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "odoo_core/README.md",
-      "source_location": "L38",
+      "source_location": "L40",
       "weight": 1.0,
       "_origin": "ast",
       "source": "odoo_core_readme_odoo_core",
@@ -10365,7 +11626,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "odoo_core/README.md",
-      "source_location": "L70",
+      "source_location": "L72",
       "weight": 1.0,
       "_origin": "ast",
       "source": "odoo_core_readme_odoo_core",
@@ -10376,7 +11637,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "odoo_core/README.md",
-      "source_location": "L188",
+      "source_location": "L190",
       "weight": 1.0,
       "_origin": "ast",
       "source": "odoo_core_readme_odoo_core",
@@ -10387,7 +11648,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "odoo_core/README.md",
-      "source_location": "L254",
+      "source_location": "L256",
       "weight": 1.0,
       "_origin": "ast",
       "source": "odoo_core_readme_odoo_core",
@@ -10398,7 +11659,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "odoo_core/README.md",
-      "source_location": "L270",
+      "source_location": "L272",
       "weight": 1.0,
       "_origin": "ast",
       "source": "odoo_core_readme_odoo_core",
@@ -10409,7 +11670,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "odoo_core/README.md",
-      "source_location": "L305",
+      "source_location": "L307",
       "weight": 1.0,
       "_origin": "ast",
       "source": "odoo_core_readme_odoo_core",
@@ -10420,7 +11681,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "odoo_core/README.md",
-      "source_location": "L346",
+      "source_location": "L348",
       "weight": 1.0,
       "_origin": "ast",
       "source": "odoo_core_readme_odoo_core",
@@ -10431,7 +11692,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "odoo_core/README.md",
-      "source_location": "L371",
+      "source_location": "L373",
       "weight": 1.0,
       "_origin": "ast",
       "source": "odoo_core_readme_odoo_core",
@@ -10442,7 +11703,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "odoo_core/README.md",
-      "source_location": "L394",
+      "source_location": "L396",
       "weight": 1.0,
       "_origin": "ast",
       "source": "odoo_core_readme_odoo_core",
@@ -10453,7 +11714,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "odoo_core/README.md",
-      "source_location": "L518",
+      "source_location": "L520",
       "weight": 1.0,
       "_origin": "ast",
       "source": "odoo_core_readme_odoo_core",
@@ -10475,7 +11736,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "odoo_core/README.md",
-      "source_location": "L530",
+      "source_location": "L532",
       "weight": 1.0,
       "_origin": "ast",
       "source": "odoo_core_readme_odoo_core",
@@ -10486,7 +11747,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "odoo_core/README.md",
-      "source_location": "L26",
+      "source_location": "L28",
       "weight": 1.0,
       "_origin": "ast",
       "source": "odoo_core_readme_odoo_core",
@@ -10497,7 +11758,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "odoo_core/README.md",
-      "source_location": "L169",
+      "source_location": "L171",
       "weight": 1.0,
       "_origin": "ast",
       "source": "odoo_core_readme_2_odoocookie_parser_rfc_6265",
@@ -10508,7 +11769,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "odoo_core/README.md",
-      "source_location": "L78",
+      "source_location": "L80",
       "weight": 1.0,
       "_origin": "ast",
       "source": "odoo_core_readme_2_odoocookie_parser_rfc_6265",
@@ -10519,7 +11780,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "odoo_core/README.md",
-      "source_location": "L74",
+      "source_location": "L76",
       "weight": 1.0,
       "_origin": "ast",
       "source": "odoo_core_readme_2_odoocookie_parser_rfc_6265",
@@ -10530,7 +11791,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "odoo_core/README.md",
-      "source_location": "L108",
+      "source_location": "L110",
       "weight": 1.0,
       "_origin": "ast",
       "source": "odoo_core_readme_casos_de_uso",
@@ -10541,7 +11802,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "odoo_core/README.md",
-      "source_location": "L80",
+      "source_location": "L82",
       "weight": 1.0,
       "_origin": "ast",
       "source": "odoo_core_readme_casos_de_uso",
@@ -10552,7 +11813,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "odoo_core/README.md",
-      "source_location": "L155",
+      "source_location": "L157",
       "weight": 1.0,
       "_origin": "ast",
       "source": "odoo_core_readme_casos_de_uso",
@@ -10563,7 +11824,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "odoo_core/README.md",
-      "source_location": "L118",
+      "source_location": "L120",
       "weight": 1.0,
       "_origin": "ast",
       "source": "odoo_core_readme_casos_de_uso",
@@ -10574,7 +11835,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "odoo_core/README.md",
-      "source_location": "L95",
+      "source_location": "L97",
       "weight": 1.0,
       "_origin": "ast",
       "source": "odoo_core_readme_casos_de_uso",
@@ -10585,7 +11846,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "odoo_core/README.md",
-      "source_location": "L141",
+      "source_location": "L143",
       "weight": 1.0,
       "_origin": "ast",
       "source": "odoo_core_readme_casos_de_uso",
@@ -10596,7 +11857,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "odoo_core/README.md",
-      "source_location": "L190",
+      "source_location": "L192",
       "weight": 1.0,
       "_origin": "ast",
       "source": "odoo_core_readme_3_autenticaci\u00f3n_con_odoosession",
@@ -10607,7 +11868,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "odoo_core/README.md",
-      "source_location": "L242",
+      "source_location": "L244",
       "weight": 1.0,
       "_origin": "ast",
       "source": "odoo_core_readme_3_autenticaci\u00f3n_con_odoosession",
@@ -10618,7 +11879,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "odoo_core/README.md",
-      "source_location": "L215",
+      "source_location": "L217",
       "weight": 1.0,
       "_origin": "ast",
       "source": "odoo_core_readme_3_autenticaci\u00f3n_con_odoosession",
@@ -10629,7 +11890,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "odoo_core/README.md",
-      "source_location": "L231",
+      "source_location": "L233",
       "weight": 1.0,
       "_origin": "ast",
       "source": "odoo_core_readme_3_autenticaci\u00f3n_con_odoosession",
@@ -10640,7 +11901,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "odoo_core/README.md",
-      "source_location": "L434",
+      "source_location": "L436",
       "weight": 1.0,
       "_origin": "ast",
       "source": "odoo_core_readme_9_realtime_con_websockets",
@@ -10651,11 +11912,44 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "odoo_generator/CHANGELOG.md",
-      "source_location": "L37",
+      "source_location": "L1",
       "weight": 1.0,
       "_origin": "ast",
       "source": "odoo_generator_changelog",
+      "target": "odoo_generator_changelog_changelog",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "odoo_generator/CHANGELOG.md",
+      "source_location": "L45",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "odoo_generator_changelog_changelog",
       "target": "odoo_generator_changelog_2_0_0",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "odoo_generator/CHANGELOG.md",
+      "source_location": "L40",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "odoo_generator_changelog_changelog",
+      "target": "odoo_generator_changelog_2_0_1",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "odoo_generator/CHANGELOG.md",
+      "source_location": "L36",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "odoo_generator_changelog_changelog",
+      "target": "odoo_generator_changelog_2_0_2",
       "confidence_score": 1.0
     },
     {
@@ -10665,29 +11959,7 @@
       "source_location": "L32",
       "weight": 1.0,
       "_origin": "ast",
-      "source": "odoo_generator_changelog",
-      "target": "odoo_generator_changelog_2_0_1",
-      "confidence_score": 1.0
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "odoo_generator/CHANGELOG.md",
-      "source_location": "L28",
-      "weight": 1.0,
-      "_origin": "ast",
-      "source": "odoo_generator_changelog",
-      "target": "odoo_generator_changelog_2_0_2",
-      "confidence_score": 1.0
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "odoo_generator/CHANGELOG.md",
-      "source_location": "L24",
-      "weight": 1.0,
-      "_origin": "ast",
-      "source": "odoo_generator_changelog",
+      "source": "odoo_generator_changelog_changelog",
       "target": "odoo_generator_changelog_2_0_3",
       "confidence_score": 1.0
     },
@@ -10695,11 +11967,33 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "odoo_generator/CHANGELOG.md",
-      "source_location": "L19",
+      "source_location": "L27",
       "weight": 1.0,
       "_origin": "ast",
-      "source": "odoo_generator_changelog",
+      "source": "odoo_generator_changelog_changelog",
       "target": "odoo_generator_changelog_2_0_4",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "odoo_generator/CHANGELOG.md",
+      "source_location": "L21",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "odoo_generator_changelog_changelog",
+      "target": "odoo_generator_changelog_2_1_0",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "odoo_generator/CHANGELOG.md",
+      "source_location": "L17",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "odoo_generator_changelog_changelog",
+      "target": "odoo_generator_changelog_2_1_1",
       "confidence_score": 1.0
     },
     {
@@ -10709,8 +12003,8 @@
       "source_location": "L13",
       "weight": 1.0,
       "_origin": "ast",
-      "source": "odoo_generator_changelog",
-      "target": "odoo_generator_changelog_2_1_0",
+      "source": "odoo_generator_changelog_changelog",
+      "target": "odoo_generator_changelog_2_2_0",
       "confidence_score": 1.0
     },
     {
@@ -10720,30 +12014,30 @@
       "source_location": "L9",
       "weight": 1.0,
       "_origin": "ast",
-      "source": "odoo_generator_changelog",
-      "target": "odoo_generator_changelog_2_1_1",
+      "source": "odoo_generator_changelog_changelog",
+      "target": "odoo_generator_changelog_2_3_0_2026_08_02",
       "confidence_score": 1.0
     },
     {
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "odoo_generator/CHANGELOG.md",
-      "source_location": "L5",
+      "source_location": "L3",
       "weight": 1.0,
       "_origin": "ast",
-      "source": "odoo_generator_changelog",
-      "target": "odoo_generator_changelog_2_2_0",
+      "source": "odoo_generator_changelog_changelog",
+      "target": "odoo_generator_changelog_2_4_0_2026_10_22",
       "confidence_score": 1.0
     },
     {
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "odoo_generator/CHANGELOG.md",
-      "source_location": "L1",
+      "source_location": "L4",
       "weight": 1.0,
       "_origin": "ast",
-      "source": "odoo_generator_changelog",
-      "target": "odoo_generator_changelog_2_3_0",
+      "source": "odoo_generator_changelog_2_4_0_2026_10_22",
+      "target": "odoo_generator_changelog_changed",
       "confidence_score": 1.0
     },
     {
@@ -11001,5 +12295,5 @@
     }
   ],
   "hyperedges": [],
-  "built_at_commit": "baedf75501102e55634b09dc03575076d5d06128"
+  "built_at_commit": "d0d6ecace63e909e2fcf697c6a7724a69d2205b3"
 }
