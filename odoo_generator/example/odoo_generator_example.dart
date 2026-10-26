@@ -100,16 +100,6 @@ class Product extends OdooBaseModel with _$Product {
       _$ProductFromJson(json);
   @override
   Map<String, dynamic> toJson() => _$ProductToJson(this);
-
-  static ProductSpecificationBuilder buildSpecification({
-    List<ProductFields>? only,
-    Map<ProductFields, Map<String, dynamic>>? nested,
-  }) {
-    return _$ProductMeta.buildSpecification(
-      only: only,
-      nested: nested,
-    );
-  }
 }
 
 /// Modelo: ProductLine (Línea de producto - simula detalle de pedido)

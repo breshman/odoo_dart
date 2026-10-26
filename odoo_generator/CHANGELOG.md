@@ -1,5 +1,10 @@
 # Changelog
 
+## [2.4.1] - 2026-10-26
+### Changed
+* **Generated model mixins:** `copyWith`, `toJson` and `toOdoo` are generated in `_$Model`; the instance extension is no longer generated.
+* **Generated repositories:** expose `buildSpecification(...)` as a static helper.
+
 ## [2.4.0] - 2026-10-22
 ### Changed
 * **Analyzer Migration:** Se reemplazó el argumento deprecado `withNullability: false` por una función interna `_cleanTypeName(dartType)` compatible con `analyzer ^9.0.0+`.

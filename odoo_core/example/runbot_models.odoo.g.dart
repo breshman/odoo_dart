@@ -44,9 +44,10 @@ Map<String, dynamic> _$PartnerToJson(Partner instance, {bool toOdoo = false}) {
   };
 }
 
-extension $PartnerExtension on Partner {
-  Map<String, dynamic> toJson() => _$PartnerToJson(this);
-  Map<String, dynamic> toOdoo() => _$PartnerToJson(this, toOdoo: true);
+mixin _$Partner {
+  Map<String, dynamic> toJson() => _$PartnerToJson(this as Partner);
+  Map<String, dynamic> toOdoo() =>
+      _$PartnerToJson(this as Partner, toOdoo: true);
 
   Partner copyWith({
     int? id,
@@ -59,29 +60,19 @@ extension $PartnerExtension on Partner {
     String? street,
     String? lang,
   }) {
+    final instance = this as Partner;
     return Partner(
-      id: id ?? this.id,
-      name: name ?? this.name,
-      displayName: displayName ?? this.displayName,
-      createDate: createDate ?? this.createDate,
-      writeDate: writeDate ?? this.writeDate,
-      email: email ?? this.email,
-      phone: phone ?? this.phone,
-      street: street ?? this.street,
-      lang: lang ?? this.lang,
+      id: id ?? instance.id,
+      name: name ?? instance.name,
+      displayName: displayName ?? instance.displayName,
+      createDate: createDate ?? instance.createDate,
+      writeDate: writeDate ?? instance.writeDate,
+      email: email ?? instance.email,
+      phone: phone ?? instance.phone,
+      street: street ?? instance.street,
+      lang: lang ?? instance.lang,
     );
   }
-
-  static PartnerSpecificationBuilder buildSpecification(
-          {Iterable<PartnerFields>? only,
-          Map<PartnerFields, Map<String, dynamic>>? nested}) =>
-      _$PartnerMeta.buildSpecification(only: only, nested: nested);
-}
-
-mixin _$Partner {
-  Map<String, dynamic> toJson() => _$PartnerToJson(this as Partner);
-  Map<String, dynamic> toOdoo() =>
-      _$PartnerToJson(this as Partner, toOdoo: true);
 
   @override
   String toString() {
@@ -137,8 +128,7 @@ mixin _$PartnerMeta {
   };
 
   static PartnerSpecificationBuilder buildSpecification(
-      {Iterable<PartnerFields>? only,
-      Map<PartnerFields, Map<String, dynamic>>? nested}) {
+      {Iterable<PartnerFields>? only, Map<PartnerFields, Object>? nested}) {
     final builder = PartnerSpecificationBuilder();
     if (only != null) builder.addOnly(only);
     if (nested != null) builder.addNestedMap(nested);
@@ -170,9 +160,8 @@ class PartnerSpecificationBuilder implements SpecificationBuilder {
     return this;
   }
 
-  PartnerSpecificationBuilder addNestedMap(
-      Map<PartnerFields, Map<String, dynamic>> map) {
-    _nested.addAll(map);
+  PartnerSpecificationBuilder addNestedMap(Map<PartnerFields, Object> map) {
+    map.forEach((field, spec) => addNested(field, spec));
     return this;
   }
 
@@ -201,6 +190,11 @@ class PartnerRepository extends OdooRepository<Partner> {
           specification: _$PartnerMeta.specification,
           fromJson: _$PartnerFromJson,
         );
+
+  static PartnerSpecificationBuilder buildSpecification(
+          {Iterable<PartnerFields>? only,
+          Map<PartnerFields, Object>? nested}) =>
+      _$PartnerMeta.buildSpecification(only: only, nested: nested);
 }
 
 // GENERATED CODE - DO NOT MODIFY BY BR
@@ -230,9 +224,9 @@ Map<String, dynamic> _$UserToJson(User instance, {bool toOdoo = false}) {
   };
 }
 
-extension $UserExtension on User {
-  Map<String, dynamic> toJson() => _$UserToJson(this);
-  Map<String, dynamic> toOdoo() => _$UserToJson(this, toOdoo: true);
+mixin _$User {
+  Map<String, dynamic> toJson() => _$UserToJson(this as User);
+  Map<String, dynamic> toOdoo() => _$UserToJson(this as User, toOdoo: true);
 
   User copyWith({
     int? id,
@@ -244,27 +238,18 @@ extension $UserExtension on User {
     int? writeUid,
     String? login,
   }) {
+    final instance = this as User;
     return User(
-      id: id ?? this.id,
-      name: name ?? this.name,
-      displayName: displayName ?? this.displayName,
-      createDate: createDate ?? this.createDate,
-      writeDate: writeDate ?? this.writeDate,
-      createUid: createUid ?? this.createUid,
-      writeUid: writeUid ?? this.writeUid,
-      login: login ?? this.login,
+      id: id ?? instance.id,
+      name: name ?? instance.name,
+      displayName: displayName ?? instance.displayName,
+      createDate: createDate ?? instance.createDate,
+      writeDate: writeDate ?? instance.writeDate,
+      createUid: createUid ?? instance.createUid,
+      writeUid: writeUid ?? instance.writeUid,
+      login: login ?? instance.login,
     );
   }
-
-  static UserSpecificationBuilder buildSpecification(
-          {Iterable<UserFields>? only,
-          Map<UserFields, Map<String, dynamic>>? nested}) =>
-      _$UserMeta.buildSpecification(only: only, nested: nested);
-}
-
-mixin _$User {
-  Map<String, dynamic> toJson() => _$UserToJson(this as User);
-  Map<String, dynamic> toOdoo() => _$UserToJson(this as User, toOdoo: true);
 
   @override
   String toString() {
@@ -308,8 +293,7 @@ mixin _$UserMeta {
   };
 
   static UserSpecificationBuilder buildSpecification(
-      {Iterable<UserFields>? only,
-      Map<UserFields, Map<String, dynamic>>? nested}) {
+      {Iterable<UserFields>? only, Map<UserFields, Object>? nested}) {
     final builder = UserSpecificationBuilder();
     if (only != null) builder.addOnly(only);
     if (nested != null) builder.addNestedMap(nested);
@@ -341,9 +325,8 @@ class UserSpecificationBuilder implements SpecificationBuilder {
     return this;
   }
 
-  UserSpecificationBuilder addNestedMap(
-      Map<UserFields, Map<String, dynamic>> map) {
-    _nested.addAll(map);
+  UserSpecificationBuilder addNestedMap(Map<UserFields, Object> map) {
+    map.forEach((field, spec) => addNested(field, spec));
     return this;
   }
 
@@ -372,6 +355,10 @@ class UserRepository extends OdooRepository<User> {
           specification: _$UserMeta.specification,
           fromJson: _$UserFromJson,
         );
+
+  static UserSpecificationBuilder buildSpecification(
+          {Iterable<UserFields>? only, Map<UserFields, Object>? nested}) =>
+      _$UserMeta.buildSpecification(only: only, nested: nested);
 }
 
 // GENERATED CODE - DO NOT MODIFY BY BR
@@ -402,9 +389,10 @@ Map<String, dynamic> _$EmployeeToJson(Employee instance,
   };
 }
 
-extension $EmployeeExtension on Employee {
-  Map<String, dynamic> toJson() => _$EmployeeToJson(this);
-  Map<String, dynamic> toOdoo() => _$EmployeeToJson(this, toOdoo: true);
+mixin _$Employee {
+  Map<String, dynamic> toJson() => _$EmployeeToJson(this as Employee);
+  Map<String, dynamic> toOdoo() =>
+      _$EmployeeToJson(this as Employee, toOdoo: true);
 
   Employee copyWith({
     int? id,
@@ -416,28 +404,18 @@ extension $EmployeeExtension on Employee {
     int? writeUid,
     String? jobTitle,
   }) {
+    final instance = this as Employee;
     return Employee(
-      id: id ?? this.id,
-      name: name ?? this.name,
-      displayName: displayName ?? this.displayName,
-      createDate: createDate ?? this.createDate,
-      writeDate: writeDate ?? this.writeDate,
-      createUid: createUid ?? this.createUid,
-      writeUid: writeUid ?? this.writeUid,
-      jobTitle: jobTitle ?? this.jobTitle,
+      id: id ?? instance.id,
+      name: name ?? instance.name,
+      displayName: displayName ?? instance.displayName,
+      createDate: createDate ?? instance.createDate,
+      writeDate: writeDate ?? instance.writeDate,
+      createUid: createUid ?? instance.createUid,
+      writeUid: writeUid ?? instance.writeUid,
+      jobTitle: jobTitle ?? instance.jobTitle,
     );
   }
-
-  static EmployeeSpecificationBuilder buildSpecification(
-          {Iterable<EmployeeFields>? only,
-          Map<EmployeeFields, Map<String, dynamic>>? nested}) =>
-      _$EmployeeMeta.buildSpecification(only: only, nested: nested);
-}
-
-mixin _$Employee {
-  Map<String, dynamic> toJson() => _$EmployeeToJson(this as Employee);
-  Map<String, dynamic> toOdoo() =>
-      _$EmployeeToJson(this as Employee, toOdoo: true);
 
   @override
   String toString() {
@@ -481,8 +459,7 @@ mixin _$EmployeeMeta {
   };
 
   static EmployeeSpecificationBuilder buildSpecification(
-      {Iterable<EmployeeFields>? only,
-      Map<EmployeeFields, Map<String, dynamic>>? nested}) {
+      {Iterable<EmployeeFields>? only, Map<EmployeeFields, Object>? nested}) {
     final builder = EmployeeSpecificationBuilder();
     if (only != null) builder.addOnly(only);
     if (nested != null) builder.addNestedMap(nested);
@@ -514,9 +491,8 @@ class EmployeeSpecificationBuilder implements SpecificationBuilder {
     return this;
   }
 
-  EmployeeSpecificationBuilder addNestedMap(
-      Map<EmployeeFields, Map<String, dynamic>> map) {
-    _nested.addAll(map);
+  EmployeeSpecificationBuilder addNestedMap(Map<EmployeeFields, Object> map) {
+    map.forEach((field, spec) => addNested(field, spec));
     return this;
   }
 
@@ -545,4 +521,9 @@ class EmployeeRepository extends OdooRepository<Employee> {
           specification: _$EmployeeMeta.specification,
           fromJson: _$EmployeeFromJson,
         );
+
+  static EmployeeSpecificationBuilder buildSpecification(
+          {Iterable<EmployeeFields>? only,
+          Map<EmployeeFields, Object>? nested}) =>
+      _$EmployeeMeta.buildSpecification(only: only, nested: nested);
 }

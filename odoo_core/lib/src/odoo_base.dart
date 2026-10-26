@@ -81,7 +81,8 @@ abstract class OdooRepository<T extends OdooBaseModel> {
     return List<int>.from(result as List);
   }
 
-  /// Realiza búsquedas con dominio y retorna los registros tipados listos para usar.
+  /// Busca registros tipados usando [specification] si se proporciona o la
+  /// especificación del repositorio en caso contrario.
   Future<({List<T> records, int length})> searchFetch({
     OdooDomain domain = const [],
     int limit = 80,
@@ -91,7 +92,7 @@ abstract class OdooRepository<T extends OdooBaseModel> {
     Map<String, dynamic>? context,
     OdooSpec? specification,
   }) async {
-    final effectiveSpec =
+    final specToUse =
         resolveOdooSpec(specification, resolveOdooSpec(this.specification, {}));
     final result = await client.callKwRaw(
       model: modelName,
@@ -99,7 +100,7 @@ abstract class OdooRepository<T extends OdooBaseModel> {
       args: [],
       kwargs: {
         'domain': domain,
-        'specification': effectiveSpec,
+        'specification': specToUse,
         'limit': limit,
         'offset': offset,
         if (order != null) 'order': order,
@@ -375,20 +376,15 @@ class OdooCommand {
   factory OdooCommand.updateRecord(int id, Map<String, dynamic> values) =>
       OdooCommand(updateCode, id, values);
 
-  factory OdooCommand.deleteRecord(int id) =>
-      OdooCommand(deleteCode, id, 0);
+  factory OdooCommand.deleteRecord(int id) => OdooCommand(deleteCode, id, 0);
 
-  factory OdooCommand.unlinkRecord(int id) =>
-      OdooCommand(unlinkCode, id, 0);
+  factory OdooCommand.unlinkRecord(int id) => OdooCommand(unlinkCode, id, 0);
 
-  factory OdooCommand.linkRecord(int id) =>
-      OdooCommand(linkCode, id, 0);
+  factory OdooCommand.linkRecord(int id) => OdooCommand(linkCode, id, 0);
 
-  factory OdooCommand.clearRecords() =>
-      const OdooCommand(clearCode, 0, 0);
+  factory OdooCommand.clearRecords() => const OdooCommand(clearCode, 0, 0);
 
-  factory OdooCommand.setRecords(List<int> ids) =>
-      OdooCommand(setCode, 0, ids);
+  factory OdooCommand.setRecords(List<int> ids) => OdooCommand(setCode, 0, ids);
 
   /// Convierte el comando a la tupla `[code, id, value]` esperada por el backend Odoo.
   List<dynamic> toList() => [code, id, value];

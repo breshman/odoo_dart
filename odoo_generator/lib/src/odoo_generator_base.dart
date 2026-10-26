@@ -73,8 +73,7 @@ class OdooModelGenerator extends GeneratorForAnnotation<OdooModel> {
 
     _generateFromJson(buffer, element, fields, extendsBase);
     _generateToJson(buffer, className, fields, extendsBase);
-    _generateCopyWith(buffer, element, fields, extendsBase);
-    _generateToString(buffer, className, fields, extendsBase);
+    _generateMixin(buffer, element, fields, extendsBase);
     _generateFieldsEnum(buffer, className, fields, extendsBase);
     _generateMeta(buffer, className, modelName, fields, extendsBase,
         includeBaseFieldsInSpec);
@@ -107,6 +106,11 @@ class OdooModelGenerator extends GeneratorForAnnotation<OdooModel> {
     buf.writeln('          specification: _\$${className}Meta.specification,');
     buf.writeln('          fromJson: _\$${className}FromJson,');
     buf.writeln('        );');
+    buf.writeln();
+    buf.writeln(
+        '  static ${className}SpecificationBuilder buildSpecification({Iterable<${className}Fields>? only, Map<${className}Fields, Object>? nested}) =>');
+    buf.writeln(
+        '      _\$${className}Meta.buildSpecification(only: only, nested: nested);');
     buf.writeln('}\n');
   }
 
@@ -232,12 +236,6 @@ class OdooModelGenerator extends GeneratorForAnnotation<OdooModel> {
     bool extendsBase,
   ) {
     final className = element.displayName;
-    buf.writeln('extension \$${className}Extension on $className {');
-    buf.writeln(
-        '  Map<String, dynamic> toJson() => _\$${className}ToJson(this);');
-    buf.writeln(
-        '  Map<String, dynamic> toOdoo() => _\$${className}ToJson(this, toOdoo: true);');
-    buf.writeln();
     buf.writeln('  $className copyWith({');
 
     Set<String?> paramNames = {};
@@ -272,57 +270,58 @@ class OdooModelGenerator extends GeneratorForAnnotation<OdooModel> {
     }
 
     buf.writeln('  }) {');
+    buf.writeln('    final instance = this as $className;');
     buf.writeln('    return $className(');
 
     if (extendsBase) {
-      if (paramNames.contains('id')) buf.writeln('      id: id ?? this.id,');
+      if (paramNames.contains('id')) {
+        buf.writeln('      id: id ?? instance.id,');
+      }
       if (paramNames.contains('name')) {
-        buf.writeln('      name: name ?? this.name,');
+        buf.writeln('      name: name ?? instance.name,');
       }
       if (paramNames.contains('displayName')) {
-        buf.writeln('      displayName: displayName ?? this.displayName,');
+        buf.writeln(
+            '      displayName: displayName ?? instance.displayName,');
       }
       if (paramNames.contains('createDate')) {
-        buf.writeln('      createDate: createDate ?? this.createDate,');
+        buf.writeln('      createDate: createDate ?? instance.createDate,');
       }
       if (paramNames.contains('writeDate')) {
-        buf.writeln('      writeDate: writeDate ?? this.writeDate,');
+        buf.writeln('      writeDate: writeDate ?? instance.writeDate,');
       }
       if (paramNames.contains('createUid')) {
-        buf.writeln('      createUid: createUid ?? this.createUid,');
+        buf.writeln('      createUid: createUid ?? instance.createUid,');
       }
       if (paramNames.contains('writeUid')) {
-        buf.writeln('      writeUid: writeUid ?? this.writeUid,');
+        buf.writeln('      writeUid: writeUid ?? instance.writeUid,');
       }
     }
 
     for (final field in fields) {
       final name = field.displayName;
-      buf.writeln('      $name: $name ?? this.$name,');
+      buf.writeln('      $name: $name ?? instance.$name,');
     }
 
     buf.writeln('    );');
     buf.writeln('  }');
     buf.writeln();
-    buf.writeln(
-        '  static ${className}SpecificationBuilder buildSpecification({Iterable<${className}Fields>? only, Map<${className}Fields, Object>? nested}) =>');
-    buf.writeln(
-        '      _\$${className}Meta.buildSpecification(only: only, nested: nested);');
-    buf.writeln('}\n');
   }
 
-  void _generateToString(
+  void _generateMixin(
     StringBuffer buf,
-    String className,
+    ClassElement element,
     List<FieldElement> fields,
     bool extendsBase,
   ) {
+    final className = element.displayName;
     buf.writeln('mixin _\$$className {');
     buf.writeln(
         '  Map<String, dynamic> toJson() => _\$${className}ToJson(this as $className);');
     buf.writeln(
         '  Map<String, dynamic> toOdoo() => _\$${className}ToJson(this as $className, toOdoo: true);');
     buf.writeln();
+    _generateCopyWith(buf, element, fields, extendsBase);
     buf.writeln('  @override');
     buf.writeln('  String toString() {');
     buf.writeln("    final instance = this as $className;");

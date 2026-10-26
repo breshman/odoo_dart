@@ -2,6 +2,10 @@
 
 All notable changes to the `odoo_core` project will be documented in this file.
 
+## [2.4.1] - 2026-10-26
+### Changed
+* **`OdooRepository.searchFetch`:** uses the repository's default specification when no override is provided.
+
 ## [2.4.0] - 2026-10-22
 ### Added
 * **`OdooCommand`:** Clase con comandos ORM de Odoo para relaciones `One2many` y `Many2many` (`create`, `update`, `delete`, `unlink`, `link`, `clear`, `set`). Compatible con `odoo.fields.Command` en Odoo 16, 17, 18 y 19+. Soporta tanto llamadas estáticas directas que retornan `List<dynamic>` como instancias tipadas (`OdooCommand.linkRecord`, `setRecords`, etc.) serializables a JSON tupla.

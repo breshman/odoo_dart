@@ -89,13 +89,13 @@ void main() {
 
       test('Category: buildSpecification builder pattern', () {
         // Direct positional parameters (backward compatible)
-        final spec1 = $CategoryExtension.buildSpecification(
+        final spec1 = CategoryRepository.buildSpecification(
           only: [CategoryFields.name, CategoryFields.description],
         ).build();
         expect(spec1.keys, unorderedEquals(['name', 'description']));
 
         // Builder pattern with addField and addOnly
-        final spec2 = $CategoryExtension.buildSpecification()
+        final spec2 = CategoryRepository.buildSpecification()
             .addField(CategoryFields.description)
             .addOnly([CategoryFields.id]);
 
@@ -106,7 +106,7 @@ void main() {
         expect(resolvedSpec.keys, unorderedEquals(['description', 'id']));
 
         // Empty builder returns full specification
-        final spec3 = $CategoryExtension.buildSpecification().build();
+        final spec3 = CategoryRepository.buildSpecification().build();
         expect(spec3.containsKey('description'), isTrue);
         expect(spec3.containsKey('name'), isTrue);
       });

@@ -135,7 +135,7 @@ El generador produce un archivo `*.odoo.g.dart` por cada clase anotada, que cont
 - **`_$PartnerMeta`** — metadata del modelo (modelName, fields)
 - **`_$PartnerSpecification`** — mapa para `web_search_read` specification
 - **`PartnerFields`** — enum de todos los campos para selección tipada
-- **`$PartnerExtension`** — extensión con el método `copyWith` y de serialización
+- **`_$Partner`** — mixin con `copyWith`, `toJson`, `toOdoo` y `toString`
 - **`PartnerRepository`** — repositorio concreto ya listo para usar
 
 ---
@@ -180,7 +180,7 @@ El enum `PartnerFields` generado y la clase `SpecificationBuilder` permiten sele
 
 ```dart
 // ✅ Construcción encadenada paso a paso
-final lightSpec = Partner.buildSpecification()
+final lightSpec = PartnerRepository.buildSpecification()
     .addField(PartnerFields.id)
     .addField(PartnerFields.name)
     .addOnly([PartnerFields.email, PartnerFields.phone])
@@ -193,7 +193,7 @@ final result = await partnerRepo.searchFetch(specification: lightSpec);
 
 ```dart
 // ✅ Estilo directo compacto con .build() al final
-final lightSpec = Partner.buildSpecification(
+final lightSpec = PartnerRepository.buildSpecification(
   only: [
     PartnerFields.id,
     PartnerFields.name,
@@ -209,7 +209,7 @@ final result = await partnerRepo.searchFetch(specification: lightSpec);
 
 ```dart
 // ✅ Traer campos específicos de líneas de pedido dentro de una venta
-final nestedSpec = SaleOrder.buildSpecification()
+final nestedSpec = SaleOrderRepository.buildSpecification()
     .addOnly([
       SaleOrderFields.name,
       SaleOrderFields.amountTotal,
@@ -218,7 +218,7 @@ final nestedSpec = SaleOrder.buildSpecification()
     ])
     .addNested(
       SaleOrderFields.orderLineIds,
-      OrderLine.buildSpecification()
+      OrderLineRepository.buildSpecification()
           .addOnly([
             OrderLineFields.id,
             OrderLineFields.productId,
@@ -235,31 +235,9 @@ for (final order in orders.records) {
 }
 ```
 
-### 🔹 Uso 4: Exposición manual / estática dentro de tu clase modelo (opcional)
-
-Si deseas exponer explícitamente `buildSpecification` como un método `static` directo en tu propia clase `Model` (delegando a `_$ModelMeta`), puedes agregarlo en el cuerpo del modelo:
-
-```dart
-@OdooModel(modelName: 'res.partner')
-class Partner extends OdooBaseModel with _$Partner {
-  @OdooField(type: OdooFieldType.string)
-  final String? email;
-
-  Partner({required super.id, required super.name, this.email});
-
-  factory Partner.fromJson(Map<String, dynamic> json) => _$PartnerFromJson(json);
-
-  /// Método estático conveniente en el modelo
-  static PartnerSpecificationBuilder buildSpecification({
-    Iterable<PartnerFields>? only,
-    Map<PartnerFields, Map<String, dynamic>>? nested,
-  }) {
-    return _$PartnerMeta.buildSpecification(only: only, nested: nested);
-  }
-}
-```
-
-De esta forma puedes invocarlo directamente desde la clase `Partner` o utilizando la extensión `$PartnerExtension`.
+`searchFetch()` utiliza automáticamente la especificación completa del modelo. Para
+consultas personalizadas, usa `PartnerRepository.buildSpecification(...)` y pasa
+el resultado a `searchFetch(specification: ...)`.
 
 ---
 

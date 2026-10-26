@@ -374,15 +374,15 @@ final wizard = await partnerRepo.callMethod(
 
 ```dart
 // El generador crea PartnerFields enum automáticamente
-final lightSpec = Partner.buildSpecification(
+final lightSpec = PartnerRepository.buildSpecification(
   only: [PartnerFields.id, PartnerFields.name, PartnerFields.email],
 );
 
 // Con relaciones anidadas
-final nestedSpec = SaleOrder.buildSpecification(
+final nestedSpec = SaleOrderRepository.buildSpecification(
   only: [SaleOrderFields.name, SaleOrderFields.amountTotal],
   nested: {
-    SaleOrderFields.orderLineIds: OrderLine.buildSpecification(
+    SaleOrderFields.orderLineIds: OrderLineRepository.buildSpecification(
       only: [OrderLineFields.productId, OrderLineFields.priceUnit],
     ),
   },

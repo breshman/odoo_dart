@@ -10,8 +10,7 @@ import '../example/runbot_models.dart';
 // ─────────────────────────────────────────────────────────────────────────────
 // RunBot config — URL de pruebas activa (ejecutar con ODOO_RUNBOT_TEST=true)
 // ─────────────────────────────────────────────────────────────────────────────
-final _runbotUrl =
-    Platform.environment['ODOO_RUNBOT_URL'] ??
+final _runbotUrl = Platform.environment['ODOO_RUNBOT_URL'] ??
     'https://129820524-saas-19-3-all.runbot302.odoo.com';
 final _runbotDb =
     Platform.environment['ODOO_RUNBOT_DB'] ?? '129820524-saas-19-3-all';
@@ -25,6 +24,7 @@ final _runbotEnabled = Platform.environment['ODOO_RUNBOT_TEST'] == 'true';
 class MockOdooClient implements OdooClient {
   final dynamic mockResponse;
   final Exception? throwException;
+  Map<String, dynamic>? lastKwargs;
 
   MockOdooClient({this.mockResponse, this.throwException});
 
@@ -35,6 +35,7 @@ class MockOdooClient implements OdooClient {
     List args = const [],
     Map<String, dynamic> kwargs = const {},
   }) async {
+    lastKwargs = kwargs;
     if (throwException != null) throw throwException!;
     return mockResponse;
   }
@@ -373,24 +374,29 @@ void main() {
   // ───────────────────────────────────────────────────────────────────────────
   group('4. OdooRepository CRUD (mock)', () {
     test('searchFetch — decodifica lista de registros', () async {
+      final client = MockOdooClient(mockResponse: {
+        'records': [
+          {
+            'id': 1,
+            'name': 'Ana López',
+            'create_uid': [2, 'Admin']
+          },
+          {'id': 2, 'name': 'Carlos Ruiz'},
+        ],
+        'length': 2,
+      });
       final repo = EmployeeRepository(
-        client: MockOdooClient(mockResponse: {
-          'records': [
-            {
-              'id': 1,
-              'name': 'Ana López',
-              'create_uid': [2, 'Admin']
-            },
-            {'id': 2, 'name': 'Carlos Ruiz'},
-          ],
-          'length': 2,
-        }),
+        client: client,
       );
       final res = await repo.searchFetch();
       expect(res.records, hasLength(2));
       expect(res.length, 2);
       expect(res.records.first.name, 'Ana López');
       expect(res.records.first.createUid, 2);
+      expect(
+        client.lastKwargs!['specification'],
+        EmployeeRepository.buildSpecification().build(),
+      );
     });
 
     test('searchFetch — maneja lista vacía', () async {
@@ -638,12 +644,10 @@ void main() {
   // ───────────────────────────────────────────────────────────────────────────
   // GRUPO 7 — Integración RunBot — Authenticación y sesión
   // ───────────────────────────────────────────────────────────────────────────
-  group(
-    '7. Integración RunBot — Sesión',
-    skip: !_runbotEnabled
-        ? 'RunBot no habilitado (activar con ODOO_RUNBOT_TEST=true)'
-        : null,
-    () {
+  group('7. Integración RunBot — Sesión',
+      skip: !_runbotEnabled
+          ? 'RunBot no habilitado (activar con ODOO_RUNBOT_TEST=true)'
+          : null, () {
     late OdooRpcService odoo;
     late OdooSession session;
 
@@ -711,12 +715,10 @@ void main() {
   // ───────────────────────────────────────────────────────────────────────────
   // GRUPO 8 — Integración RunBot — CRUD completo (res.partner)
   // ───────────────────────────────────────────────────────────────────────────
-  group(
-    '8. Integración RunBot — CRUD res.partner',
-    skip: !_runbotEnabled
-        ? 'RunBot no habilitado (activar con ODOO_RUNBOT_TEST=true)'
-        : null,
-    () {
+  group('8. Integración RunBot — CRUD res.partner',
+      skip: !_runbotEnabled
+          ? 'RunBot no habilitado (activar con ODOO_RUNBOT_TEST=true)'
+          : null, () {
     late OdooRpcService odoo;
     late PartnerRepository partnerRepo;
     late int testPartnerId;
@@ -813,7 +815,9 @@ void main() {
       final ok = await partnerRepo.write(
         [testPartnerId],
         {
-          'category_id': [OdooCommand.set([158])],
+          'category_id': [
+            OdooCommand.set([158])
+          ],
         },
       );
       expect(ok, isTrue);
@@ -844,12 +848,10 @@ void main() {
   // ───────────────────────────────────────────────────────────────────────────
   // GRUPO 9 — Integración RunBot — Modelos adicionales
   // ───────────────────────────────────────────────────────────────────────────
-  group(
-    '9. Integración RunBot — res.users / hr.employee',
-    skip: !_runbotEnabled
-        ? 'RunBot no habilitado (activar con ODOO_RUNBOT_TEST=true)'
-        : null,
-    () {
+  group('9. Integración RunBot — res.users / hr.employee',
+      skip: !_runbotEnabled
+          ? 'RunBot no habilitado (activar con ODOO_RUNBOT_TEST=true)'
+          : null, () {
     late OdooRpcService odoo;
 
     setUpAll(() async {
@@ -886,12 +888,10 @@ void main() {
   // ───────────────────────────────────────────────────────────────────────────
   // GRUPO 10 — Integración RunBot — WebSocket
   // ───────────────────────────────────────────────────────────────────────────
-  group(
-    '10. Integración RunBot — WebSocket',
-    skip: !_runbotEnabled
-        ? 'RunBot no habilitado (activar con ODOO_RUNBOT_TEST=true)'
-        : null,
-    () {
+  group('10. Integración RunBot — WebSocket',
+      skip: !_runbotEnabled
+          ? 'RunBot no habilitado (activar con ODOO_RUNBOT_TEST=true)'
+          : null, () {
     late OdooRpcService odoo;
     late OdooSession session;
 
@@ -1056,20 +1056,52 @@ void main() {
   // GRUPO 12 — OdooCommand, Instancias Standalone & Persistencia de Sesión
   // ───────────────────────────────────────────────────────────────────────────
   group('12. OdooCommand, Multi-instancia & Session Storage', () {
-    test('OdooCommand genera tuplas ORM estándar de Odoo (estático e instancias)', () {
-      expect(OdooCommand.create({'name': 'Test'}), equals([0, 0, {'name': 'Test'}]));
-      expect(OdooCommand.update(10, {'name': 'Updated'}), equals([1, 10, {'name': 'Updated'}]));
+    test(
+        'OdooCommand genera tuplas ORM estándar de Odoo (estático e instancias)',
+        () {
+      expect(
+          OdooCommand.create({'name': 'Test'}),
+          equals([
+            0,
+            0,
+            {'name': 'Test'}
+          ]));
+      expect(
+          OdooCommand.update(10, {'name': 'Updated'}),
+          equals([
+            1,
+            10,
+            {'name': 'Updated'}
+          ]));
       expect(OdooCommand.delete(10), equals([2, 10, 0]));
       expect(OdooCommand.unlink(10), equals([3, 10, 0]));
       expect(OdooCommand.link(10), equals([4, 10, 0]));
       expect(OdooCommand.clear(), equals([5, 0, 0]));
-      expect(OdooCommand.set([1, 2, 3]), equals([6, 0, [1, 2, 3]]));
+      expect(
+          OdooCommand.set([1, 2, 3]),
+          equals([
+            6,
+            0,
+            [1, 2, 3]
+          ]));
 
       // Test de instancias tipadas
       final cmdCreate = OdooCommand.createRecord({'title': 'New'});
       expect(cmdCreate.code, equals(0));
-      expect(cmdCreate.toList(), equals([0, 0, {'title': 'New'}]));
-      expect(cmdCreate.toJson(), equals([0, 0, {'title': 'New'}]));
+      expect(
+          cmdCreate.toList(),
+          equals([
+            0,
+            0,
+            {'title': 'New'}
+          ]));
+      expect(
+          cmdCreate.toJson(),
+          equals([
+            0,
+            0,
+            {'title': 'New'}
+          ]));
 
       final cmdLink = OdooCommand.linkRecord(42);
       expect(cmdLink.code, equals(4));
@@ -1078,12 +1110,20 @@ void main() {
 
       final cmdSet = OdooCommand.setRecords([10, 20]);
       expect(cmdSet.code, equals(6));
-      expect(cmdSet.toList(), equals([6, 0, [10, 20]]));
+      expect(
+          cmdSet.toList(),
+          equals([
+            6,
+            0,
+            [10, 20]
+          ]));
 
       expect(OdooCommand.linkRecord(42), equals(cmdLink));
     });
 
-    test('OdooSession.serverVersionInt e isAtLeastV18 identifican versiones Odoo 18 y 19+', () {
+    test(
+        'OdooSession.serverVersionInt e isAtLeastV18 identifican versiones Odoo 18 y 19+',
+        () {
       const session18 = OdooSession(
         id: 's1',
         userId: 2,
@@ -1136,7 +1176,9 @@ void main() {
       expect(session17.isAtLeastV18, isFalse);
     });
 
-    test('OdooRepository.webCreate crea y retorna entidad usando web_save(ids: [])', () async {
+    test(
+        'OdooRepository.webCreate crea y retorna entidad usando web_save(ids: [])',
+        () async {
       final mock = MockOdooClient(
         mockResponse: [
           {
@@ -1170,7 +1212,8 @@ void main() {
       expect(client2.activeRequestsCount, equals(0));
     });
 
-    test('InMemorySessionStore guarda, lee y elimina sesión correctamente', () async {
+    test('InMemorySessionStore guarda, lee y elimina sesión correctamente',
+        () async {
       final store = InMemorySessionStore();
       expect(await store.read(), isNull);
 
