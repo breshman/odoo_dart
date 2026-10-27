@@ -110,6 +110,14 @@ void main() {
         expect(spec3.containsKey('description'), isTrue);
         expect(spec3.containsKey('name'), isTrue);
       });
+
+      test('ProductLineRepository: buildSpecification es estático y tipado', () {
+        final specification = ProductLineRepository.buildSpecification(
+          only: [ProductLineFields.id, ProductLineFields.name],
+        ).build();
+
+        expect(specification.keys, unorderedEquals(['id', 'name']));
+      });
     });
   });
 }

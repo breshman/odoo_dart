@@ -152,6 +152,13 @@ final result = await partnerRepo.searchFetch(
   order: 'name asc',
 );
 
+// El builder estático pertenece al repositorio generado:
+final productLineRepo = ProductLineRepository(client: odooClient);
+final lineSpec = ProductLineRepository.buildSpecification(
+  only: [ProductLineFields.id, ProductLineFields.name],
+).build();
+final lines = await productLineRepo.searchFetch(specification: lineSpec);
+
 // Contar sin traer datos
 final total = await partnerRepo.searchCount(
   domain: [['is_company', '=', true]],
@@ -169,6 +176,24 @@ await saleOrderRepo.callMethod(
   ids: [orderId],
 );
 ```
+
+`buildSpecification()` se invoca en el repositorio (`ProductLineRepository`), no
+en el modelo (`ProductLine`): Dart no hereda miembros estáticos de mixins.
+
+### Prueba de integración RunBot
+
+La prueba contra `https://130072570-19-0-all.runbot157.odoo.com` está desactivada
+por defecto. Para ejecutarla desde PowerShell, configura credenciales válidas para
+la base `130072570-19-0-all` y activa la bandera:
+
+```powershell
+$env:ODOO_RUNBOT_TEST = 'true'
+$env:ODOO_RUNBOT_USER = 'admin'
+$env:ODOO_RUNBOT_PASS = '<password>'
+dart test test/odoo_generator_runbot_test.dart
+```
+
+El servidor debe tener disponible el modelo `product.line`.
 
 ---
 
