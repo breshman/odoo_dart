@@ -4,11 +4,26 @@
 // ============================================================
 
 import '../odoo_core.dart';
+import 'domain/odoo_domain.dart';
+export 'domain/odoo_domain.dart';
 
 // ─── Tipos auxiliares ────────────────────────────────────────
 
-typedef OdooDomain = List<List<dynamic>>;
+typedef OdooDomain = Object; // Acepta List<dynamic>, OdooDomainTerm o List<OdooDomainTerm>
 typedef OdooSpec = Object; // Acepta Map<String, dynamic> o SpecificationBuilder
+
+/// Resuelve y compila un [OdooDomain] (sea lista cruda, [OdooDomainTerm] o lista tipada)
+/// a la lista plana requerida por la API de Odoo.
+List<dynamic> resolveOdooDomain(OdooDomain? domain) {
+  if (domain == null) return const [];
+  if (domain is Condition) return [domain.toOdoo()];
+  if (domain is OdooDomainTerm) return domain.toOdoo();
+  if (domain is List<OdooDomainTerm>) {
+    return domain.expand((t) => t is Condition ? [t.toOdoo()] : t.toOdoo()).toList();
+  }
+  if (domain is List) return List<dynamic>.from(domain);
+  return const [];
+}
 
 /// Interfaz base generada para construir especificaciones tipadas.
 // ignore: one_member_abstracts
@@ -67,10 +82,11 @@ abstract class OdooRepository<T extends OdooBaseModel> {
     String? order,
     Map<String, dynamic>? context,
   }) async {
+    final effectiveDomain = resolveOdooDomain(domain);
     final result = await client.callKwRaw(
       model: modelName,
       method: 'search',
-      args: [domain],
+      args: [effectiveDomain],
       kwargs: {
         'limit': limit,
         'offset': offset,
@@ -92,15 +108,16 @@ abstract class OdooRepository<T extends OdooBaseModel> {
     Map<String, dynamic>? context,
     OdooSpec? specification,
   }) async {
-    final specToUse =
+    final effectiveDomain = resolveOdooDomain(domain);
+    final effectiveSpec =
         resolveOdooSpec(specification, resolveOdooSpec(this.specification, {}));
     final result = await client.callKwRaw(
       model: modelName,
       method: 'web_search_read',
       args: [],
       kwargs: {
-        'domain': domain,
-        'specification': specToUse,
+        'domain': effectiveDomain,
+        'specification': effectiveSpec,
         'limit': limit,
         'offset': offset,
         if (order != null) 'order': order,
@@ -238,10 +255,11 @@ abstract class OdooRepository<T extends OdooBaseModel> {
     OdooDomain domain = const [],
     Map<String, dynamic>? context,
   }) async {
+    final effectiveDomain = resolveOdooDomain(domain);
     final result = await client.callKwRaw(
       model: modelName,
       method: 'search_count',
-      args: [domain],
+      args: [effectiveDomain],
       kwargs: {'context': context ?? {}},
     );
     return (result as num).toInt();

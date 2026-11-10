@@ -1,5 +1,6 @@
 library odoo_core;
 
+export 'src/domain/odoo_domain.dart';
 export 'src/network/client/odoo_realtime_client.dart';
 export 'src/network/client/odoo_rpc_service.dart';
 export 'src/network/exceptions/odoo_exception.dart';
