@@ -2,6 +2,15 @@
 
 All notable changes to the `odoo_core` project will be documented in this file.
 
+## [2.5.0] - 2026-11-09
+### Added
+* **`OdooDomainTerm` composition operators:** Added `&`, `|` and `~` for composing typed domain terms with AND, OR and NOT.
+* **`OdooFieldRef`:** Added an interface for generated field enums to expose their technical Odoo field names when building typed domain conditions.
+* **`Domain.parentOf` and `parentOf` extensions:** Added support for Odoo's `parent_of` domain operator on string and enum fields.
+
+### Changed
+* **`Domain.and` and `Domain.or`:** Nested groups with the same operator are flattened when constructing domains.
+
 ## [2.4.1] - 2026-10-26
 ### Changed
 * **`OdooRepository.searchFetch`:** uses the repository's default specification when no override is provided.

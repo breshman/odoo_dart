@@ -46,24 +46,45 @@ enum OdooOp {
   const OdooOp(this.symbol);
 }
 
+/// Interfaz para referencias tipadas a campos Odoo.
+///
+/// Implementado típicamente por los enums `${Model}Fields` generados
+/// por `odoo_generator`.
+abstract interface class OdooFieldRef {
+  /// Nombre técnico del campo en Odoo (ej. `'package_type_id'`).
+  String get odooName;
+}
+
 /// Clase base sellada para términos y árboles lógicos de dominio en Odoo.
 ///
 /// Todas las expresiones de dominio se compilan a una lista de criterios y operadores
 /// en notación polaca prefija esperada por JSON-RPC de Odoo.
 ///
+/// Admite composición fluida mediante operadores de sobrecarga:
+/// - `termA & termB` (AND lógico)
+/// - `termA | termB` (OR lógico)
+/// - `~termA` (NOT lógico)
+///
 /// Ejemplo:
 /// ```dart
-/// final term = Domain.or([
-///   'name'.equals('Admin'),
-///   'name'.ilike('demo'),
-/// ]);
-/// print(term.toOdoo()); // ['|', ['name', '=', 'Admin'], ['name', 'ilike', 'demo']]
+/// final domain = (StockPackageFields.name.ilike('PALLET%') |
+///                  StockPackageFields.name.ilike('BOX%')) &
+///                 StockPackageFields.locationId.equals(12);
 /// ```
 sealed class OdooDomainTerm {
   const OdooDomainTerm();
 
   /// Compila el término a la lista plana compatible con el RPC de Odoo.
   List<dynamic> toOdoo();
+
+  /// Combina este término con otro mediante el operador lógico AND (`&`).
+  OdooDomainTerm operator &(OdooDomainTerm other) => Domain.and([this, other]);
+
+  /// Combina este término con otro mediante el operador lógico OR (`|`).
+  OdooDomainTerm operator |(OdooDomainTerm other) => Domain.or([this, other]);
+
+  /// Niega este término mediante el operador lógico NOT (`~`).
+  OdooDomainTerm operator ~() => Domain.not(this);
 }
 
 /// Representa una condición individual: `[campo, operador, valor]`.
@@ -279,12 +300,35 @@ abstract final class Domain {
   static Condition<T> childOf<T>(String field, T value) =>
       Condition<T>(field, OdooOp.childOf, value);
 
+  /// Jerárquico padre de: `[field, 'parent_of', value]`
+  static Condition<T> parentOf<T>(String field, T value) =>
+      Condition<T>(field, OdooOp.parentOf, value);
+
   /// Agrupación lógica OR (`'|'`)
-  static OrTerm or(List<OdooDomainTerm> terms) => OrTerm(terms);
+  static OrTerm or(List<OdooDomainTerm> terms) {
+    final flattened = <OdooDomainTerm>[];
+    for (final t in terms) {
+      if (t is OrTerm) {
+        flattened.addAll(t.terms);
+      } else {
+        flattened.add(t);
+      }
+    }
+    return OrTerm(flattened);
+  }
 
   /// Agrupación lógica AND (lista secuencial de criterios o explícita)
-  static AndTerm and(List<OdooDomainTerm> terms, {bool explicit = false}) =>
-      AndTerm(terms, explicit: explicit);
+  static AndTerm and(List<OdooDomainTerm> terms, {bool explicit = false}) {
+    final flattened = <OdooDomainTerm>[];
+    for (final t in terms) {
+      if (t is AndTerm && t.explicit == explicit) {
+        flattened.addAll(t.terms);
+      } else {
+        flattened.add(t);
+      }
+    }
+    return AndTerm(flattened, explicit: explicit);
+  }
 
   /// Negación lógica NOT (`'!'`)
   static NotTerm not(OdooDomainTerm term) => NotTerm(term);
@@ -339,10 +383,16 @@ extension OdooFieldDomainExtension on String {
 
   /// Genera una condición child_of: `[this, 'child_of', value]`
   Condition<T> childOf<T>(T value) => Condition<T>(this, OdooOp.childOf, value);
+
+  /// Genera una condición parent_of: `[this, 'parent_of', value]`
+  Condition<T> parentOf<T>(T value) => Condition<T>(this, OdooOp.parentOf, value);
 }
 
 /// Extensiones sintácticas sobre [Enum] (como los enums `*Fields` generados
 /// por `odoo_generator`) para construir condiciones fuertemente tipadas sin cadenas mágicas.
+///
+/// Si el enum implementa [OdooFieldRef], se utiliza directamente su [OdooFieldRef.odooName].
+/// En caso contrario, se convierte de camelCase a snake_case automáticamente.
 ///
 /// Ejemplo:
 /// ```dart
@@ -352,8 +402,14 @@ extension OdooFieldDomainExtension on String {
 /// ]);
 /// ```
 extension OdooEnumDomainExtension on Enum {
-  /// Convierte el nombre camelCase del enum al formato snake_case esperado por Odoo.
+  /// Obtiene el nombre del campo en Odoo:
+  /// - Si implementa [OdooFieldRef], retorna `odooName`.
+  /// - De lo contrario, convierte camelCase a snake_case.
   String get odooFieldName {
+    final self = this;
+    if (self is OdooFieldRef) {
+      return (self as OdooFieldRef).odooName;
+    }
     return name.replaceAllMapped(
       RegExp(r'[A-Z]'),
       (match) => '_${match.group(0)!.toLowerCase()}',
@@ -395,4 +451,7 @@ extension OdooEnumDomainExtension on Enum {
 
   /// Genera una condición child_of: `[odooFieldName, 'child_of', value]`
   Condition<T> childOf<T>(T value) => Condition<T>(odooFieldName, OdooOp.childOf, value);
+
+  /// Genera una condición parent_of: `[odooFieldName, 'parent_of', value]`
+  Condition<T> parentOf<T>(T value) => Condition<T>(odooFieldName, OdooOp.parentOf, value);
 }
