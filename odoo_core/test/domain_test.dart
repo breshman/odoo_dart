@@ -8,6 +8,17 @@ enum SamplePartnerFields {
   partnerLatitude,
 }
 
+enum GeneratedProductFields implements OdooFieldRef {
+  id('id'),
+  displayName('display_name'),
+  barcode('barcode'),
+  customCode('x_custom_product_code');
+
+  @override
+  final String odooName;
+  const GeneratedProductFields(this.odooName);
+}
+
 void main() {
   group('OdooDomain & DomainTerm Tests', () {
     test('Enum extensions automatically convert camelCase to snake_case field names', () {
@@ -147,6 +158,59 @@ void main() {
       // 5. Null or empty
       expect(resolveOdooDomain(null), equals([]));
       expect(resolveOdooDomain(const []), equals([]));
+    });
+
+    test('OdooFieldRef enums use exact odooName including custom technical names', () {
+      final condCustom = GeneratedProductFields.customCode.equals('SKU-100');
+      expect(condCustom.toOdoo(), equals(['x_custom_product_code', '=', 'SKU-100']));
+
+      final condBarcode = GeneratedProductFields.barcode.ilike('123%');
+      expect(condBarcode.toOdoo(), equals(['barcode', 'ilike', '123%']));
+    });
+
+    test('Operator overloading & and | builds type-safe domain trees', () {
+      final term1 = GeneratedProductFields.barcode.ilike('770%');
+      final term2 = GeneratedProductFields.customCode.equals('SPECIAL');
+      final combined = term1 | term2;
+
+      expect(
+        combined.toOdoo(),
+        equals([
+          '|',
+          ['barcode', 'ilike', '770%'],
+          ['x_custom_product_code', '=', 'SPECIAL'],
+        ]),
+      );
+
+      final andTree = (term1 | term2) & GeneratedProductFields.id.greaterThan(0);
+      expect(
+        andTree.toOdoo(),
+        equals([
+          '|',
+          ['barcode', 'ilike', '770%'],
+          ['x_custom_product_code', '=', 'SPECIAL'],
+          ['id', '>', 0],
+        ]),
+      );
+    });
+
+    test('Operator overloading ~ negates condition with !', () {
+      final term = ~GeneratedProductFields.barcode.equals('000');
+      expect(term.toOdoo(), equals(['!', ['barcode', '=', '000']]));
+    });
+
+    test('resolveOdooDomain converts mixed lists of conditions and terms', () {
+      final mixedList = <dynamic>[
+        GeneratedProductFields.barcode.equals('123'),
+        GeneratedProductFields.id.inList([1, 2, 3]),
+      ];
+      expect(
+        resolveOdooDomain(mixedList),
+        equals([
+          ['barcode', '=', '123'],
+          ['id', 'in', [1, 2, 3]],
+        ]),
+      );
     });
   });
 }

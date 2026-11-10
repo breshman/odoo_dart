@@ -86,14 +86,34 @@ class OdooModelGenerator extends GeneratorForAnnotation<OdooModel> {
 
   void _generateFieldsEnum(StringBuffer buf, String className,
       List<FieldElement> fields, bool extendsBase) {
-    buf.writeln('enum ${className}Fields {');
+    buf.writeln('enum ${className}Fields implements OdooFieldRef {');
+    final entries = <(String, String)>[];
     if (extendsBase) {
-      buf.writeln(
-          '  id, name, displayName, createDate, writeDate, createUid, writeUid,');
+      entries.addAll([
+        ('id', 'id'),
+        ('name', 'name'),
+        ('displayName', 'display_name'),
+        ('createDate', 'create_date'),
+        ('writeDate', 'write_date'),
+        ('createUid', 'create_uid'),
+        ('writeUid', 'write_uid'),
+      ]);
     }
     for (final field in fields) {
-      buf.writeln('  ${field.displayName},');
+      final annotation = _readOdooField(field);
+      final jsonKey = annotation?.peek('name')?.stringValue ??
+          _camelToSnake(field.displayName);
+      entries.add((field.displayName, jsonKey));
     }
+    for (int i = 0; i < entries.length; i++) {
+      final entry = entries[i];
+      final isLast = i == entries.length - 1;
+      buf.writeln("  ${entry.$1}('${entry.$2}')${isLast ? ';' : ','}");
+    }
+    buf.writeln();
+    buf.writeln('  @override');
+    buf.writeln('  final String odooName;');
+    buf.writeln('  const ${className}Fields(this.odooName);');
     buf.writeln('}\n');
   }
 

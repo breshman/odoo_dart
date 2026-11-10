@@ -18,10 +18,19 @@ List<dynamic> resolveOdooDomain(OdooDomain? domain) {
   if (domain == null) return const [];
   if (domain is Condition) return [domain.toOdoo()];
   if (domain is OdooDomainTerm) return domain.toOdoo();
-  if (domain is List<OdooDomainTerm>) {
-    return domain.expand((t) => t is Condition ? [t.toOdoo()] : t.toOdoo()).toList();
+  if (domain is List) {
+    final result = <dynamic>[];
+    for (final item in domain) {
+      if (item is Condition) {
+        result.add(item.toOdoo());
+      } else if (item is OdooDomainTerm) {
+        result.addAll(item.toOdoo());
+      } else {
+        result.add(item);
+      }
+    }
+    return result;
   }
-  if (domain is List) return List<dynamic>.from(domain);
   return const [];
 }
 
