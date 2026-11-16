@@ -42,9 +42,21 @@ class OdooException implements Exception {
   /// Crea una [OdooException] a partir del objeto `error` de la respuesta JSON-RPC.
   /// Extrae el mensaje detallado de `data.message` si está disponible.
   factory OdooException.fromJson(Map<String, dynamic> json) {
-    final String smartMessage = (json['data']?['message'] as String?) ??
+    var smartMessage = (json['data']?['message'] as String?) ??
         (json['message'] as String?) ??
         'Unknown Odoo error';
+
+    // Limpiar prefijos de excepciones técnicas de Python (UserError, AccessError, etc.)
+    smartMessage = smartMessage
+        .replaceFirst(RegExp(r'^Exception:\s*'), '')
+        .replaceFirst(RegExp(r'^OdooException:\s*'), '')
+        .replaceFirst(
+          RegExp(
+            r'^(?:odoo\.exceptions\.)?[A-Za-z0-9_]*(?:Error|Exception|Warning):\s*',
+          ),
+          '',
+        )
+        .trim();
 
     return OdooException(
       code: json['code'] as int? ?? 0,
@@ -69,7 +81,7 @@ class OdooException implements Exception {
 
   @override
   String toString() =>
-      'OdooException(code: $code, message: $message, data: $data)';
+      message.isNotEmpty ? message : 'OdooException(code: $code)';
 }
 
 /// Lanzada automáticamente por [OdooRpcService] cuando el servidor retorna
